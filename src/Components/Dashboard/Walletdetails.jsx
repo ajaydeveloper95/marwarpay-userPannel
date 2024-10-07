@@ -102,7 +102,7 @@ const WalletDetails = () => {
             </Grid>
             <Grid item xs={4}>
            
-            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+            <Typography variant="body1" >
              <AccountBalanceWalletIcon sx={{ fontSize: 48, marginLeft: 1 }} />{' '}
             </Typography>
             </Grid>

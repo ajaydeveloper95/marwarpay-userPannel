@@ -12,7 +12,7 @@ const Payingen = () => {
   const [searchEndDate, setSearchEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Define items per page
-  const API_ENDPOINT = `${domainBase}apiUser/v1/payin/getAllPayInSuccess`;
+  const API_ENDPOINT = `${domainBase}apiUser/v1/payin/getAllQrGenerated`;
   const token = localStorage.getItem(accessConstent);
 
   useEffect(() => {
@@ -23,18 +23,19 @@ const Payingen = () => {
             'Authorization': `Bearer ${token}`,
           },
         });
-       
-        setQrData(response.data.data || []); // Ensure this is an array
-        setFilteredData(response.data.data || []); // Ensure this is an array
-       
+  
+        const data = response.data.data || []; // Default to an empty array if data is null or undefined
+        setQrData(Array.isArray(data) ? data : []); // Ensure data is an array
+        setFilteredData(Array.isArray(data) ? data : []); // Ensure data is an array
+  
       } catch (error) {
         console.error('There was an error fetching the QR data!', error);
- 
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   // Filter function
   const handleFilter = () => {

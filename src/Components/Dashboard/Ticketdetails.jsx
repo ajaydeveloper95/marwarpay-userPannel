@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Box, Grid, Paper, Typography, AppBar, Toolbar } from '@mui/material';
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'; // Import recharts components
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
 import { accessConstent, domainBase } from '../../helpingFile';
 import CountUp from 'react-countup';
+
 const COLORS = ['#8884d8', '#82ca9d', '#FF8042'];
 
 const Ticketdetails = () => {
@@ -33,14 +34,15 @@ const Ticketdetails = () => {
     fetchData();
   }, [API_ENDPOINT, token]);
 
-  const pieData = [
+  const pieData = ticketData.length ? [
     { name: 'Pending', value: ticketData.filter(ticket => ticket.isStatus === 'Pending').length || 0 },
     { name: 'Resolved', value: ticketData.filter(ticket => ticket.isStatus === 'Resolved').length || 0 },
     { name: 'Rejected', value: ticketData.filter(ticket => ticket.isStatus === 'Rejected').length || 0 },
+  ] : [
+    { name: 'Pending', value: 0 },
+    { name: 'Resolved', value: 0 },
+    { name: 'Rejected', value: 0 },
   ];
-
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>Error: {error.message}</Typography>;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -89,6 +91,9 @@ const Ticketdetails = () => {
                 <Legend verticalAlign="bottom" />
               </PieChart>
             </ResponsiveContainer>
+            {ticketData.length === 0 && (
+              <Typography align="center" sx={{ mt: 2 }}>No Data Available</Typography>
+            )}
           </Paper>
         </Grid>
 
@@ -104,15 +109,16 @@ const Ticketdetails = () => {
               '&:hover': { 
                 transform: 'scale(1.02)', 
                 transition: 'transform 0.2s ease-in-out',
-                
               } 
             }}>
               <Typography variant="h6">Total Pending Tickets</Typography>
-              <Typography variant="body1"><CountUp end={pieData[0].value} duration={2.5}  /></Typography>
+              <Typography variant="body1">
+                <CountUp end={pieData[0].value} duration={2.5} />
+              </Typography>
             </Paper>
           </Grid>
 
-          <Grid item xs={12} >
+          <Grid item xs={12}>
             <Paper className="clrchnge"  sx={{ 
               padding: 2, 
               borderRadius: 2, 
@@ -122,11 +128,12 @@ const Ticketdetails = () => {
               '&:hover': { 
                 transform: 'scale(1.02)', 
                 transition: 'transform 0.2s ease-in-out',
-                
               } 
             }}>
               <Typography variant="h6">Total Resolved Tickets</Typography>
-              <Typography variant="body1"><CountUp end={pieData[1].value} duration={2.5}/></Typography>
+              <Typography variant="body1">
+                <CountUp end={pieData[1].value} duration={2.5} />
+              </Typography>
             </Paper>
           </Grid>
 
@@ -143,7 +150,9 @@ const Ticketdetails = () => {
               } 
             }}>
               <Typography variant="h6">Total Rejected Tickets</Typography>
-              <Typography variant="body1"><CountUp end={pieData[2].value} duration={2.5}/></Typography>
+              <Typography variant="body1">
+                <CountUp end={pieData[2].value} duration={2.5} />
+              </Typography>
             </Paper>
           </Grid>
         </Grid>

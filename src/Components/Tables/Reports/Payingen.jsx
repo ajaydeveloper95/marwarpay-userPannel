@@ -40,22 +40,22 @@ const Payingen = () => {
   // Filter function
   const handleFilter = () => {
     let filtered = qrData.filter(item => {
-      const matchesName = item.payerName.toLowerCase().includes(searchInput.toLowerCase());
-      const matchesTxnID = item.trxId.toLowerCase().includes(searchInput.toLowerCase());
-
+      const matchesName = item.payerName?.toLowerCase().includes(searchInput.toLowerCase());
+      const matchesTxnID = item.trxId?.toLowerCase().includes(searchInput.toLowerCase());
+  
       const startDate = new Date(searchStartDate);
       const endDate = new Date(searchEndDate);
       const trxDate = new Date(item.createdAt);
-
+  
       const isWithinDateRange = (!searchStartDate || trxDate >= startDate) && (!searchEndDate || trxDate <= endDate);
-
+  
       return (matchesName || matchesTxnID) && isWithinDateRange; // Filter by either Name or TxnID and date range
     });
-
-
+  
     setFilteredData(filtered);
     setCurrentPage(1); // Reset to the first page when filtering
   };
+  
 
   // Effect to trigger search whenever searchInput, searchStartDate, or searchEndDate changes
   useEffect(() => {
@@ -136,12 +136,9 @@ const Payingen = () => {
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>#</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Name</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>TxnID</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Member ID</strong></TableCell>
+             
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Amount</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Charge Amount</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Final Amount</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>VPA ID</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>RRN</strong></TableCell>
+              
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Status</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Created</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Success</strong></TableCell>
@@ -156,23 +153,20 @@ const Payingen = () => {
               currentItems.map((qr, index) => (
                 <TableRow key={qr._id}>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.payerName}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.name}</TableCell>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.trxId}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.userInfo.memberId}</TableCell>
+                
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', align: 'center' }}>{qr.amount}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', align: 'center' }}>{qr.chargeAmount}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', align: 'center' }}>{qr.finalAmount}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.vpaId}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.bankRRN}</TableCell>
-                  <TableCell
+                 
+                         <TableCell
   sx={{
     border: '1px solid #ddd',
     whiteSpace: 'nowrap',
     padding: '8px',
-    color: qr.isSuccess === 'Success' ? 'green' : 'red' // Change color based on status
+    color: qr.callBackStatus === 'Success' ? 'green' : 'red' // Change color based on status
   }}
 >
-  {qr.isSuccess}
+  {qr.callBackStatus}
 </TableCell>
 
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{new Date(qr.createdAt).toLocaleString()}</TableCell>

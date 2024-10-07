@@ -114,9 +114,7 @@ function CallbackPayout() {
         </p>
       </form>
 
-      <p style={{ color: '#000', fontSize: '14px', marginTop: '10px' }}>
-        Ex: https://ranigoanpay.com/callback/MarwarPayoutcallback.aspx?
-      </p>
+   
 
       <h4>Response Parameters</h4>
       <ResponseTable />

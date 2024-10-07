@@ -110,7 +110,7 @@ function CallbackPayout() {
           </Grid>
         </Grid>
         <p style={{ color: '#000', fontSize: '14px', marginTop: '10px' }}>
-          Ex: https://www.yourwebsite.com/index.php?
+          Ex: https://www.yourwebsite.com/index
         </p>
       </form>
 

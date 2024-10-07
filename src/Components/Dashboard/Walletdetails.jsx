@@ -70,7 +70,7 @@ const WalletDetails = () => {
       <AppBar position="static" sx={{borderRadius:'10px',background: 'linear-gradient(45deg, #00000073, #2196f3a3) !important',}}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Wallet Dashboard
+            Wallet 
           </Typography>
         </Toolbar>
       </AppBar>
@@ -96,7 +96,7 @@ const WalletDetails = () => {
             <Grid item xs={8}>
           <Box>
               <Typography variant="h6">Total E-Wallet Balance</Typography>
-              ₹<CountUp end={eWalletBalance} duration={2.5}/>
+              <Typography variant="body1">₹<CountUp end={eWalletBalance} duration={2.5}/></Typography> 
               {/* Increased icon size */}
             </Box>
             </Grid>
@@ -133,7 +133,7 @@ const WalletDetails = () => {
             <Grid item xs={8}>
           <Box sx={{ fontWeight: 'bold' }}>
               <Typography variant="h6">Total UPI Wallet Balance</Typography>
-              ₹<CountUp end={upiBalance} duration={2.5}/>
+              <Typography variant="body1">₹<CountUp end={upiBalance} duration={2.5}/></Typography>
               {/* Increased icon size */}
             </Box>
             </Grid>

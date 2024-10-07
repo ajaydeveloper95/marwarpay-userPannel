@@ -45,7 +45,7 @@ const PayoutApi = () => {
           variant="fullWidth"
           sx={{ mb: 2 }}
         >
-          {['Money Transfer API', 'Call Back URL', 'Status Check API'].map((label, index) => (
+          {['Money Transfer API', 'Call Back URL', ].map((label, index) => (
             <Tab key={index} style={{ fontWeight: '700', fontSize: '16px' }} label={label} />
           ))}
         </Tabs>

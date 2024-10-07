@@ -36,6 +36,9 @@ body.dark-mode {
 .dark-mode .value {
     color: var(--text-color); 
 }
+.dark-mode .ant-layout.css-vn1oyg {
+  background: transparent;
+}
 .dark-mode .MuiPaper-root {
   background-color: transparent !important; 
   color: var(--text-color); 
@@ -64,7 +67,7 @@ background: transparent !important;
 box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.2);
 }
 .dark-mode button.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.MuiTab-fullWidth.css-1hxxknx-MuiButtonBase-root-MuiTab-root {
-color: #fff;
+color: #fff !important;
 }
 
 body {
@@ -138,3 +141,8 @@ background-color: transparent !important;
 font-weight: 600 !important;
 font-size: 18px !important;
 }
+
+.dark-mode :where(.css-dev-only-do-not-override-vn1oyg).ant-menu-dark, :where(.css-dev-only-do-not-override-vn1oyg).ant-menu-dark>.ant-menu {
+  color: rgba(255, 255, 255, 0.65);
+  background: #0e2337 !important;
+ }

@@ -110,14 +110,13 @@ const Payinout = () => {
             boxShadow: 3, 
             textAlign:'center',
             color:'#fff',
-            
             background: 'linear-gradient(to right, #ffbf96, #fe7096) !important', 
               '&:hover': { 
               transform: 'scale(1.03)', 
               transition: 'transform 0.2s ease-in-out' ,
               
             } 
-          }} >
+          }}>
             <Typography variant="h6">Total Payin</Typography>
             <Typography variant="body1"> ₹ <CountUp end={totalPayin.toFixed(2)} duration={2.5} /></Typography>
           </Paper>

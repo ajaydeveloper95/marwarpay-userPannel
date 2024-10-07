@@ -92,16 +92,9 @@ const WalletDetails = () => {
               },
             }}
           >
-            <Grid container spacing={3} sx={{ padding: 3 }}>
+            <Grid container spacing={3} sx={{ padding: 0 }}>
             <Grid item xs={8}>
-            <Box
-              sx={{
-                // display: 'flex',
-                // justifyContent: 'space-between',
-                // alignItems: 'center',
-
-              }}
-            >
+          <Box>
               <Typography variant="h6">Total E-Wallet Balance</Typography>
               ₹<CountUp end={eWalletBalance} duration={2.5}/>
               {/* Increased icon size */}
@@ -117,7 +110,11 @@ const WalletDetails = () => {
           </Paper>
         </Grid>
 
+
+
+
         {/* UPI Wallet Balance */}
+
         <Grid item xs={6}>
           <Paper
             className="clrchnge"
@@ -128,26 +125,28 @@ const WalletDetails = () => {
               background: 'linear-gradient(to right, #e3f2fd, #bbdefb)',
               '&:hover': {
                 transform: 'scale(1.05)', // Increased scale on hover
-                transition: 'transform 0.2s ease-in-out', textAlign:'center',
+                transition: 'transform 0.2s ease-in-out',textAlign:'center',
               },
             }}
           >
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
+            <Grid container spacing={3} sx={{ padding: 0 }}>
+            <Grid item xs={8}>
+          <Box sx={{ fontWeight: 'bold' }}>
               <Typography variant="h6">Total UPI Wallet Balance</Typography>
-              <PaymentIcon sx={{ fontSize: 48, marginLeft: 1 }} />{' '}
+              ₹<CountUp end={upiBalance} duration={2.5}/>
               {/* Increased icon size */}
             </Box>
-            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-              ₹<CountUp end={upiBalance} duration={2.5}/>
+            </Grid>
+            <Grid item xs={4}>
+           
+            <Typography variant="body1" >
+            <PaymentIcon sx={{ fontSize: 48, marginLeft: 1 }} />{' '}
             </Typography>
+            </Grid>
+            </Grid>
           </Paper>
         </Grid>
+      
       </Grid>
     </Box>
   );

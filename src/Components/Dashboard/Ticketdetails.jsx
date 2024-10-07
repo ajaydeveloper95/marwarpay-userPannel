@@ -1,0 +1,155 @@
+import { useEffect, useState } from 'react';
+import { Box, Grid, Paper, Typography, AppBar, Toolbar } from '@mui/material';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'; // Import recharts components
+import axios from 'axios';
+import { accessConstent, domainBase } from '../../helpingFile';
+import CountUp from 'react-countup';
+const COLORS = ['#8884d8', '#82ca9d', '#FF8042'];
+
+const Ticketdetails = () => {
+  const [ticketData, setTicketData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const token = localStorage.getItem(accessConstent);
+  const API_ENDPOINT = `${domainBase}apiUser/v1/support/getSupportTicket`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(API_ENDPOINT, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        setTicketData(response.data.data);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [API_ENDPOINT, token]);
+
+  const pieData = [
+    { name: 'Pending', value: ticketData.filter(ticket => ticket.isStatus === 'Pending').length || 0 },
+    { name: 'Resolved', value: ticketData.filter(ticket => ticket.isStatus === 'Resolved').length || 0 },
+    { name: 'Rejected', value: ticketData.filter(ticket => ticket.isStatus === 'Rejected').length || 0 },
+  ];
+
+  if (loading) return <Typography>Loading...</Typography>;
+  if (error) return <Typography>Error: {error.message}</Typography>;
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      {/* AppBar */}
+      <AppBar position="static" sx={{borderRadius:'10px',background: 'linear-gradient(45deg, #00000073, #2196f3a3) !important',}}>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Ticket 
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      {/* Grid Layout for Cards and Graphs */}
+      <Grid container spacing={3} sx={{ padding: 3 }}>
+        {/* Ticket Status Overview with Circular Pie Chart */}
+        <Grid item xs={12} md={6}>
+          <Paper className="clrchnge"  sx={{ 
+            padding: 2, 
+            borderRadius: 2, 
+            boxShadow: 3, 
+            background: 'linear-gradient(to right, #f9f9f9, #e0e0e0)', 
+            '&:hover': { 
+              transform: 'scale(1.02)', 
+              transition: 'transform 0.2s ease-in-out' 
+            } 
+          }}>
+            <Typography variant="h6" gutterBottom>Ticket Status Overview</Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  label
+                  innerRadius={60}
+                  outerRadius={120}
+                  fill="#8884d8"
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend verticalAlign="bottom" />
+              </PieChart>
+            </ResponsiveContainer>
+          </Paper>
+        </Grid>
+
+        {/* Ticket Counts */}
+        <Grid item xs={12} md={6} container spacing={3}>
+          <Grid item xs={12}>
+            <Paper className="clrchnge"  sx={{ 
+              padding: 2, 
+              borderRadius: 2, 
+              boxShadow: 3, 
+              textAlign:'center', 
+              background: 'linear-gradient(to right, #f9f9f9, #e0e0e0)', 
+              '&:hover': { 
+                transform: 'scale(1.02)', 
+                transition: 'transform 0.2s ease-in-out',
+                
+              } 
+            }}>
+              <Typography variant="h6">Total Pending Tickets</Typography>
+              <Typography variant="body1"><CountUp end={pieData[0].value} duration={2.5}  /></Typography>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} >
+            <Paper className="clrchnge"  sx={{ 
+              padding: 2, 
+              borderRadius: 2, 
+              boxShadow: 3, 
+              textAlign:'center', 
+              background: 'linear-gradient(to right, #f9f9f9, #e0e0e0)', 
+              '&:hover': { 
+                transform: 'scale(1.02)', 
+                transition: 'transform 0.2s ease-in-out',
+                
+              } 
+            }}>
+              <Typography variant="h6">Total Resolved Tickets</Typography>
+              <Typography variant="body1"><CountUp end={pieData[1].value} duration={2.5}/></Typography>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Paper className="clrchnge"  sx={{ 
+              padding: 2, 
+              borderRadius: 2, 
+              boxShadow: 3, 
+              textAlign:'center', 
+              background: 'linear-gradient(to right, #f9f9f9, #e0e0e0)', 
+              '&:hover': { 
+                transform: 'scale(1.02)', 
+                transition: 'transform 0.2s ease-in-out',textAlign:'center', 
+              } 
+            }}>
+              <Typography variant="h6">Total Rejected Tickets</Typography>
+              <Typography variant="body1"><CountUp end={pieData[2].value} duration={2.5}/></Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default Ticketdetails;

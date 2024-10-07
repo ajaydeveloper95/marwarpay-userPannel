@@ -167,16 +167,15 @@ function Sidebar() {
       children: [
         { key: '14', label: <Link to="/settings/profile">My Profile</Link> },
         { key: '15', label: <Link to="/settings/changepassword">Change Password</Link> },
-        // { key: '16', label: <Link to="/login">Login</Link> },
+       
       ],
     },
   ];
 
   return (
-    < div className='sidebarstyle'>
+    <>
       <Layout style={{ height: '100vh', background: 'transparent' }}>
-      
-
+       
 <Sider
   trigger={null}
   collapsible
@@ -250,7 +249,7 @@ function Sidebar() {
           </Content>
         </Layout>
       </Layout>
-    </div>
+    </>
   );
 }
 

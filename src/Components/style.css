@@ -44,16 +44,9 @@ body.dark-mode {
 .dark-mode .MuiInputBase-input {
 color: var(--text-color);
 }
-.dark-mode .sidebarstyle :where(.css-dev-only-do-not-override-vn1oyg).ant-layout.ant-layout-has-sider >.ant-layout, :where(.css-dev-only-do-not-override-vn1oyg).ant-layout.ant-layout-has-sider >.ant-layout-content {
+.dark-mode :where(.css-dev-only-do-not-override-vn1oyg).ant-layout.ant-layout-has-sider >.ant-layout, :where(.css-dev-only-do-not-override-vn1oyg).ant-layout.ant-layout-has-sider >.ant-layout-content {
 width: 0;
-background-color: transparent !important;
-}
-.dark-mode .sidebarstyle :where(.css-vn1oyg).ant-layout {
-display: flex;
-flex: auto;
-flex-direction: column;
-min-height: 0;
-background: transparent !important;
+background-color: transparent;
 }
 .dark-mode main.ant-layout-content.css-dev-only-do-not-override-vn1oyg {
 padding: 40px 40px !important;
@@ -77,18 +70,11 @@ color: #fff;
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
-
 
 header {
   background-color: var(--header-bg);
- 
 }
-.dark-mode header {
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-}
-
 
 .sider {
   background-color: var(--sidebar-bg);
@@ -130,7 +116,7 @@ box-shadow: rgba(248, 247, 247, 0.35) 0px 5px 15px
 background: linear-gradient(45deg, #000000, #2196F3) !important;
 
 }
-.dark-mode .sidebarstyle header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionStatic.css-7i40l1 {
+.dark-mode header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionStatic.css-7i40l1 {
 background: linear-gradient(45deg, #000000, #2196F3) !important;
 border-radius:1em !important;
 }

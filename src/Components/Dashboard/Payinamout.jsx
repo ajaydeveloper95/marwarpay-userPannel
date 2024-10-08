@@ -62,9 +62,15 @@ const Payinout = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        
 
-        const totalPayoutAmount = payoutResponse.data.data.reduce((total, item) => total + item.amount, 0);
-        const totalPayoutCharges = payoutResponse.data.data.reduce((total, item) => total + item.chargeAmount, 0);
+        const totalPayoutAmount = Array.isArray(payoutResponse?.data?.data)
+        ? payoutResponse.data.data.reduce((total, item) => total + item.amount, 0)
+        : 0;
+      
+      const totalPayoutCharges = Array.isArray(payoutResponse?.data?.data)
+        ? payoutResponse.data.data.reduce((total, item) => total + item.chargeAmount, 0)
+        : 0;
 
         setTotalPayout(totalPayoutAmount);
         setTotalPayoutCharges(totalPayoutCharges);
@@ -88,7 +94,7 @@ const Payinout = () => {
     };
 
     fetchData();
-  }, [token]);
+  }, []);
 
   return (
     <div className='headerstyle'>

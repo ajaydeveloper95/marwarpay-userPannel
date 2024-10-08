@@ -32,7 +32,7 @@ const Ticketdetails = () => {
     };
 
     fetchData();
-  }, [API_ENDPOINT, token]);
+  }, []);
 
   const pieData = ticketData.length ? [
     { name: 'Pending', value: ticketData.filter(ticket => ticket.isStatus === 'Pending').length || 0 },

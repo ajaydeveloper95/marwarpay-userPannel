@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Box, Typography } from '@mui/material';
 import { Line } from 'react-chartjs-2';
 import {

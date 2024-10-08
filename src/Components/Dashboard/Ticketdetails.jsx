@@ -111,10 +111,18 @@ const Ticketdetails = () => {
                 transition: 'transform 0.2s ease-in-out',
               } 
             }}>
+              <Grid container spacing={3} sx={{ padding: 0 }}>
+              <Grid item xs={8}>
               <Typography variant="h6">Total Pending Tickets</Typography>
               <Typography variant="body1">
                 <CountUp end={pieData[0].value} duration={2.5} />
               </Typography>
+              </Grid>
+              <Grid item xs={4}>
+<img src="/images/ticket.png" style={{width:'50%'}}></img>
+              </Grid>
+             
+              </Grid>
             </Paper>
           </Grid>
 
@@ -130,10 +138,18 @@ const Ticketdetails = () => {
                 transition: 'transform 0.2s ease-in-out',
               } 
             }}>
+              <Grid container spacing={3} sx={{ padding: 0 }}>
+              <Grid item xs={8}>
               <Typography variant="h6">Total Resolved Tickets</Typography>
               <Typography variant="body1">
                 <CountUp end={pieData[1].value} duration={2.5} />
               </Typography>
+              </Grid>
+              <Grid item xs={4}>
+<img src="/images/ticket.png" style={{width:'50%'}}></img>
+              </Grid>
+             
+              </Grid>
             </Paper>
           </Grid>
 
@@ -149,10 +165,18 @@ const Ticketdetails = () => {
                 transition: 'transform 0.2s ease-in-out',textAlign:'center', 
               } 
             }}>
+              <Grid container spacing={3} sx={{ padding: 0 }}>
+              <Grid item xs={8}>
               <Typography variant="h6">Total Rejected Tickets</Typography>
               <Typography variant="body1">
                 <CountUp end={pieData[2].value} duration={2.5} />
               </Typography>
+              </Grid>
+              <Grid item xs={4}>
+<img src="/images/ticket.png" style={{width:'50%'}}></img>
+              </Grid>
+             
+              </Grid>
             </Paper>
           </Grid>
         </Grid>

@@ -593,3 +593,40 @@ span.anticon.anticon-setting.ant-menu-item-icon {
   font-size: 21px;
   font-weight: bold;
 }
+/* .bg1{
+  background-size:cover;
+  background-repeat: no-repeat;
+  width:100%;
+  height: 100%;
+  /* opacity: calc(50%); 
+    padding:10px 0px;
+} */
+.bg1 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 10px 0px;
+  z-index: 1; /* Ensure content stays above the background */
+}
+
+.bg1::before {
+  content: "";
+  background-image: url("/images/bar-graph.png");
+  background-size: 50% auto; /* Reduce the width to 50%, keeping height auto */
+  background-position: center; /* Center the image horizontally */
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2; /* Keep opacity fixed */
+  z-index: -1; /* Ensure the image stays behind the content */
+  display: block; /* Ensure it's always displayed */
+  transition: none; /* Prevent transitions from altering opacity */
+}
+
+.bg1:hover::before {
+  opacity: 0.2; /* Keep the opacity consistent on hover */
+  display: block; /* Ensure display stays consistent */
+}

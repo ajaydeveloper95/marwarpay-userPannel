@@ -103,7 +103,8 @@ const WalletDetails = () => {
             <Grid item xs={4}>
            
             <Typography variant="body1" >
-             <AccountBalanceWalletIcon sx={{ fontSize: 48, marginLeft: 1 }} />{' '}
+             {/* <AccountBalanceWalletIcon sx={{ fontSize: 48, marginLeft: 1 }} />{' '} */}
+             <img src="/images/ewallet.png" style={{width:'50%'}}></img>
             </Typography>
             </Grid>
             </Grid>
@@ -140,7 +141,8 @@ const WalletDetails = () => {
             <Grid item xs={4}>
            
             <Typography variant="body1" >
-            <PaymentIcon sx={{ fontSize: 48, marginLeft: 1 }} />{' '}
+            {/* <PaymentIcon sx={{ fontSize: 48, marginLeft: 1 }} />{' '} */}
+            <img src="/images/wallet.png" style={{width:'50%'}}></img>
             </Typography>
             </Grid>
             </Grid>

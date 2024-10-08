@@ -132,7 +132,7 @@ const Login = () => {
             }}
           >
             <img
-              src="images/logo.png"
+              src="images/logologin.png"
               alt="Logo"
               style={{
                 // width: 70,

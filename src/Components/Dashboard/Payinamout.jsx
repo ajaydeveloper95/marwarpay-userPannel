@@ -123,9 +123,11 @@ const Payinout = () => {
               
             } 
           }}>
+            <div className="bg1" >
             <Typography variant="h6">Total Payin</Typography>
             <Typography variant="body1"> ₹ <CountUp end={totalPayin.toFixed(2)} duration={2.5} /></Typography>
-          </Paper>
+            </div>
+            </Paper>
         </Grid>
 
         <Grid item xs={12} md={3}>
@@ -143,8 +145,13 @@ const Payinout = () => {
               transition: 'transform 0.2s ease-in-out', 
             } 
           }}>
-            <Typography variant="h6">Total Payin Charges</Typography>
-            <Typography variant="body1"> ₹ <CountUp end={totalPayinCharges.toFixed(2)} duration={2.5}  /></Typography>
+            <div className="bg1">
+  <Typography variant="h6">Total Payin Charges</Typography>
+  <Typography variant="body1">
+    ₹ <CountUp end={totalPayinCharges.toFixed(2)} duration={2.5} />
+  </Typography>
+</div>
+
           </Paper>
         </Grid> 
 
@@ -162,8 +169,10 @@ const Payinout = () => {
               
             } 
           }}>
+            <div className="bg1">
             <Typography variant="h6">Total Payout</Typography>
             <Typography variant="body1"> ₹ <CountUp end={totalPayout.toFixed(2)} duration={2.5} /></Typography>
+            </div>
           </Paper>
         </Grid>
 
@@ -180,8 +189,10 @@ const Payinout = () => {
               transition: 'transform 0.2s ease-in-out',
             } 
           }}>
+            <div className="bg1" >
             <Typography variant="h6">Total Payout Charges</Typography>
             <Typography variant="body1"> ₹ <CountUp end={totalPayoutCharges.toFixed(2)} duration={2.5}  /></Typography>
+          </div>
           </Paper>
         </Grid>
 

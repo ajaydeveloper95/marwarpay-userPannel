@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 
 function Moneytransfer() {
   const [formData, setFormData] = useState({
-    memberid: '',
-    txnpwd: '',
+    userName: '',
+    authToken: '',
     mobile: '',
     account_holder_name: '',
     account_no: '',

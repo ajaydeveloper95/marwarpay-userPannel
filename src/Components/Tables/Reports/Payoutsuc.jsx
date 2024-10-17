@@ -157,8 +157,7 @@ const PayoutSuccess = () => {
                 <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Final Amount</strong></TableCell>
                 <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Bank RRN</strong></TableCell>
                 <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Success Status</strong></TableCell>
-                <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Created At</strong></TableCell>
-                <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Success Date</strong></TableCell>
+                <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Date</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -188,7 +187,6 @@ const PayoutSuccess = () => {
                       {payout.isSuccess}
                     </TableCell>
                     <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{new Date(payout.createdAt).toLocaleString()}</TableCell>
-                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{new Date(payout.updatedAt).toLocaleString()}</TableCell>
                   </TableRow>
                 ))
               )}

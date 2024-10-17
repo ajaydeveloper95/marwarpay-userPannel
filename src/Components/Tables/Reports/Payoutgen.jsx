@@ -143,8 +143,7 @@ const Payoutgen = () => {
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Account No.</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>IFSC Code</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Status</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Created</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Success </strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Date</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -165,9 +164,7 @@ const Payoutgen = () => {
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
                     {new Date(payout.createdAt).toLocaleString()}
                   </TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
-                    {new Date(payout.updatedAt).toLocaleString()}
-                  </TableCell>
+                 
                 </TableRow>
               ))
             )}

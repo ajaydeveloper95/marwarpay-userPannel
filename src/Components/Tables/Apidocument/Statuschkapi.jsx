@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 function Statuschkapi() {
  
   const [formData, setFormData] = useState({
-     post: { txnID: '', memberid: '', txnpwd: ''  },
+     post: { txnID: '', memberId: '', trxPassword: ''  },
   });
   const [jsonOutput, setJsonOutput] = useState('');
 

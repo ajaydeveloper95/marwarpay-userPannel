@@ -13,10 +13,16 @@ import {
   Grid,
   Pagination,
   Card,
-  CardContent
+  CardContent,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  IconButton,
+  DialogActions
 } from '@mui/material';
 import axios from 'axios';
 import { accessConstent, domainBase } from '../../../helpingFile';
+import { Visibility as VisibilityIcon } from '@mui/icons-material';
 
 const Mywallet = () => {
   const [ewalletData, setEwalletData] = useState([]);
@@ -31,7 +37,8 @@ const Mywallet = () => {
   const [viewAll, setViewAll] = useState(false);
   const API_ENDPOINT = `${domainBase}apiUser/v1/wallet/eWalletTrx`;
   const token = localStorage.getItem(accessConstent);
-
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
   useEffect(() => {
     axios.get(API_ENDPOINT, {
       headers: {
@@ -49,6 +56,13 @@ const Mywallet = () => {
       });
   }, []);
 
+
+  const handleModal = (ticket = null) => {
+    setSelectedTicket(ticket);
+    setOpenModal(!!ticket);
+  };
+
+ 
   // Filter function
   const handleFilter = () => {
     let filtered = ewalletData;
@@ -184,10 +198,11 @@ const Mywallet = () => {
               <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Amount</strong></TableCell>
               <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Before Amount</strong></TableCell>
               <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>After Amount</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Description</strong></TableCell>
+              
               <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Status</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Created</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Success Date</strong></TableCell>
+              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Date</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Action</strong></TableCell>
+
             </TableRow>
           </TableHead>
           <TableBody>
@@ -203,10 +218,14 @@ const Mywallet = () => {
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.transactionAmount}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.beforeAmount}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.afterAmount}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.description}</TableCell>
+                
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionStatus === 'Success' ? 'green' : 'red'}}>{trx.transactionStatus}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{new Date(trx.createdAt).toLocaleString()}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{new Date(trx.updatedAt).toLocaleString()}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
+                    <IconButton onClick={() => handleModal(trx)}>
+                      <VisibilityIcon />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))
             )}
@@ -221,6 +240,68 @@ const Mywallet = () => {
         color="primary"
         sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}
       />
+       <Dialog open={openModal} onClose={() => handleModal(null)} maxWidth="md" fullWidth>
+        <DialogTitle>E-Wallet Details</DialogTitle>
+        <DialogContent>
+          {selectedTicket && (
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell><strong>Field</strong></TableCell>
+                    <TableCell><strong>Details</strong></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell><strong>ID</strong></TableCell>
+                    <TableCell>{selectedTicket._id}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>MemberId</strong></TableCell>
+                    <TableCell>{selectedTicket.memberId}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>TransactionType</strong></TableCell>
+                    <TableCell>{selectedTicket.transactionType}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>TransactionAmount</strong></TableCell>
+                    <TableCell>{selectedTicket.transactionAmount}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>BeforeAmount</strong></TableCell>
+                    <TableCell>{selectedTicket.beforeAmount}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>AfterAmount</strong></TableCell>
+                    <TableCell>{selectedTicket.afterAmount}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Description</strong></TableCell>
+                    <TableCell>{selectedTicket.description}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>TransactionStatus</strong></TableCell>
+                    <TableCell>{selectedTicket.transactionStatus}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Initiate At</strong></TableCell>
+                    <TableCell>{new Date(selectedTicket.createdAt).toLocaleString()}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>SuccessAt</strong></TableCell>
+                    <TableCell>{new Date(selectedTicket.updatedAt).toLocaleString()}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleModal(null)} color="primary">Close</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

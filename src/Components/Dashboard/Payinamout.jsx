@@ -45,7 +45,7 @@ const Payinout = () => {
         setTotalPayinCharges(totalPayinCharges);
 
         const payinData = {
-          labels: ['Payin Amount', 'Payin Charges'],
+          labels: ['QR Generate Amount', 'QR Generate Charges'],
           datasets: [
             {
               label: 'Payin Amount & Charges',
@@ -102,7 +102,7 @@ const Payinout = () => {
       <AppBar position="static" sx={{borderRadius:'10px',background: 'linear-gradient(45deg, #00000073, #2196f3a3) !important',}}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Payment 
+            Payment OverView
           </Typography>
         </Toolbar>
       </AppBar>
@@ -124,8 +124,8 @@ const Payinout = () => {
             } 
           }}>
             <div className="bg1" >
-            <Typography variant="h6">Total Payin</Typography>
-            <Typography variant="body1"> ₹ <CountUp end={totalPayin.toFixed(2)} duration={2.5} /></Typography>
+            <Typography variant="h6">Total QR Generate </Typography>
+            <Typography variant="body1"> ₹ <CountUp end={totalPayin} decimals={2} duration={2.5} /></Typography>
             </div>
             </Paper>
         </Grid>
@@ -148,7 +148,7 @@ const Payinout = () => {
             <div className="bg1">
   <Typography variant="h6">Total Payin Charges</Typography>
   <Typography variant="body1">
-    ₹ <CountUp end={totalPayinCharges.toFixed(2)} duration={2.5} />
+    ₹ <CountUp end={totalPayinCharges} decimals={2} duration={2.5} />
   </Typography>
 </div>
 
@@ -171,7 +171,7 @@ const Payinout = () => {
           }}>
             <div className="bg1">
             <Typography variant="h6">Total Payout</Typography>
-            <Typography variant="body1"> ₹ <CountUp end={totalPayout.toFixed(2)} duration={2.5} /></Typography>
+            <Typography variant="body1"> ₹ <CountUp end={totalPayout} decimals={2} duration={2.5} /></Typography>
             </div>
           </Paper>
         </Grid>
@@ -191,14 +191,14 @@ const Payinout = () => {
           }}>
             <div className="bg1" >
             <Typography variant="h6">Total Payout Charges</Typography>
-            <Typography variant="body1"> ₹ <CountUp end={totalPayoutCharges.toFixed(2)} duration={2.5}  /></Typography>
+            <Typography variant="body1"> ₹ <CountUp end={totalPayoutCharges}  decimals={2} duration={2.5}  /></Typography>
           </div>
           </Paper>
         </Grid>
 
         {/* Payin Chart */}
         <Grid item xs={12} md={6}>
-          <ChartComponent data={payinChartData} title="Payin Amount & Charges" />
+          <ChartComponent data={payinChartData}  title="QR Generate Amount & Charges" />
         </Grid>
 
         {/* Payout Chart */}

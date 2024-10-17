@@ -58,7 +58,7 @@ const ViewTicket = () => {
 
     // Fetch data initially
     fetchData();
-  }, [API_ENDPOINT, token]);
+  }, []);
 
   useEffect(() => {
     handleFilter(); // Call handleFilter when search inputs change
@@ -194,7 +194,7 @@ const ViewTicket = () => {
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Subject</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Related To</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Status</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Created At</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Date</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Action</strong></TableCell>
             </TableRow>
           </TableHead>

@@ -18,6 +18,7 @@ import Profile from '../Components/Pages/Setting/Profile';
 import EditProfile from '../Components/Pages/Setting/EditProfile';
 import Payinsuc from '../Components/Tables/Reports/Payinsuccess';
 import useAxiosInterceptors from '../axiosConfig';
+import Balance from '../Components/Tables/Apidocument/Balance';
 
 
 const AppRoutes = () => {
@@ -37,6 +38,7 @@ const AppRoutes = () => {
       <Route path="/create-ticket" element={<CreateTicket />} />
       <Route path="/api-documents/payin" element={<PayinApi />} />
       <Route path="/api-documents/payout" element={<PayoutApi />} />
+      <Route path="/api-documents/balancecheck" element={<Balance/>} />
       <Route path="/settings/profile" element={<Profile />} />
       <Route path="/settings/changepassword" element={<ChangePassword />} />
       <Route path="/settings/edit" element={<EditProfile />} />

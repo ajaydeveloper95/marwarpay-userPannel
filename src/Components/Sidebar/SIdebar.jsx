@@ -120,8 +120,8 @@ function Sidebar() {
       icon: <ProfileOutlined />,
       label: 'Reports',
       children: [
-        { key: '4', label: <Link to="/payin">Payin</Link> },
-        { key: '5', label: <Link to="/payinsucess">Payin Success</Link> },
+        { key: '4', label: <Link to="/payin">QR Generate</Link> },
+        { key: '5', label: <Link to="/payinsucess">Payin</Link> },
         { key: '6', label: <Link to="/payoutgen">Payout</Link> },
       ],
     },
@@ -158,6 +158,7 @@ function Sidebar() {
       children: [
         { key: '12', label: <Link to="/api-documents/payin">PayIn</Link> },
         { key: '13', label: <Link to="/api-documents/payout">PayOut</Link> },
+        { key: '14', label: <Link to="/api-documents/balancecheck">Balance Check</Link> },
       ],
     },
     {
@@ -165,8 +166,8 @@ function Sidebar() {
       icon: <SettingOutlined />,
       label: 'Setting',
       children: [
-        { key: '14', label: <Link to="/settings/profile">My Profile</Link> },
-        { key: '15', label: <Link to="/settings/changepassword">Change Password</Link> },
+        { key: '15', label: <Link to="/settings/profile">My Profile</Link> },
+        { key: '16', label: <Link to="/settings/changepassword">Change Password</Link> },
        
       ],
     },

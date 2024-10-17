@@ -13,10 +13,16 @@ import {
   Grid,
   Pagination,
   Card,
-  CardContent
+  CardContent,
+  IconButton,
+  DialogActions,
+  Dialog,
+  DialogContent,
+  DialogTitle
 } from '@mui/material';
 import axios from 'axios';
 import { accessConstent, domainBase } from '../../../helpingFile';
+import { Visibility as VisibilityIcon } from '@mui/icons-material';
 
 const UPIWallet = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,6 +38,8 @@ const UPIWallet = () => {
   const [viewAll, setViewAll] = useState(false);
   const API_ENDPOINT = `${domainBase}apiUser/v1/wallet/upiWalletTrx`;
   const token = localStorage.getItem(accessConstent);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
 
   useEffect(() => {
     axios.get(API_ENDPOINT, {
@@ -49,6 +57,10 @@ const UPIWallet = () => {
         setIsLoading(false);
       });
   }, [ ]);
+  const handleModal = (ticket = null) => {
+    setSelectedTicket(ticket);
+    setOpenModal(!!ticket);
+  };
 
   // Filter function
   const handleFilter = () => {
@@ -190,10 +202,11 @@ const UPIWallet = () => {
               <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Amount</strong></TableCell>
               <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Before Amount</strong></TableCell>
               <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>After Amount</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Description</strong></TableCell>
+             
               <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Status</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Created</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Success Date</strong></TableCell>
+              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Date</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Action</strong></TableCell>
+
             </TableRow>
           </TableHead>
           <TableBody>
@@ -209,10 +222,14 @@ const UPIWallet = () => {
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.transactionAmount}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.beforeAmount}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.afterAmount}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.description}</TableCell>
+                  
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionStatus === 'Success' ? 'green' : 'red'}}>{trx.transactionStatus}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{new Date(trx.createdAt).toLocaleString()}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{new Date(trx.updatedAt).toLocaleString()}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
+                    <IconButton onClick={() => handleModal(trx)}>
+                      <VisibilityIcon />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))
             )}
@@ -227,6 +244,68 @@ const UPIWallet = () => {
         color="primary"
         sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}
       />
+       <Dialog open={openModal} onClose={() => handleModal(null)} maxWidth="md" fullWidth>
+        <DialogTitle>UPI Wallet Transactions Details</DialogTitle>
+        <DialogContent>
+          {selectedTicket && (
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell><strong>Field</strong></TableCell>
+                    <TableCell><strong>Details</strong></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell><strong>ID</strong></TableCell>
+                    <TableCell>{selectedTicket._id}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>MemberId</strong></TableCell>
+                    <TableCell>{selectedTicket.memberId}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>TransactionType</strong></TableCell>
+                    <TableCell>{selectedTicket.transactionType}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>TransactionAmount</strong></TableCell>
+                    <TableCell>{selectedTicket.transactionAmount}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>BeforeAmount</strong></TableCell>
+                    <TableCell>{selectedTicket.beforeAmount}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>AfterAmount</strong></TableCell>
+                    <TableCell>{selectedTicket.afterAmount}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Description</strong></TableCell>
+                    <TableCell>{selectedTicket.description}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>TransactionStatus</strong></TableCell>
+                    <TableCell>{selectedTicket.transactionStatus}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Initiate At</strong></TableCell>
+                    <TableCell>{new Date(selectedTicket.createdAt).toLocaleString()}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>SuccessAt</strong></TableCell>
+                    <TableCell>{new Date(selectedTicket.updatedAt).toLocaleString()}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleModal(null)} color="primary">Close</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

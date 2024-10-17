@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
 
-function Gqrapi() {
+function Balance() {
  
   const [formData, setFormData] = useState({
     userName: '',
     authToken: '',
-    name: '',
-    amount: '',
-    txnid: ''
-  });
+    });
 
 
   const [jsonOutput, setJsonOutput] = useState('');
@@ -38,8 +35,8 @@ function Gqrapi() {
     <div style={{ padding: '20px' }}>
       <div className="gqrapi" style={{ maxWidth: '800px', margin: '0 auto' }}>
         <div className="gqrapi1" style={{ marginBottom: '20px' }}>
-          <h4>Request API URL</h4>
-          <p>{`https://api.yunicare.in/apiAdmin/v1/payin/generatePayment`}</p>
+          <h4>Request Balance Check API URL</h4>
+          <p>{`https://api.yunicare.inapiUser/v1/wallet/walletBalance`}</p>
         </div>
         <p>Request Method - POST</p>
         <div className="gqrapi1" style={{ marginBottom: '20px' }}>
@@ -93,12 +90,12 @@ function Gqrapi() {
   <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>
     {JSON.stringify({
       "status_code": 200,
-      "status_msg": "QR Generated Successfully ",
-      "status": "SUCCESS",
-      "qr": "upi://pay?pa=&pn=&tr=&am=&cu=INR&mc=",
-      "txnid": 16131198309337,
-    
+      "status_msg": "OK ",
+      "e_wallet_balance": 0.00,
+      "upi_wallet_balance": 0.00,
+         
     }, null, 2)}  
+    
   </pre>
 </div>
 
@@ -129,15 +126,15 @@ function Gqrapi() {
               </tr>
               <tr>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>2</td>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>qr</td>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>QR Code String</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>e_wallet_balance</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>E wallet Balance</td>
               </tr>
               <tr>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>3</td>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>txnID</td>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>QR Reference ID</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>upi_wallet_balance</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>UPI Wallet Balance</td>
               </tr>
-         
+    
             </tbody>
           </table>
         </div>
@@ -146,4 +143,4 @@ function Gqrapi() {
   );
 }
 
-export default Gqrapi;
+export default Balance;

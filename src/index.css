@@ -1,10 +1,13 @@
+/* index.css or App.css */
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* .sider {
-  position: relative;
-} */
+body {
+  font-family: 'Kanit', sans-serif !important;
+}
 
 .topsidebar img {
   width: 50%;
@@ -13,7 +16,7 @@
 }
 
 .topsidebar img:hover {
-  transform: rotateY(180deg); /* Flip effect on hover */
+  /* transform: rotateY(180deg);  */
 }
 .topsidebar {
   background: linear-gradient(to right, #ffbf96, #fe7096);
@@ -151,7 +154,7 @@ nav.MuiPagination-root.MuiPagination-outlined.css-f3591o-MuiPagination-root {
   }
   
   .login-title {
-    font-family: 'Nunito', sans-serif;
+    /* font-family: 'Nunito', sans-serif; */
     font-size: 20px;
     /* Adjust the size as needed */
     font-weight: 700;
@@ -196,7 +199,7 @@ nav.MuiPagination-root.MuiPagination-outlined.css-f3591o-MuiPagination-root {
     min-width: 250px;
     min-height: 35px;
     display: inline-flex;
-    font-family: 'Nunito', sans-serif;
+    /* font-family: 'Nunito', sans-serif; */
     font-size: 22px;
     align-items: center;
     justify-content: center;
@@ -291,38 +294,9 @@ button.MuiButtonBase-root:hover {
     display: none;
   }
   
-  @keyframes ring {
-    0% {
-      width: 20px;
-      height: 20px;
-      opacity: 1;
-    }
+
+ 
   
-    100% {
-      width: 200px;
-      height: 200px;
-      opacity: 0;
-    }
-  }
-  
-  /* @keyframes blink {
-      0%, 100% { opacity: 1; } 
-      50% { opacity: 0; }      
-    } */
-  @keyframes shadowBlink {
-  
-    0%,
-    100% {
-      box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.5);
-    }
-  
-    /* Visible shadow with spread */
-    50% {
-      box-shadow: 0 0 50px 25px rgba(0, 0, 0, 0);
-    }
-  
-    /* Larger and faded shadow */
-  }
   
   a.MuiTypography-root.MuiTypography-body2.MuiLink-root.MuiLink-underlineAlways.css-xdjwf0-MuiTypography-root-MuiLink-root {
     color: #001b4a;
@@ -348,7 +322,7 @@ button.MuiButtonBase-root:hover {
   }
   .css-13y79c5-MuiTypography-root {
     margin: 0;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    /* font-family: "Roboto","Helvetica","Arial",sans-serif; */
     font-weight: 400;
     font-size: 1.5rem;
     line-height: 1.334;
@@ -593,14 +567,7 @@ span.anticon.anticon-setting.ant-menu-item-icon {
   font-size: 21px;
   font-weight: bold;
 }
-/* .bg1{
-  background-size:cover;
-  background-repeat: no-repeat;
-  width:100%;
-  height: 100%;
-  /* opacity: calc(50%); 
-    padding:10px 0px;
-} */
+
 .bg1 {
   position: relative;
   width: 100%;
@@ -620,7 +587,7 @@ span.anticon.anticon-setting.ant-menu-item-icon {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.1; /* Keep opacity fixed */
+  opacity: 0.07; /* Keep opacity fixed */
   z-index: -1; /* Ensure the image stays behind the content */
   display: block; /* Ensure it's always displayed */
   transition: none; /* Prevent transitions from altering opacity */

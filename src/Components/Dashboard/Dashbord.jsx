@@ -16,10 +16,10 @@ function Dashbord() {
     </div>
   </div>
 </div>
-
+      <WalletDetails/>
       <Payinout/>
       <Ticketdetails/>
-      <WalletDetails/>
+      
       </div>
   )
 }

@@ -296,10 +296,7 @@ const ViewTicket = () => {
                     <TableCell><strong>Created At</strong></TableCell>
                     <TableCell>{new Date(selectedTicket.createdAt).toLocaleString()}</TableCell>
                   </TableRow>
-                  <TableRow>
-                    <TableCell><strong>Updated At</strong></TableCell>
-                    <TableCell>{new Date(selectedTicket.updatedAt).toLocaleString()}</TableCell>
-                  </TableRow>
+                  
                 </TableBody>
               </Table>
             </TableContainer>

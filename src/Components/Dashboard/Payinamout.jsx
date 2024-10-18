@@ -102,7 +102,7 @@ const Payinout = () => {
       <AppBar position="static" sx={{borderRadius:'10px',background: 'linear-gradient(45deg, #00000073, #2196f3a3) !important',}}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Payment OverView
+            Payment Overview
           </Typography>
         </Toolbar>
       </AppBar>
@@ -146,7 +146,7 @@ const Payinout = () => {
             } 
           }}>
             <div className="bg1">
-  <Typography variant="h6">Total Payin Charges</Typography>
+  <Typography variant="h6">Payin Charges</Typography>
   <Typography variant="body1">
     ₹ <CountUp end={totalPayinCharges} decimals={2} duration={2.5} />
   </Typography>
@@ -190,7 +190,7 @@ const Payinout = () => {
             } 
           }}>
             <div className="bg1" >
-            <Typography variant="h6">Total Payout Charges</Typography>
+            <Typography variant="h6">Payout Charges</Typography>
             <Typography variant="body1"> ₹ <CountUp end={totalPayoutCharges}  decimals={2} duration={2.5}  /></Typography>
           </div>
           </Paper>

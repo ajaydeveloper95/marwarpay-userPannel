@@ -286,7 +286,7 @@ const UPIToEwallet = () => {
                     <TableCell>{new Date(selectedTicket.createdAt).toLocaleString()}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell><strong>SuccessAt</strong></TableCell>
+                    <TableCell><strong>Success At</strong></TableCell>
                     <TableCell>{new Date(selectedTicket.updatedAt).toLocaleString()}</TableCell>
                   </TableRow>
                 </TableBody>

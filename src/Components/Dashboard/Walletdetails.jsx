@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Box, Grid, Paper, Typography, AppBar, Toolbar } from '@mui/material';
 import CountUp from 'react-countup'; // Assuming you're using CountUp for animation
 import { accessConstent, domainBase } from '../../helpingFile';
+import wallet from "../../assets/images/wallet.png";
+import ewallet from "../../assets/images/ewallet.png";
 
 const WalletDetails = () => {
   const [EwalletBalance, setEwalletBalance] = useState(0);
@@ -73,7 +75,7 @@ const WalletDetails = () => {
               </Grid>
               <Grid item xs={4}>
                 <Typography variant="body1">
-                  <img src="/images/ewallet.png" style={{ width: '50%' }} alt="E-Wallet" />
+                  <img src={ewallet} style={{ width: '50%' }} alt="E-Wallet" />
                 </Typography>
               </Grid>
             </Grid>
@@ -107,7 +109,7 @@ const WalletDetails = () => {
               </Grid>
               <Grid item xs={4}>
                 <Typography variant="body1">
-                  <img src="/images/wallet.png" style={{ width: '50%' }} alt="UPI Wallet" />
+                  <img src={wallet} style={{ width: '50%' }} alt="UPI Wallet" />
                 </Typography>
               </Grid>
             </Grid>

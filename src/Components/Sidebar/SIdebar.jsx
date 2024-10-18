@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import AppRoutes from '../../routes/AppRoutes';
 import '../style.css'; // Import the CSS file
 import { DashboardOutlined } from '@mui/icons-material';
+import logo from "../.././assets/images/logo.png";
 
 const { Header, Sider, Content } = Layout;
 
@@ -186,7 +187,7 @@ function Sidebar() {
 >
   <div className="fixed-logo" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
     <img
-      src="/images/logo.png"
+      src={logo}
       alt="logo"
       style={{ width: collapsed ? '60px' : '150px', marginTop: '15%' }}
     />

@@ -582,7 +582,7 @@ span.anticon.anticon-setting.ant-menu-item-icon {
 
 .bg1::before {
   content: "";
-  background-image: url("/images/bar-graph.png");
+  background-image: url("assets/images/bar-graph.png");
   background-size: 50% auto; /* Reduce the width to 50%, keeping height auto */
   background-position: center; /* Center the image horizontally */
   background-repeat: no-repeat;

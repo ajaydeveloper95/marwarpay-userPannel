@@ -20,6 +20,10 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { domainBase } from "../../helpingFile";
+import assetimg from "../../assets/images/Login.gif";
+import logo from "../../assets/images/logologin.png";
+import bg from "../../assets/images/bgimgmarwar.jpg";
+
 
 const API_ENDPOINT = `${domainBase}apiUser/v1/userRoute/login`;
 
@@ -83,8 +87,14 @@ const Login = () => {
   };
 
   return (
-    <div style={{ backgroundImage: "url('images/bgimgmarwar.jpg')", backgroundSize: "cover",
-      backgroundPosition: "center",backgroundRepeat:"no-repeat" }}>
+    <div style={{
+      backgroundImage: `url(${bg})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat"
+    }}>
+     
+    
     <Box
       sx={{
         padding:"92px 20px",
@@ -121,10 +131,10 @@ const Login = () => {
   }}
 >
   <img
-    src="images/login.svg"
+    src={assetimg}
     alt="Logo"
     style={{
-      width: "80%", // Adjust the width of the image as needed
+      width: "100%", // Adjust the width of the image as needed
       height: "auto",
     }}
   />
@@ -163,7 +173,7 @@ const Login = () => {
             }}
           >
             <img
-              src="images/logologin.png"
+              src={logo}
               alt="Logo"
               style={{
                 // width: 70,

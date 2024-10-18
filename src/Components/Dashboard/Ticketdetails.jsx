@@ -4,6 +4,8 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recha
 import axios from 'axios';
 import { accessConstent, domainBase } from '../../helpingFile';
 import CountUp from 'react-countup';
+import ticket from "../../assets/images/ticket.png";
+
 
 const COLORS = ['#8884d8', '#82ca9d', '#FF8042'];
 
@@ -119,7 +121,7 @@ const Ticketdetails = () => {
               </Typography>
               </Grid>
               <Grid item xs={4}>
-<img src="/images/ticket.png" style={{width:'50%'}}></img>
+<img src={ticket} style={{width:'50%'}}></img>
               </Grid>
              
               </Grid>
@@ -146,7 +148,7 @@ const Ticketdetails = () => {
               </Typography>
               </Grid>
               <Grid item xs={4}>
-<img src="/images/ticket.png" style={{width:'50%'}}></img>
+<img src={ticket} style={{width:'50%'}}></img>
               </Grid>
              
               </Grid>
@@ -173,7 +175,7 @@ const Ticketdetails = () => {
               </Typography>
               </Grid>
               <Grid item xs={4}>
-<img src="/images/ticket.png" style={{width:'50%'}}></img>
+<img src={ticket} style={{width:'50%'}}></img>
               </Grid>
              
               </Grid>

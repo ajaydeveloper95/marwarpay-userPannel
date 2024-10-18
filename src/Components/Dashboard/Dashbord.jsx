@@ -2,7 +2,7 @@
 import WalletDetails from './Walletdetails'
 import Payinout from './Payinamout'
 import Ticketdetails from './Ticketdetails'
-
+import Blog from "../../assets/images/Blog.png"
 function Dashbord() {
   return (
     <div className="backimg">
@@ -12,7 +12,7 @@ function Dashbord() {
       <h1 className='sidebar-text'>MarwarPay Infotech Pvt Ltd - Your trusted partner for financial solutions.</h1>
     </div>
     <div className='col-4'>
-      <img className='sidebar-image' src="images/Blog.png" alt="Blog" />
+      <img className='sidebar-image' src={Blog} alt="Blog" />
     </div>
   </div>
 </div>

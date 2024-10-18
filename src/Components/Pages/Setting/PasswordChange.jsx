@@ -54,7 +54,7 @@ const ChangePassworduser = () => {
       }
     } catch (error) {
       console.error('Error updating password', error);
-      setAlertMessage('An error occurred while updating the password.');
+      setAlertMessage('Old Password Not Matched Please Try Again.');
       setAlertType('error');
     }
   };

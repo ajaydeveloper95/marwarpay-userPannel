@@ -53,7 +53,7 @@ const ChangeTransactionPassword = () => {
       }
     } catch (error) {
       console.error('Error updating transaction password', error);
-      setAlertMessage('An error occurred while updating the transaction password.');
+      setAlertMessage('Old Password Not Matched Please Try Again.');
       setAlertType('error');
     }
   };

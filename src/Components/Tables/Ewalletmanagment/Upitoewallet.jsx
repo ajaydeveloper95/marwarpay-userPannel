@@ -258,19 +258,19 @@ const UPIToEwallet = () => {
                 <TableBody>
                  
                   <TableRow>
-                    <TableCell><strong>TransactionType</strong></TableCell>
+                    <TableCell><strong>Transaction Type</strong></TableCell>
                     <TableCell>{selectedTicket.transactionType}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell><strong>TransactionAmount</strong></TableCell>
+                    <TableCell><strong>Transaction Amount</strong></TableCell>
                     <TableCell>{selectedTicket.transactionAmount}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell><strong>BeforeAmount</strong></TableCell>
+                    <TableCell><strong>Before Amount</strong></TableCell>
                     <TableCell>{selectedTicket.beforeAmount}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell><strong>AfterAmount</strong></TableCell>
+                    <TableCell><strong>After Amount</strong></TableCell>
                     <TableCell>{selectedTicket.afterAmount}</TableCell>
                   </TableRow>
                   <TableRow>
@@ -278,7 +278,7 @@ const UPIToEwallet = () => {
                     <TableCell>{selectedTicket.description}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell><strong>TransactionStatus</strong></TableCell>
+                    <TableCell><strong>Transaction Status</strong></TableCell>
                     <TableCell>{selectedTicket.transactionStatus}</TableCell>
                   </TableRow>
                   <TableRow>

@@ -147,3 +147,26 @@ font-size: 18px !important;
   background: #0e2337 !important;
  }
  
+ .dark-mode .topsidebar {
+  background: transparent;
+  padding: 15px;
+  box-shadow: rgba(248, 247, 247, 0.35) 0px 5px 15px !important;
+ 
+  margin-bottom: 20px;
+  color: #fff;
+  border-radius: 1em;
+  transition: transform 0.2s ease-in-out;
+}
+.dark-mode .topsidebar:hover{
+  background:transparent !important;
+}
+.dark-mode :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item, :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item, :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title, :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title {
+
+  color: rgb(255 255 255);
+
+}
+.dark-mode :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown .ant-dropdown-menu, :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown-menu-submenu .ant-dropdown-menu {
+
+  background-color: #0e2337;
+  box-shadow: rgba(248, 247, 247, 0.35) 0px 5px 15px !important;
+}

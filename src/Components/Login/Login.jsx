@@ -113,22 +113,23 @@ const Login = () => {
   >
     {/* Left side image */}
     <Box
-      sx={{
-        flex: 1, // Takes up 50% of the width
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <img
-        src="images/login.svg"
-        alt="Logo"
-        style={{
-          width: "80%", // Adjust the width of the image as needed
-          height: "auto",
-        }}
-      />
-    </Box>
+  sx={{
+    flex: 1, // Takes up 50% of the width
+    display: { xs: "none", sm: "flex" }, // Hide on extra-small screens (less than 500px)
+    justifyContent: "center",
+    alignItems: "center",
+  }}
+>
+  <img
+    src="images/login.svg"
+    alt="Logo"
+    style={{
+      width: "80%", // Adjust the width of the image as needed
+      height: "auto",
+    }}
+  />
+</Box>
+
 
     {/* Right side form */}
     <Box
@@ -271,25 +272,7 @@ const Login = () => {
 </Container>
 
 
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: 20,
-          right: 20,
-          display: "flex",
-          gap: 1,
-        }}
-      >
-        <IconButton href="https://www.facebook.com/Marwarpay/"   target="_blank" sx={{ color: "black", fontSize: 50 }}>
-          <FacebookIcon sx={{ fontSize: "inherit" }} />
-        </IconButton>
-        <IconButton href="https://www.instagram.com"  target="_blank"  sx={{ color: "black", fontSize: 50 }}>
-          <InstagramIcon sx={{ fontSize: "inherit" }} />
-        </IconButton>
-        <IconButton href="https://www.twitter.com"  target="_blank"  sx={{ color: "black", fontSize: 50 }}>
-          <TwitterIcon sx={{ fontSize: "inherit" }} />
-        </IconButton>
-      </Box>
+      
 
       {/* Snackbar for notifications */}
       <Snackbar
@@ -307,6 +290,24 @@ const Login = () => {
   </Alert>
 </Snackbar>
     </Box>
+    <Box
+        sx={{
+          marginTop:'-80px',
+          display: "flex",
+          paddingBottom:'18px'
+          // gap: 1,
+        }}
+      >
+        <IconButton href="https://www.facebook.com/Marwarpay/"   target="_blank" sx={{ color: "black", fontSize: 50 }}>
+          <FacebookIcon sx={{ fontSize: "inherit" }} />
+        </IconButton>
+        <IconButton href="https://www.instagram.com/marwarpayofficial/"  target="_blank"  sx={{ color: "black", fontSize: 50 }}>
+          <InstagramIcon sx={{ fontSize: "inherit" }} />
+        </IconButton>
+        <IconButton href="https://www.twitter.com"  target="_blank"  sx={{ color: "black", fontSize: 50 }}>
+          <TwitterIcon sx={{ fontSize: "inherit" }} />
+        </IconButton>
+      </Box>
     </div>
   );
 };

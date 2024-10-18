@@ -50,13 +50,13 @@ const Ticketdetails = () => {
       <AppBar position="static" sx={{borderRadius:'10px',background: 'linear-gradient(45deg, #00000073, #2196f3a3) !important',}}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Ticket 
+            Support Ticket 
           </Typography>
         </Toolbar>
       </AppBar>
 
       {/* Grid Layout for Cards and Graphs */}
-      <Grid container spacing={3} sx={{ padding: 3 }}>
+      <Grid container spacing={3} sx={{ padding: 1,marginTop:0.5,marginBottom:3}}>
         {/* Ticket Status Overview with Circular Pie Chart */}
         <Grid item xs={12} md={6}>
           <Paper className="clrchnge"  sx={{ 

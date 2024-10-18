@@ -10,9 +10,13 @@ const theme = createTheme({
       main: '#d32f2f',
     },
   },
+  // typography: {
+  //   fontFamily: 'Roboto, Arial, sans-serif',
+  // },
   typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
+    fontFamily: "'Kanit', sans-serif !important",
   },
+  
 });
 
 export default theme;

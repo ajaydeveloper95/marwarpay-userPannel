@@ -83,46 +83,76 @@ const Login = () => {
   };
 
   return (
+    <div style={{ backgroundImage: "url('images/bgimgmarwar.jpg')", backgroundSize: "cover",
+      backgroundPosition: "center",backgroundRepeat:"no-repeat" }}>
     <Box
       sx={{
-        // height: "100vh",
-        // width: "100vw",
-        backgroundImage: "url('images/bgimgmarwar.png')",
-       padding:"80px 20px",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        padding:"92px 20px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
-      <Container
-        component="main"
+ <Container
+  // component="main"
+  sx={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  // Adjust the height as needed
+  }}
+>
+  <Box
+    sx={{
+      display: "flex",
+      width: "100%",
+      justifyContent: "space-between",
+      alignItems: "center",
+    }}
+  >
+    {/* Left side image */}
+    <Box
+      sx={{
+        flex: 1, // Takes up 50% of the width
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <img
+        src="images/login.svg"
+        alt="Logo"
+        style={{
+          width: "80%", // Adjust the width of the image as needed
+          height: "auto",
+        }}
+      />
+    </Box>
+
+    {/* Right side form */}
+    <Box
+      sx={{
+        flex: 1, // Takes up 50% of the width
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Paper
+        elevation={3} 
         sx={{
+          padding: 4,
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          width: '30%',
-          height: '30%',
-          float:'right',
-          justifyContent: "center",
+          backgroundColor: "rgba(255, 255, 255, 0.5)",
+          borderRadius: 2,
+          width: "100%",
+          maxWidth: "400px", // Adjust the form width as needed
         }}
       >
-        <Paper
-          elevation={3}
-          sx={{
-            padding: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            backgroundColor: "rgba(255, 255, 255, 0.5)",
-            borderRadius: 2,
-            position:"relative",
-            left:"65%",
-          }}
-        >
-        
-          <Box
+            <Box
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -143,90 +173,103 @@ const Login = () => {
               }}
             />
           </Box>
-          <Typography component="h1" variant="h4"  gutterBottom style={{fontWeight:700,marginTop:'20px'}}> 
-            Log In
-          </Typography>
-          <Box component="form" onSubmit={handleLogin} sx={{ width: "100%" }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="userName"
-              label="User Name"
-              name="userName"
-              autoComplete="userName"
-              autoFocus
-              value={userName}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <FormControlLabel
-              control={<Checkbox checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />}
-              label="Remember me"
-              sx={{
-                "& .MuiFormControlLabel-label": {
+        <Typography
+          component="h1"
+          variant="h4"
+          gutterBottom
+          style={{ fontWeight: 700, marginTop: "20px" }}
+        >
+          Log In
+        </Typography>
+        <Box component="form" onSubmit={handleLogin} sx={{ width: "100%" }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="userName"
+            label="User Name"
+            name="userName"
+            autoComplete="userName"
+            autoFocus
+            value={userName}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+            }
+            label="Remember me"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                color: "#1976d2",
+                "&:hover": {
+                  color: "black",
+                },
+              },
+            }}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link
+                href="#"
+                variant="body2"
+                sx={{
                   color: "#1976d2",
+                  textDecoration: "none",
                   "&:hover": {
                     color: "black",
                   },
-                },
-              }}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link
-                  href="#"
-                  variant="body2"
-                  sx={{
-                    color: "#1976d2",
-                    textDecoration: "none",
-                    "&:hover": {
-                      color: "black",
-                    },
-                  }}
-                >
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link
-                  href="#"
-                  variant="body2"
-                  sx={{
-                    color: "#1976d2",
-                    textDecoration: "none",
-                    "&:hover": {
-                      color: "black",
-                    },
-                  }}
-                >
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+                }}
+              >
+                Forgot password?
+              </Link>
             </Grid>
-          </Box>
-        </Paper>
-      </Container>
+            <Grid item>
+              <Link
+                href="#"
+                variant="body2"
+                sx={{
+                  color: "#1976d2",
+                  textDecoration: "none",
+                  "&:hover": {
+                    color: "black",
+                  },
+                }}
+              >
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Paper>
+    </Box>
+  </Box>
+</Container>
+
 
       <Box
         sx={{
@@ -237,13 +280,13 @@ const Login = () => {
           gap: 1,
         }}
       >
-        <IconButton href="https://www.facebook.com" sx={{ color: "white", fontSize: 50 }}>
+        <IconButton href="https://www.facebook.com/Marwarpay/"   target="_blank" sx={{ color: "black", fontSize: 50 }}>
           <FacebookIcon sx={{ fontSize: "inherit" }} />
         </IconButton>
-        <IconButton href="https://www.instagram.com" sx={{ color: "white", fontSize: 50 }}>
+        <IconButton href="https://www.instagram.com"  target="_blank"  sx={{ color: "black", fontSize: 50 }}>
           <InstagramIcon sx={{ fontSize: "inherit" }} />
         </IconButton>
-        <IconButton href="https://www.twitter.com" sx={{ color: "white", fontSize: 50 }}>
+        <IconButton href="https://www.twitter.com"  target="_blank"  sx={{ color: "black", fontSize: 50 }}>
           <TwitterIcon sx={{ fontSize: "inherit" }} />
         </IconButton>
       </Box>
@@ -264,6 +307,7 @@ const Login = () => {
   </Alert>
 </Snackbar>
     </Box>
+    </div>
   );
 };
 

@@ -107,7 +107,7 @@ const Payinout = () => {
         </Toolbar>
       </AppBar>
 
-      <Grid container spacing={3} sx={{ padding: 3 }}>
+      <Grid container spacing={3} sx={{ padding:0.5,marginTop:'10px' }}>
         {/* Payin Summary */}
         <Grid item xs={12} md={3}>
           <Paper className="clrchnge"  sx={{ 

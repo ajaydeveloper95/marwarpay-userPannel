@@ -45,7 +45,7 @@ const WalletDetails = () => {
       </AppBar>
 
       {/* Grid Layout for Cards */}
-      <Grid container spacing={3} sx={{ padding: 3 }}>
+      <Grid container spacing={3} sx={{ padding: 0.5,marginTop:0.5,marginBottom:3 }}>
         {/* E-Wallet Balance */}
         <Grid item xs={6}>
           <Paper

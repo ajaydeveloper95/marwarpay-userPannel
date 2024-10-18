@@ -5,8 +5,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+h1, h2, h3, h4, h5, h6, p, span, .Typography,.TableCell,.TextField {
   font-family: 'Kanit', sans-serif !important;
+}
+body{
+  margin: 0;
+  padding: 0;
 }
 
 .topsidebar img {

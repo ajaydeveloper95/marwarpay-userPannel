@@ -160,13 +160,11 @@ font-size: 18px !important;
 .dark-mode .topsidebar:hover{
   background:transparent !important;
 }
-.dark-mode :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item, :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item, :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title, :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title {
-
-  color: rgb(255 255 255);
-
+.dark-mode li.ant-dropdown-menu-item {
+  color: #fff !important;
 }
-.dark-mode :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown .ant-dropdown-menu, :where(.css-dev-only-do-not-override-vn1oyg).ant-dropdown-menu-submenu .ant-dropdown-menu {
+.dark-mode .ant-dropdown-menu {
 
-  background-color: #0e2337;
+  background-color: #0e2337 !important;
   box-shadow: rgba(248, 247, 247, 0.35) 0px 5px 15px !important;
 }

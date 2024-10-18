@@ -8,7 +8,7 @@ function Moneytransfer() {
     account_holder_name: '',
     account_no: '',
     ifsc: '',
-    txnid: '',
+    trxId: '',
     txnID: ''
   });
 

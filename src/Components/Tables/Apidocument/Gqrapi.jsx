@@ -7,7 +7,7 @@ function Gqrapi() {
     authToken: '',
     name: '',
     amount: '',
-    txnid: ''
+    trxId: ''
   });
 
 

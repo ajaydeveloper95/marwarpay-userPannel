@@ -256,14 +256,7 @@ const UPIToEwallet = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell><strong>ID</strong></TableCell>
-                    <TableCell>{selectedTicket._id}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell><strong>MemberId</strong></TableCell>
-                    <TableCell>{selectedTicket.memberId}</TableCell>
-                  </TableRow>
+                 
                   <TableRow>
                     <TableCell><strong>TransactionType</strong></TableCell>
                     <TableCell>{selectedTicket.transactionType}</TableCell>

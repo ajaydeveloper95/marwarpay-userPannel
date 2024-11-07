@@ -36,7 +36,7 @@ function Balance() {
       <div className="gqrapi" style={{ maxWidth: '800px', margin: '0 auto' }}>
         <div className="gqrapi1" style={{ marginBottom: '20px' }}>
           <h4>Request Balance Check API URL</h4>
-          <p>{`https://api.yunicare.in/apiUser/v1/wallet/walletBalance`}</p>
+          <p>{`https://api.zanithpay.com/apiUser/v1/wallet/walletBalance`}</p>
         </div>
         <p>Request Method - POST</p>
         <div className="gqrapi1" style={{ marginBottom: '20px' }}>

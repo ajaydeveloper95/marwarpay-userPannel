@@ -33,7 +33,7 @@ function Moneytransfer() {
     <div style={{ padding: '20px' }} className="gqrapi">
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         <h4>Request API URL</h4>
-        <p>{`https://api.yunicare.in/apiAdmin/v1/payout/generatePayOut`}</p>
+        <p>{`https://api.zanithpay.com/apiAdmin/v1/payout/generatePayOut`}</p>
         <p style={{ fontSize: '14px' }}>Request Method - POST</p>
 
         <div style={{ marginBottom: '20px' }}>

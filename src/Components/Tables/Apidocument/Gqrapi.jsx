@@ -39,7 +39,7 @@ function Gqrapi() {
       <div className="gqrapi" style={{ maxWidth: '800px', margin: '0 auto' }}>
         <div className="gqrapi1" style={{ marginBottom: '20px' }}>
           <h4>Request API URL</h4>
-          <p>{`https://api.yunicare.in/apiAdmin/v1/payin/generatePayment`}</p>
+          <p>{`https://api.zanithpay.com/apiAdmin/v1/payin/generatePayment`}</p>
         </div>
         <p>Request Method - POST</p>
         <div className="gqrapi1" style={{ marginBottom: '20px' }}>

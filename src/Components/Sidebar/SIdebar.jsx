@@ -193,7 +193,7 @@ function Sidebar() {
     />
   </div>
 
-  <div className="menu-container" style={{ height: '80vh', overflowY: 'auto', background: 'var(--sidebar-bg)'}}>
+  <div className="menu-container" style={{ height: '75vh', overflowY: 'auto', background: 'var(--sidebar-bg)'}}>
     <Menu
       theme={isDarkMode ? 'dark' : 'light'}
       mode="inline"

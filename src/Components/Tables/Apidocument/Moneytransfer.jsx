@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 function Moneytransfer() {
   const [formData, setFormData] = useState({
     userName: '',
-    authToken: '',
+    authToken: 'SHA 256 hash of Your Name + Transaction Password',
     mobile: '',
     account_holder_name: '',
     account_no: '',

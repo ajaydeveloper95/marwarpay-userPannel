@@ -4,7 +4,7 @@ function Gqrapi() {
  
   const [formData, setFormData] = useState({
     userName: '',
-    authToken: '',
+    authToken: 'SHA 256 hash of Your Name + Transaction Password',
     name: '',
     amount: '',
     trxId: ''

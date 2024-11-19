@@ -93,15 +93,18 @@ function Gqrapi() {
   <h4>Server Response</h4>
   <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>
     {JSON.stringify({
-      "status_code": 200,
-      "status_msg": "QR Generated Successfully ",
-      "status": "SUCCESS",
-      "qr": "upi://pay?pa=&pn=&tr=&am=&cu=INR&mc=",
-      "txnid": 16131198309337,
-    
+      "statusCode": 200,
+      "data": {
+        "status_msg": "Request Completed",
+        "status": 200,
+        "qrImage": "https://example.com",
+        "trxID": "tjkgxkxxd4555"
+    },
+    "message": "Success"  
     }, null, 2)}  
   </pre>
 </div>
+
 
   
 

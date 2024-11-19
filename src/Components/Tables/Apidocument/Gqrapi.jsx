@@ -119,7 +119,7 @@ function Gqrapi() {
             <tbody>
               <tr>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>1</td>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status_code</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
                   <ul>
                     <li>400 = Variable Related Error</li>
@@ -130,7 +130,7 @@ function Gqrapi() {
               </tr>
               <tr>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>2</td>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>qr</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>qrImage</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>QR Code String</td>
               </tr>
               <tr>

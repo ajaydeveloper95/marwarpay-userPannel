@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 
 function Moneytransfer() {
   const [formData, setFormData] = useState({
-    userName: '',
     authToken: 'SHA 256 hash of Your userName + Transaction Password',
+    userName: '',
     mobile: '',
     account_holder_name: '',
     account_no: '',
@@ -17,9 +17,9 @@ function Moneytransfer() {
   const [error] = useState('');
 
   useEffect(() => {
-    const jsonOutputData = JSON.stringify(formData, null, 2); // Just stringify formData directly
+    const jsonOutputData = JSON.stringify(formData, null, 2); 
     setJsonOutput(jsonOutputData);
-  }, [formData]); // Re-run the effect when formData changes
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,27 +47,37 @@ function Moneytransfer() {
               </tr>
             </thead>
             <tbody>
+              
+              <tr>
+                <td style={{fontWeight:'bold'}}>1</td>
+                <td style={{fontWeight:'bold'}}>authToken</td>
+                <td>
+                  <span>{formData.authToken}</span>
+                </td>
+              </tr>
               {Object.entries(formData).map(([key, value], index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{key}</td>
-                  <td>
-                    <input
-                      type={key === 'txnpwd' ? 'password' : 'text'}
-                      placeholder={`Enter ${key}`}
-                      name={key}
-                      value={value}
-                      onChange={handleChange}
-                      style={{ width: '100%', padding: '8px', borderRadius: '4px' }}
-                    />
-                  </td>
-                </tr>
+                key !== 'authToken' && ( 
+                  <tr key={index}>
+                    <td style={{fontWeight:'bold'}}>{key === 'userName' ? 2 : index + 1}</td> 
+                    <td style={{fontWeight:'bold'}}>{key}</td>
+                    <td>
+                      <input
+                        type={key === 'txnpwd' ? 'password' : 'text'}
+                        placeholder={`Enter ${key}`}
+                        name={key}
+                        value={value}
+                        onChange={handleChange}
+                        style={{ width: '100%', padding: '8px', borderRadius: '4px' }}
+                      />
+                    </td>
+                  </tr>
+                )
               ))}
             </tbody>
           </table>
         </div>
         <p className="clrred">Note:- All Parameter keys are case sensitive.</p>
-        <div className="json-output" style={{ marginBottom: '20px' }}>
+        <div className="json-output" style={{ marginBottom: '20px',fontWeight:'bold' }}>
           <h4>Post Parameters Object</h4>
           <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>{jsonOutput}</pre>
         </div>
@@ -79,7 +89,7 @@ function Moneytransfer() {
           </div>
         )}
 
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '20px' ,fontWeight:'bold'}}>
           <h4>Server Response</h4>
           <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>
             {JSON.stringify({
@@ -99,7 +109,7 @@ function Moneytransfer() {
 }
 
 const ResponseTable = () => (
-  <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+  <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px',fontWeight:'bold' }}>
     <thead>
       <tr>
         <th style={{ borderBottom: '2px solid #ccc', padding: '10px', textAlign: 'left' }}>#</th>

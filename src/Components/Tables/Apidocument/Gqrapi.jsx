@@ -1,28 +1,21 @@
 import { useState, useEffect } from 'react';
 
 function Gqrapi() {
- 
   const [formData, setFormData] = useState({
+    authToken: 'SHA 256 hash of Your userName + Transaction Password', 
     userName: '',
-    authToken: 'SHA 256 hash of Your userName + Transaction Password',
     name: '',
     mobile: '',
     amount: '',
     trxId: ''
   });
 
-
   const [jsonOutput, setJsonOutput] = useState('');
 
-
-
-
- 
   useEffect(() => {
     const jsonData = JSON.stringify(formData, null, 2);
     setJsonOutput(jsonData);
   }, [formData]);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,9 +24,6 @@ function Gqrapi() {
       [name]: value
     }));
   };
-
-
-
 
   return (
     <div style={{ padding: '20px' }}>
@@ -55,34 +45,46 @@ function Gqrapi() {
                 </tr>
               </thead>
               <tbody>
+                {/* Place authToken as the second row */}
+                <tr>
+                  <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>1</td>
+                  <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>authToken</td>
+                  <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+                  <span style={{ fontWeight: 'normal' }}>{formData.authToken}</span>
+                  </td>
+                </tr>
+                {/* Render other fields, skipping authToken */}
                 {Object.entries(formData).map(([key, value], index) => (
-                  <tr key={index}>
-                    <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>{index + 1}</td>
-                    <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>{key}</td>
-                    <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
-                      <input
-                        type={key === 'txnpwd' ? 'password' : 'text'}
-                        placeholder={`Enter ${key}`}
-                        name={key}
-                        value={value}
-                        onChange={handleChange}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          boxSizing: 'border-box',
-                          border: '1px solid #ccc', 
-                          borderRadius: '4px'        
-                        }}
-                      />
-                    </td>
-                  </tr>
+                  key !== 'authToken' && (
+                    <tr key={index}>
+                      <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+                        {key === 'userName' ? 2 : index + 2} {/* Adjust numbering */}
+                      </td>
+                      <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>{key}</td>
+                      <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+                        <input
+                          type={key === 'txnpwd' ? 'password' : 'text'}
+                          placeholder={`Enter ${key}`}
+                          name={key}
+                          value={value}
+                          onChange={handleChange}
+                          style={{
+                            width: '100%',
+                            padding: '8px',
+                            boxSizing: 'border-box',
+                            border: '1px solid #ccc',
+                            borderRadius: '4px'
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  )
                 ))}
               </tbody>
             </table>
             <p style={{ color: 'red', fontSize: '14px', marginTop: '10px' }}>
               Note: All Parameter keys are case sensitive.
             </p>
-          
           </form>
         </div>
         <div className="json-output" style={{ marginBottom: '20px' }}>
@@ -90,25 +92,20 @@ function Gqrapi() {
           <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>{jsonOutput}</pre>
         </div>
         <div style={{ marginBottom: '20px' }}>
-  <h4>Server Response</h4>
-  <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>
-    {JSON.stringify({
-      "statusCode": 200,
-      "data": {
-        "status_msg": "Request Completed",
-        "status": 200,
-        "qrImage": "https://example.com",
-        "trxID": "tjkgxkxxd4555"
-    },
-    "message": "Success"  
-    }, null, 2)}  
-  </pre>
-</div>
-
-
-  
-
-   
+          <h4>Server Response</h4>
+          <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>
+            {JSON.stringify({
+              "statusCode": 200,
+              "data": {
+                "status_msg": "Request Completed",
+                "status": 200,
+                "qrImage": "https://example.com",
+                "trxID": "tjkgxkxxd4555"
+              },
+              "message": "Success"
+            }, null, 2)}
+          </pre>
+        </div>
         <div>
           <h4>Response Parameters</h4>
           <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
@@ -141,7 +138,6 @@ function Gqrapi() {
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>txnID</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>QR Reference ID</td>
               </tr>
-         
             </tbody>
           </table>
         </div>

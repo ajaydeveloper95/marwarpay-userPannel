@@ -4,7 +4,7 @@ import axios from 'axios';
 import { accessConstent, domainBase } from '../../../helpingFile';
 
 function CallbackPayout() {
-  const [formData, setFormData] = useState({ payInCallBackUrl: '', payOutCallBackUrl: '' });
+  const [formData, setFormData] = useState({ payInCallBackUrl: 'null', payOutCallBackUrl: '' });
   const [alertMessage, setAlertMessage] = useState(null);
   const [alertType, setAlertType] = useState('success');
   const [isLoading, setIsLoading] = useState(true);

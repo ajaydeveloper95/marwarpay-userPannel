@@ -5,7 +5,7 @@ import { domainBase } from '../../../helpingFile';
 
 function Callback() {
   // State to manage callback URLs
-  const [formData, setFormData] = useState({ payInCallBackUrl: '', payOutCallBackUrl: '' });
+  const [formData, setFormData] = useState({ payInCallBackUrl: '', payOutCallBackUrl: 'null' });
   const [alertMessage, setAlertMessage] = useState(null);
   const [alertType, setAlertType] = useState('success');
   const [isLoading, setIsLoading] = useState(true);

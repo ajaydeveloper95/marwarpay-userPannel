@@ -7,7 +7,7 @@ function Gqrapi() {
     name: '',
     mobile: '',
     amount: '',
-    trxId: ''
+    txnID: ''
   });
 
   const [jsonOutput, setJsonOutput] = useState('');
@@ -100,7 +100,7 @@ function Gqrapi() {
                 "status_msg": "Request Completed",
                 "status": 200,
                 "qrImage": "https://example.com",
-                "trxID": "tjkgxkxxd4555"
+                "txnID": "tjkgxkxxd4555"
               },
               "message": "Success"
             }, null, 2)}

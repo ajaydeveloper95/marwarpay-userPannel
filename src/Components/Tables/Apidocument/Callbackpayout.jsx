@@ -40,40 +40,54 @@ function CallbackPayout() {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      let response;
+        let response;
 
-      // Check if the formData already contains the URLs
-      if (formData.payOutCallBackUrl && formData.payInCallBackUrl) {
-        // If URLs exist, update them
-        response = await axios.post(API_UPDATE, formData, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-      } else {
-        // If URLs do not exist, post them
-        response = await axios.post(API_POST, formData, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-      }
+        // If no callback URLs exist, call the POST API without "memberId"
+        if (!formData.payOutCallBackUrl || !formData.payInCallBackUrl) {
+            response = await axios.post(
+                API_POST,
+                {
+                    payInCallBackUrl: formData.payInCallBackUrl || 'null',
+                    payOutCallBackUrl: formData.payOutCallBackUrl || 'null',
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+        } else {
+            // Otherwise, update existing URLs
+            response = await axios.post(API_UPDATE, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+        }
 
-      if (response.status === 200) {
-        setAlertMessage('Callback URLs saved successfully');
-        setAlertType('success');
-      } else {
-        setAlertMessage('Failed to save callback URLs');
-        setAlertType('error');
-      }
+        if (response.status === 200) {
+            setAlertMessage('Callback URLs saved successfully');
+            setAlertType('success');
+        } else {
+            setAlertMessage('Failed to save callback URLs');
+            setAlertType('error');
+        }
     } catch (error) {
-      console.error('Error saving callback URLs:', error);
-      setAlertMessage('An error occurred while saving the callback URLs');
-      setAlertType('error');
+        console.error('Error saving callback URLs:', error);
+
+        // Check for duplicate collection error
+        if (error.response && error.response.data && error.response.data.data === 'duplicate collection already callback url set ! Please Update') {
+            setAlertMessage('Callback URLs already set. Please update existing URLs.');
+        } else {
+            setAlertMessage('An error occurred while saving the callback URLs');
+        }
+        setAlertType('error');
     }
-  };
+};
+
+  
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;

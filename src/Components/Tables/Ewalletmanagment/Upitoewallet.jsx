@@ -128,7 +128,7 @@ const UPIToEwallet = () => {
           <Card variant="outlined" sx={{ bgcolor: '#f5f5f5', borderRadius: '8px' }}>
             <CardContent>
               <Typography variant="h6" component="div">Total Balance</Typography>
-              <Typography variant="h4" component="div" sx={{ mt: 1, color: '#4caf50' }}>₹{totalBalance}</Typography>
+              <Typography variant="h4" component="div" sx={{ mt: 1, color: '#4caf50' }}>₹{Number(totalBalance).toFixed(2)}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -218,9 +218,9 @@ const UPIToEwallet = () => {
                 <TableRow key={index}>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{(page - 1) * itemsPerPage + index + 1}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionType === 'Cr.' ? 'green' : trx.transactionType === 'Dr.' ? 'red' : 'inherit' }}>{trx.transactionType}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.transactionAmount}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.beforeAmount}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.afterAmount}</TableCell>
+                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{Number(trx.transactionAmount).toFixed(2)}</TableCell>
+                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{Number(trx.beforeAmount).toFixed(2)}</TableCell>
+                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{Number(trx.afterAmount).toFixed(2)}</TableCell>
                   
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionStatus === 'Success' ? 'green' : 'red'}}>{trx.transactionStatus}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{new Date(trx.createdAt).toLocaleString()}</TableCell>

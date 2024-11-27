@@ -78,6 +78,56 @@ function Moneytransfer() {
           </table>
         </div>
         <p className="clrred">Note:- All Parameter keys are case sensitive.</p>
+
+        <div className="json-output" style={{ marginBottom: "20px", fontWeight:'bold'}}>
+      <h4>Generate authToken</h4>
+      <div style={{ marginBottom: "20px" }}>
+        <pre
+          style={{
+            backgroundColor: "#f4f4f4",
+            padding: "10px",
+            borderRadius: "4px",
+            overflowX: "auto",
+          }}
+        >
+{`import { createHash } from "crypto";
+
+const generateTrxAuthToken = (memberId, trxPassword) => {
+  let data = {
+    memberId,
+    trxPassword,
+  };
+  let jsonToString = JSON.stringify(data);
+  let sha256Generate = createHash("sha256")
+    .update(jsonToString)
+    .digest("hex");
+  return sha256Generate;
+};
+
+let authToken = generateTrxAuthToken("memberId", "trxpassword");
+console.log(authToken);`}
+        </pre>
+      </div>
+    
+    </div>
+
+    <div className="json-output" style={{ marginBottom: "20px",fontWeight:'bold' }}>
+    
+      <div style={{ marginBottom: "20px" }}>
+        <pre
+          style={{
+            backgroundColor: "#f4f4f4",
+            padding: "10px",
+            borderRadius: "4px",
+            overflowX: "auto",
+          }}
+        >
+{`authToken  - ba519a680fed8d7cc831a50c4d74fe39b44fbd8debf13e19ac5c319b6d69507c`}
+        </pre>
+      </div>
+    
+    </div>
+
         <div className="json-output" style={{ marginBottom: '20px',fontWeight:'bold' }}>
           <h4>Post Parameters Object</h4>
           <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>{jsonOutput}</pre>

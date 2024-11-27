@@ -126,7 +126,7 @@ const Mywallet = () => {
           <Card variant="outlined" sx={{ bgcolor: '#f5f5f5', borderRadius: '8px' }}>
             <CardContent>
               <Typography variant="h6" component="div">Total Balance</Typography>
-              <Typography variant="h4" component="div" sx={{ mt: 1, color: '#4caf50' }}>₹{totalBalance}</Typography>
+              <Typography variant="h4" component="div" sx={{ mt: 1, color: '#4caf50' }}>₹{Number(totalBalance).toFixed(2)}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -260,15 +260,15 @@ const Mywallet = () => {
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Transaction Amount</strong></TableCell>
-                    <TableCell>{selectedTicket.transactionAmount}</TableCell>
+                    <TableCell>{Number(selectedTicket.transactionAmount).toFixed(2)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Before Amount</strong></TableCell>
-                    <TableCell>{selectedTicket.beforeAmount}</TableCell>
+                    <TableCell>{Number(selectedTicket.beforeAmount).toFixed(2)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>After Amount</strong></TableCell>
-                    <TableCell>{selectedTicket.afterAmount}</TableCell>
+                    <TableCell>{Number(selectedTicket.afterAmount).toFixed(2)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Description</strong></TableCell>

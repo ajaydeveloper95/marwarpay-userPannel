@@ -138,10 +138,10 @@ const PayoutSuccess = () => {
         
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6">Total Amount: {totalAmount}</Typography>
+            <Typography variant="h6">Total Amount: {Number(totalAmount).toFixed(2)}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6">Total Charges: {totalCharges}</Typography>
+            <Typography variant="h6">Total Charges: {Number(totalCharges).toFixed(2)}</Typography>
           </Grid>
         </Grid>
 
@@ -173,9 +173,9 @@ const PayoutSuccess = () => {
                     <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{(page - 1) * itemsPerPage + index + 1}</TableCell>
                     <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.userInfo.memberId}</TableCell>
                     <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.trxId}</TableCell>
-                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.amount}</TableCell>
-                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.chargeAmount}</TableCell>
-                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.finalAmount}</TableCell>
+                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.amount).toFixed(2)}</TableCell>
+                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.chargeAmount).toFixed(2)}</TableCell>
+                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.finalAmount).toFixed(2)}</TableCell>
                     <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.bankRRN}</TableCell>
                     <TableCell
                       sx={{

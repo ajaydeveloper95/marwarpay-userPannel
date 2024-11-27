@@ -4,12 +4,13 @@ function Moneytransfer() {
   const [formData, setFormData] = useState({
     authToken: 'SHA 256 hash of Your userName + Transaction Password',
     userName: '',
-    mobile: '',
-    account_holder_name: '',
-    account_no: '',
-    ifsc: '',
-    // txnID: '',
-    txnID: ''
+    mobileNumber: '',
+    accountHolderName: '',
+    accountNumber: '',
+    ifscCode: '',
+    bankName: '',
+    amount: '',
+    trxId: ''
   });
 
   const [jsonOutput, setJsonOutput] = useState('');
@@ -96,7 +97,7 @@ function Moneytransfer() {
               status_code: 200,
               status_msg: 'OK',
               status: 'SUCCESS',
-              txnid: 16131198309337,
+              trxId: 16131198309337,
               opt_msg: 'Transaction Fetch Successfully'
             }, null, 2)}
           </pre>
@@ -147,7 +148,7 @@ const ResponseTable = () => (
       </tr>
       <tr>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>4</td>
-        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>txnid</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>trxId</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>Your Unique Transaction ID.</td>
       </tr>
       <tr>

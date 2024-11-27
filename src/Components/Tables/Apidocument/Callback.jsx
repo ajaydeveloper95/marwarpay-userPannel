@@ -134,7 +134,7 @@ function Callback() {
         <div style={{ marginBottom: '20px' }}>
           <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>
             {JSON.stringify({
-              "status_code": 200,
+              "status": 200,
               "payerAmount": "100",
               "payerName": "Test",
               "amount": 100,

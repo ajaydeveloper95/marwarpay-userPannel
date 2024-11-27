@@ -5,9 +5,10 @@ function Gqrapi() {
     authToken: 'SHA 256 hash of Your userName + Transaction Password', 
     userName: '',
     name: '',
-    mobile: '',
+    mobileNumber: '',
     amount: '',
-    txnID: ''
+    trxId:'',
+    
   });
 
   const [jsonOutput, setJsonOutput] = useState('');
@@ -100,7 +101,8 @@ function Gqrapi() {
                 "status_msg": "Request Completed",
                 "status": 200,
                 "qrImage": "https://example.com",
-                "txnID": "tjkgxkxxd4555"
+                "qr": "qrintent",
+                "trxId": "tjkgxkxxd4555"
               },
               "message": "Success"
             }, null, 2)}
@@ -119,7 +121,7 @@ function Gqrapi() {
             <tbody>
               <tr>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>1</td>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>statusCode</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
                   <ul>
                     <li>400 = Variable Related Error</li>
@@ -135,7 +137,12 @@ function Gqrapi() {
               </tr>
               <tr>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>3</td>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>txnID</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>qr</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>QR Intent</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>3</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>trxId</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>QR Reference ID</td>
               </tr>
             </tbody>

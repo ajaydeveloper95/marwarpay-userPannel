@@ -285,7 +285,7 @@ useEffect(() => {
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Transaction Status</strong></TableCell>
-                    <TableCell>{selectedTicket.transactionStatus}</TableCell>
+                    <TableCell sx={{color: selectedTicket.transactionStatus === 'Success' ? 'green' : 'red'}}>{selectedTicket.transactionStatus}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Initiate At</strong></TableCell>

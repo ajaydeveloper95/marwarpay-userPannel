@@ -220,7 +220,7 @@ useEffect(() => {
                   <TableCell align="center">₹{trx.transactionAmount.toFixed(2)}</TableCell>
                   <TableCell align="center">₹{trx.beforeAmount.toFixed(2)}</TableCell>
                   <TableCell align="center">₹{trx.afterAmount.toFixed(2)}</TableCell>
-                  <TableCell align="center">{trx.status}</TableCell>
+                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionStatus === 'Success' ? 'green' : 'red'}} >{trx.transactionStatus}</TableCell>
                   <TableCell align="center">{new Date(trx.createdAt).toLocaleDateString()}</TableCell>
                   <TableCell align="center">
                     <IconButton onClick={() => handleModal(trx)}>
@@ -244,18 +244,56 @@ useEffect(() => {
       )}
 
       {/* Modal for transaction details */}
-      <Dialog open={openModal} onClose={() => setOpenModal(false)}>
+      <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth="md" fullWidth>
         <DialogTitle>Transaction Details</DialogTitle>
         <DialogContent>
           {selectedTicket && (
-            <div>
-              <Typography><strong>Type:</strong> {selectedTicket.transactionType}</Typography>
-              <Typography><strong>Amount:</strong> ₹{selectedTicket.transactionAmount}</Typography>
-              <Typography><strong>Status:</strong> {selectedTicket.status}</Typography>
-              <Typography><strong>Before Amount:</strong> ₹{selectedTicket.beforeAmount}</Typography>
-              <Typography><strong>After Amount:</strong> ₹{selectedTicket.afterAmount}</Typography>
-              <Typography><strong>Date:</strong> {new Date(selectedTicket.createdAt).toLocaleDateString()}</Typography>
-            </div>
+             <TableContainer component={Paper}>
+             <Table>
+               <TableHead>
+                 <TableRow>
+                   <TableCell><strong>Field</strong></TableCell>
+                   <TableCell><strong>Details</strong></TableCell>
+                 </TableRow>
+               </TableHead>
+               <TableBody>
+                
+                 <TableRow>
+                   <TableCell><strong>Transaction Type</strong></TableCell>
+                   <TableCell>{selectedTicket.transactionType}</TableCell>
+                 </TableRow>
+                 <TableRow>
+                   <TableCell><strong>Transaction Amount</strong></TableCell>
+                   <TableCell>{Number(selectedTicket.transactionAmount).toFixed(2)}</TableCell>
+                 </TableRow>
+                 <TableRow>
+                   <TableCell><strong>Before Amount</strong></TableCell>
+                   <TableCell>{Number(selectedTicket.beforeAmount).toFixed(2)}</TableCell>
+                 </TableRow>
+                 <TableRow>
+                   <TableCell><strong>After Amount</strong></TableCell>
+                   <TableCell>{Number(selectedTicket.afterAmount).toFixed(2)}</TableCell>
+                 </TableRow>
+                 <TableRow>
+                   <TableCell><strong>Description</strong></TableCell>
+                   <TableCell>{selectedTicket.description}</TableCell>
+                 </TableRow>
+                 <TableRow>
+                   <TableCell><strong>Transaction Status</strong></TableCell>
+                   <TableCell sx={{color: selectedTicket.transactionStatus === 'Success' ? 'green' : 'red'}}>{selectedTicket.transactionStatus}</TableCell>
+                 </TableRow>
+                 <TableRow>
+                   <TableCell><strong>Initiate At</strong></TableCell>
+                   <TableCell>{new Date(selectedTicket.createdAt).toLocaleString()}</TableCell>
+                 </TableRow>
+                 <TableRow>
+                   <TableCell><strong>Success At</strong></TableCell>
+                   <TableCell>{new Date(selectedTicket.updatedAt).toLocaleString()}</TableCell>
+                 </TableRow>
+               </TableBody>
+             </Table>
+           </TableContainer>
+         
           )}
         </DialogContent>
         <DialogActions>

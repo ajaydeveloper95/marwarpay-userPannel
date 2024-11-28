@@ -25,7 +25,7 @@ import { accessConstent, domainBase } from '../../../helpingFile';
 import { Visibility as VisibilityIcon } from '@mui/icons-material';
 
 const UPIToEwallet = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [ewalletData, setEwalletData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
@@ -50,13 +50,14 @@ const UPIToEwallet = () => {
       .then(response => {
         setEwalletData(response.data.data);
         setFilteredData(response.data.data);
-        setIsLoading(false);
+        // setIsLoading(false);
       })
       .catch(error => {
         console.error('There was an error fetching the eWallet data!', error);
-        setIsLoading(false);
+        // setIsLoading(false);
       });
   }, []);
+
   const handleModal = (ticket = null) => {
     setSelectedTicket(ticket);
     setOpenModal(!!ticket);
@@ -64,28 +65,34 @@ const UPIToEwallet = () => {
 
   // Filter function
   const handleFilter = () => {
-    let filtered = ewalletData;
+    let filtered = ewalletData.filter((item) => {
+      const matchesAmount = searchAmount ? item.transactionAmount === parseFloat(searchAmount) : true;
 
-    // Filter by Start Date and End Date
-    if (searchStartDate && searchEndDate) {
-      const startDate = new Date(searchStartDate).toISOString().split('T')[0];
-      const endDate = new Date(searchEndDate).toISOString().split('T')[0];
-      filtered = filtered.filter(trx => {
-        const trxDate = new Date(trx.createdAt).toISOString().split('T')[0];
-        return trxDate >= startDate && trxDate <= endDate;
-      });
-    }
+      const trxDate = new Date(item.createdAt);
+      trxDate.setHours(0, 0, 0, 0); // Normalize to midnight for accurate date comparison
 
-    // Filter by Amount
-    if (searchAmount) {
-      const amount = parseFloat(searchAmount);
-      filtered = filtered.filter(trx => trx.transactionAmount === amount);
-    }
+      const startDate = searchStartDate ? new Date(searchStartDate) : null;
+    const endDate = searchEndDate ? new Date(searchEndDate) : null;
 
-    setFilteredData(filtered);
-    setPage(1);
-    setViewAll(false);
-  };
+    if (startDate) startDate.setHours(0, 0, 0, 0);
+    if (endDate) endDate.setHours(23, 59, 59, 999); // Inclusive of the entire end day
+
+    // Date filter logic
+    const isStartDateOnly = startDate && !endDate && trxDate.getTime() === startDate.getTime();
+    const isWithinDateRange =
+      startDate && endDate && trxDate >= startDate && trxDate <= endDate;
+
+      return matchesAmount && (!startDate && !endDate || isStartDateOnly || isWithinDateRange);
+  });
+  setFilteredData(filtered);
+  setPage(1); // Reset to the first page when filtering
+  setViewAll(false); 
+};
+useEffect(() => {
+  handleFilter(); // Call filter function on state changes
+}, [searchAmount, searchStartDate, searchEndDate]);
+   
+   
 
   // Reset filters
   const handleReset = () => {
@@ -101,11 +108,6 @@ const UPIToEwallet = () => {
   const handlePageChange = (event, value) => {
     setPage(value);
   };
-
-  // Handle back navigation
-  if (isLoading) {
-    return <Typography variant="h6">Loading...</Typography>;
-  }
 
   // Calculate total balance and number of transactions
   const totalBalance = filteredData.reduce((acc, trx) => acc + trx.transactionAmount, 0).toFixed(2);
@@ -191,40 +193,36 @@ const UPIToEwallet = () => {
         </Grid>
       </Grid>
 
-      <TableContainer component={Paper} sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', p: 1 }}>
+      <TableContainer component={Paper} sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', p: 1 }}>
         <Table sx={{ borderCollapse: 'collapse' }}>
           <TableHead>
             <TableRow>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>#</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Type</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Amount</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Before Amount</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>After Amount</strong></TableCell>
-             
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Status</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Date</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>#</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Type</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Amount</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Before Amount</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>After Amount</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Status</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Date</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Action</strong></TableCell>
-
-            
             </TableRow>
           </TableHead>
           <TableBody>
             {filteredData.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={9} align="center">No data available</TableCell>
+                <TableCell colSpan={9} align="center">No records found.</TableCell>
               </TableRow>
             ) : (
               paginatedData.map((trx, index) => (
                 <TableRow key={index}>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{(page - 1) * itemsPerPage + index + 1}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionType === 'Cr.' ? 'green' : trx.transactionType === 'Dr.' ? 'red' : 'inherit' }}>{trx.transactionType}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{Number(trx.transactionAmount).toFixed(2)}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{Number(trx.beforeAmount).toFixed(2)}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{Number(trx.afterAmount).toFixed(2)}</TableCell>
-                  
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionStatus === 'Success' ? 'green' : 'red'}}>{trx.transactionStatus}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{new Date(trx.createdAt).toLocaleString()}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
+                  <TableCell align="center">{(page - 1) * itemsPerPage + index + 1}</TableCell>
+                  <TableCell align="center">{trx.transactionType}</TableCell>
+                  <TableCell align="center">₹{trx.transactionAmount.toFixed(2)}</TableCell>
+                  <TableCell align="center">₹{trx.beforeAmount.toFixed(2)}</TableCell>
+                  <TableCell align="center">₹{trx.afterAmount.toFixed(2)}</TableCell>
+                  <TableCell align="center">{trx.status}</TableCell>
+                  <TableCell align="center">{new Date(trx.createdAt).toLocaleDateString()}</TableCell>
+                  <TableCell align="center">
                     <IconButton onClick={() => handleModal(trx)}>
                       <VisibilityIcon />
                     </IconButton>
@@ -236,66 +234,32 @@ const UPIToEwallet = () => {
         </Table>
       </TableContainer>
 
-      <Pagination
-        count={Math.ceil(filteredData.length / itemsPerPage)}
-        page={page}
-        onChange={handlePageChange}
-        color="primary"
-        sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}
-      />
-       <Dialog open={openModal} onClose={() => handleModal(null)} maxWidth="md" fullWidth>
-        <DialogTitle>UPI to E-Wallet Transactions Details</DialogTitle>
+      {!viewAll && filteredData.length > itemsPerPage && (
+        <Pagination
+          count={Math.ceil(filteredData.length / itemsPerPage)}
+          page={page}
+          onChange={handlePageChange}
+          sx={{ mt: 2 }}
+        />
+      )}
+
+      {/* Modal for transaction details */}
+      <Dialog open={openModal} onClose={() => setOpenModal(false)}>
+        <DialogTitle>Transaction Details</DialogTitle>
         <DialogContent>
           {selectedTicket && (
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell><strong>Field</strong></TableCell>
-                    <TableCell><strong>Details</strong></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                 
-                  <TableRow>
-                    <TableCell><strong>Transaction Type</strong></TableCell>
-                    <TableCell>{selectedTicket.transactionType}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell><strong>Transaction Amount</strong></TableCell>
-                    <TableCell>{selectedTicket.transactionAmount}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell><strong>Before Amount</strong></TableCell>
-                    <TableCell>{selectedTicket.beforeAmount}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell><strong>After Amount</strong></TableCell>
-                    <TableCell>{selectedTicket.afterAmount}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell><strong>Description</strong></TableCell>
-                    <TableCell>{selectedTicket.description}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell><strong>Transaction Status</strong></TableCell>
-                    <TableCell>{selectedTicket.transactionStatus}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell><strong>Initiate At</strong></TableCell>
-                    <TableCell>{new Date(selectedTicket.createdAt).toLocaleString()}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell><strong>Success At</strong></TableCell>
-                    <TableCell>{new Date(selectedTicket.updatedAt).toLocaleString()}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <div>
+              <Typography><strong>Type:</strong> {selectedTicket.transactionType}</Typography>
+              <Typography><strong>Amount:</strong> ₹{selectedTicket.transactionAmount}</Typography>
+              <Typography><strong>Status:</strong> {selectedTicket.status}</Typography>
+              <Typography><strong>Before Amount:</strong> ₹{selectedTicket.beforeAmount}</Typography>
+              <Typography><strong>After Amount:</strong> ₹{selectedTicket.afterAmount}</Typography>
+              <Typography><strong>Date:</strong> {new Date(selectedTicket.createdAt).toLocaleDateString()}</Typography>
+            </div>
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleModal(null)} color="primary">Close</Button>
+          <Button onClick={() => setOpenModal(false)} color="primary">Close</Button>
         </DialogActions>
       </Dialog>
     </>

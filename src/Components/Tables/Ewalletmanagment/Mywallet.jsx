@@ -65,28 +65,32 @@ const Mywallet = () => {
  
   // Filter function
   const handleFilter = () => {
-    let filtered = ewalletData;
+    let filtered = ewalletData.filter((item) => {
+      const matchesAmount = searchAmount ? item.transactionAmount === parseFloat(searchAmount) : true;
 
-    // Filter by Start Date and End Date
-    if (searchStartDate && searchEndDate) {
-      const startDate = new Date(searchStartDate).toISOString().split('T')[0];
-      const endDate = new Date(searchEndDate).toISOString().split('T')[0];
-      filtered = filtered.filter(trx => {
-        const trxDate = new Date(trx.createdAt).toISOString().split('T')[0];
-        return trxDate >= startDate && trxDate <= endDate;
-      });
-    }
+      const trxDate = new Date(item.createdAt);
+      trxDate.setHours(0, 0, 0, 0); // Normalize to midnight for accurate date comparison
 
-    // Filter by Amount
-    if (searchAmount) {
-      const amount = parseFloat(searchAmount);
-      filtered = filtered.filter(trx => trx.transactionAmount === amount);
-    }
+      const startDate = searchStartDate ? new Date(searchStartDate) : null;
+    const endDate = searchEndDate ? new Date(searchEndDate) : null;
 
-    setFilteredData(filtered);
-    setPage(1);
-    setViewAll(false);
-  };
+    if (startDate) startDate.setHours(0, 0, 0, 0);
+    if (endDate) endDate.setHours(23, 59, 59, 999); // Inclusive of the entire end day
+
+    // Date filter logic
+    const isStartDateOnly = startDate && !endDate && trxDate.getTime() === startDate.getTime();
+    const isWithinDateRange =
+      startDate && endDate && trxDate >= startDate && trxDate <= endDate;
+
+      return matchesAmount && (!startDate && !endDate || isStartDateOnly || isWithinDateRange);
+  });
+  setFilteredData(filtered);
+  setPage(1); // Reset to the first page when filtering
+  setViewAll(false); 
+};
+useEffect(() => {
+  handleFilter(); // Call filter function on state changes
+}, [searchAmount, searchStartDate, searchEndDate]);
 
   // Reset filters
   const handleReset = () => {

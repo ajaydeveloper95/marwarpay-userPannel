@@ -53,23 +53,34 @@ const Payinsuc = () => {
   }, []);
 
   const handleFilter = () => {
-    let filtered = qrData.filter(item => {
-      const matchesName = item.payerName.toLowerCase().includes(searchInput.toLowerCase());
-      const matchesTxnID = item.trxId.toLowerCase().includes(searchInput.toLowerCase());
-
-      const startDate = new Date(searchStartDate);
-      const endDate = new Date(searchEndDate);
+    let filtered = qrData.filter((item) => {
+      const matchesName = item.name?.toLowerCase().includes(searchInput.toLowerCase());
+      const matchesTxnID = item.trxId?.toLowerCase().includes(searchInput.toLowerCase());
+  
       const trxDate = new Date(item.createdAt);
-
-      const isWithinDateRange = (!searchStartDate || trxDate >= startDate) && (!searchEndDate || trxDate <= endDate);
-
-      return (matchesName || matchesTxnID) && isWithinDateRange; // Filter by either Name or TxnID and date range
+      trxDate.setHours(0, 0, 0, 0); // Normalize to midnight for accurate date comparison
+  
+      const startDate = searchStartDate ? new Date(searchStartDate) : null;
+      const endDate = searchEndDate ? new Date(searchEndDate) : null;
+  
+      if (startDate) startDate.setHours(0, 0, 0, 0);
+      if (endDate) endDate.setHours(23, 59, 59, 999); // Inclusive of the entire end day
+  
+      // Date filter logic
+      const isStartDateOnly = startDate && !endDate && trxDate.getTime() === startDate.getTime();
+      const isWithinDateRange =
+        startDate && endDate && trxDate >= startDate && trxDate <= endDate;
+  
+      // Return true if:
+      // - Matches name or transaction ID
+      // - Either no dates are provided OR matches the date range
+      return (matchesName || matchesTxnID) && (!startDate && !endDate || isStartDateOnly || isWithinDateRange);
     });
-
+  
     setFilteredData(filtered);
     setCurrentPage(1); // Reset to the first page when filtering
   };
-
+  
   // Effect to trigger search whenever searchInput, searchStartDate, or searchEndDate changes
   useEffect(() => {
     handleFilter(); // Call filter function on state changes
@@ -167,14 +178,14 @@ const Payinsuc = () => {
               currentItems.map((qr, index) => (
                 <TableRow key={qr._id}>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.payerName}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.trxId}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', align: 'center' }}>{Number(qr.amount).toFixed(2)}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', align: 'center' }}>{Number(qr.chargeAmount).toFixed(2)}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', align: 'center' }}>{Number(qr.finalAmount).toFixed(2)}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.vpaId}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.bankRRN}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: qr.isSuccess === 'Success' ? 'green' : 'red' }}>{qr.isSuccess}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.payerName || 'NA'}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.trxId || 'NA'}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', align: 'center' }}>{Number(qr.amount || 'NA').toFixed(2)}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', align: 'center' }}>{Number(qr.chargeAmount || 'NA').toFixed(2)}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', align: 'center' }}>{Number(qr.finalAmount || 'NA').toFixed(2)}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.vpaId || 'NA'}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.bankRRN || 'NA'}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: qr.isSuccess === 'Success' ? 'green' : 'red' }}>{qr.isSuccess || 'NA'}</TableCell>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{new Date(qr.createdAt).toLocaleString()}</TableCell>
                 </TableRow>
               ))

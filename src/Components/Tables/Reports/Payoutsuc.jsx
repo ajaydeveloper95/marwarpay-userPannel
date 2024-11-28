@@ -151,6 +151,7 @@ const PayoutSuccess = () => {
               <TableRow>
                 <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>#</strong></TableCell>
                 <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Member ID</strong></TableCell>
+                <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Name</strong></TableCell>
                 <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Transaction ID</strong></TableCell>
                 <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Amount</strong></TableCell>
                 <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Charge Amount</strong></TableCell>
@@ -171,12 +172,13 @@ const PayoutSuccess = () => {
                 paginatedData.map((payout, index) => (
                   <TableRow key={payout._id}>
                     <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{(page - 1) * itemsPerPage + index + 1}</TableCell>
-                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.userInfo.memberId}</TableCell>
-                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.trxId}</TableCell>
-                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.amount).toFixed(2)}</TableCell>
-                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.chargeAmount).toFixed(2)}</TableCell>
-                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.finalAmount).toFixed(2)}</TableCell>
-                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.bankRRN}</TableCell>
+                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.userInfo.memberId || 'NA'}</TableCell>
+                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.name || 'NA'}</TableCell>
+                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.trxId || 'NA'}</TableCell>
+                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.amount || 'NA').toFixed(2)}</TableCell>
+                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.chargeAmount || 'NA').toFixed(2)}</TableCell>
+                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.finalAmount || 'NA').toFixed(2)}</TableCell>
+                    <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.bankRRN || 'NA'}</TableCell>
                     <TableCell
                       sx={{
                         border: '1px solid #ddd',
@@ -184,7 +186,7 @@ const PayoutSuccess = () => {
                         color: payout.isSuccess === 'Success' ? 'green' : 'red'
                       }}
                     >
-                      {payout.isSuccess}
+                      {payout.isSuccess || 'NA'}
                     </TableCell>
                     <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{new Date(payout.createdAt).toLocaleString()}</TableCell>
                   </TableRow>

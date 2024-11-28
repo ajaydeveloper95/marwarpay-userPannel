@@ -36,35 +36,45 @@ const Payoutgen = () => {
 
     fetchData();
   }, []);
-
   const handleFilter = () => {
     if (!Array.isArray(payoutData)) {
       console.warn("payoutData is not an array:", payoutData); // Add warning for debugging
       setFilteredData([]); // Reset filtered data to empty if payoutData is not an array
       return;
     }
-
+  
     let filtered = payoutData.filter(item => {
       const matchesTxnID = item.trxId.toLowerCase().includes(searchTxnID.toLowerCase());
-
-      const createdAtDate = new Date(item.createdAt);
+  
+      const trxDate = new Date(item.createdAt);
+      trxDate.setHours(0, 0, 0, 0); // Normalize to midnight for accurate date comparison
+  
       const startDate = searchStartDate ? new Date(searchStartDate) : null;
-      const endDate = searchEndDate ? new Date(searchEndDate) : new Date(); // Default end date to current date if not provided
-
-      const isWithinDateRange =
-        (!startDate || createdAtDate >= startDate) && // Check against start date
-        (!endDate || createdAtDate <= endDate); // Check against end date
-
-      return matchesTxnID && isWithinDateRange; // Filter by TxnID and date range
+      const endDate = searchEndDate ? new Date(searchEndDate) : null;
+  
+      if (startDate) startDate.setHours(0, 0, 0, 0);
+      if (endDate) endDate.setHours(23, 59, 59, 999); // Inclusive of the entire end day
+  
+      const isStartDateOnly = startDate && !endDate && trxDate.getTime() === startDate.getTime();
+      const isWithinDateRange = startDate && endDate && trxDate >= startDate && trxDate <= endDate;
+  
+      // If no dates are selected, filter only by TxnID
+      if (!startDate && !endDate) {
+        return matchesTxnID;
+      }
+  
+      // Otherwise, filter by TxnID and date conditions
+      return matchesTxnID && (isStartDateOnly || isWithinDateRange);
     });
-
+  
     setFilteredData(filtered);
     setCurrentPage(1); // Reset to the first page when filtering
   };
-
+  
   useEffect(() => {
     handleFilter(); // Call filter function on state changes
   }, [searchTxnID, searchStartDate, searchEndDate, payoutData]);
+  
 
 
 
@@ -155,12 +165,12 @@ const Payoutgen = () => {
               currentItems.map((payout, index) => (
                 <TableRow key={payout._id}>
                   <TableCell>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.accountHolderName}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.trxId}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.amount).toFixed(2)}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.accountNumber}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.ifscCode}</TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: payout.isSuccess === 'Success' ? 'green' : 'red'  }}>{payout.isSuccess}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.accountHolderName || 'NA'}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.trxId || 'NA'}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{Number(payout.amount || 'NA').toFixed(2)}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.accountNumber || 'NA'}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.ifscCode || 'NA'}</TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: payout.isSuccess === 'Success' ? 'green' : 'red'  }}>{payout.isSuccess || 'NA'}</TableCell>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
                     {new Date(payout.createdAt).toLocaleString()}
                   </TableCell>

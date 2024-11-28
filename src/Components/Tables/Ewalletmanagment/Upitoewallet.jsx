@@ -92,7 +92,11 @@ useEffect(() => {
   handleFilter(); // Call filter function on state changes
 }, [searchAmount, searchStartDate, searchEndDate]);
    
-   
+const handlePageChange = (event, value) => {
+  setPage(value);
+};
+
+
 
   // Reset filters
   const handleReset = () => {
@@ -104,10 +108,6 @@ useEffect(() => {
     setViewAll(false);
   };
 
-  // Pagination handler
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
 
   // Calculate total balance and number of transactions
   const totalBalance = filteredData.reduce((acc, trx) => acc + trx.transactionAmount, 0).toFixed(2);
@@ -234,14 +234,16 @@ useEffect(() => {
         </Table>
       </TableContainer>
 
-      {!viewAll && filteredData.length > itemsPerPage && (
-        <Pagination
-          count={Math.ceil(filteredData.length / itemsPerPage)}
-          page={page}
-          onChange={handlePageChange}
-          sx={{ mt: 2 }}
-        />
-      )}
+
+       
+      <Pagination
+        count={Math.ceil(filteredData.length / itemsPerPage)}
+        page={page}
+        onChange={handlePageChange}
+        color="primary"
+        sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}
+      />
+     
 
       {/* Modal for transaction details */}
       <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth="md" fullWidth>

@@ -144,11 +144,11 @@ console.log(authToken);`}
           <h4>Server Response</h4>
           <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>
             {JSON.stringify({
-              status_code: 200,
-              status_msg: 'OK',
-              status: 'SUCCESS',
-              trxId: 16131198309337,
-              opt_msg: 'Transaction Fetch Successfully'
+                status: 'SUCCESS',
+                txnid: 'ddgFgfhffddgjhfj',
+                optxid: 'WAAYU816379332',
+                amount: '2',
+                rrn: '433425296231'
             }, null, 2)}
           </pre>
         </div>

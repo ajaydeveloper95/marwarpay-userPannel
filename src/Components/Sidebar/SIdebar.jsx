@@ -123,7 +123,8 @@ function Sidebar() {
       children: [
         { key: '4', label: <Link to="/payin">QR Generate</Link> },
         { key: '5', label: <Link to="/payinsucess">Payin</Link> },
-        { key: '6', label: <Link to="/payoutgen">Payout</Link> },
+        { key: '6', label: <Link to="/payoutgen">Payout Generate</Link> },
+        { key: '17', label: <Link to="/payout">Payout</Link> },
       ],
     },
     {

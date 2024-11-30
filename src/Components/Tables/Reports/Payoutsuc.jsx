@@ -117,7 +117,7 @@ const Payinsuc = () => {
   }}>
       <Grid container alignItems="center" sx={{ mb: 2 }}>
         <Grid item xs>
-          <Typography variant="h5" gutterBottom>Payin Success Information</Typography>
+          <Typography variant="h5" gutterBottom>PayOut Success Information</Typography>
         </Grid>
       </Grid>
 

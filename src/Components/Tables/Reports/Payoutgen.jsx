@@ -97,6 +97,15 @@ const Payoutgen = () => {
 
   return (
     <div>
+       <Grid sx={{
+    mb: 3,
+    paddingTop:'20px',
+    position: 'sticky', 
+    top: 0,             
+    zIndex: 1000,  
+    overflow:'hidden' ,      
+    backgroundColor: 'white', 
+  }}>
       <Grid container alignItems="center" sx={{ mb: 2 }}>
         <Grid item xs>
           <Typography variant="h5" gutterBottom>Payout Generate Information</Typography>
@@ -141,7 +150,8 @@ const Payoutgen = () => {
           </Button>
         </Grid>
       </Grid>
-
+    </Grid>
+    <div>
       <TableContainer component={Paper} sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', p: 1 }}>
         <Table sx={{ borderCollapse: 'collapse' }}>
           <TableHead>
@@ -191,7 +201,7 @@ const Payoutgen = () => {
           shape="rounded"
         />
       </Grid>
-
+      </div>
       
     </div>
   );

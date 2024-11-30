@@ -1,3 +1,4 @@
+import { Grid, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 
 function Balance() {
@@ -33,6 +34,21 @@ function Balance() {
 
   return (
     <div style={{ padding: '20px' }}>
+          <Grid sx={{
+    mb: 3,
+    position: 'sticky', 
+    top: 0,             
+    zIndex: 1000, 
+    paddingTop:'20px',
+    overflow:'hidden' ,     
+    backgroundColor: 'white', 
+  }}>
+      <Grid item>
+                <Typography variant="h5" component="h1" gutterBottom sx={{fontWeight:'bold'}}>
+                  Balance Cheack
+                </Typography>
+              </Grid>
+  </Grid>
       <div className="gqrapi" style={{ maxWidth: '800px', margin: '0 auto' }}>
         <div className="gqrapi1" style={{ marginBottom: '20px' }}>
           <h4>Request Balance Check API URL</h4>

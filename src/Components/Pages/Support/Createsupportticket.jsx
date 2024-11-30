@@ -48,6 +48,21 @@ const CreateTicket = () => {
 
   return (
     <>
+    <Grid sx={{
+    mb: 3,
+    position: 'sticky', 
+    top: 0,             
+    zIndex: 1000, 
+    paddingTop:'20px',
+    overflow:'hidden' ,     
+    backgroundColor: 'white', 
+  }}>
+     <Grid container alignItems="center" sx={{ mb: 2 , fontWeight:'bold'}}>
+        <Grid item xs>
+          <Typography variant="h5" gutterBottom>Create Support Ticket</Typography>
+        </Grid>
+      </Grid>
+      </Grid>
       <Box
         sx={{
           mt: 4,

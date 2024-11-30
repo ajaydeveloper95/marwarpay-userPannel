@@ -146,6 +146,9 @@ function Callback() {
             }, null, 2)}
           </pre>
         </div>
+        <p style={{ color: 'red', fontSize: '14px', marginTop: '10px' ,fontWeight:'normal'}}>
+              Note: You Receive Server Responce in JSON formate.
+            </p>
       </div>
     </div>
   );

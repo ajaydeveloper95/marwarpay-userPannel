@@ -110,10 +110,11 @@ const Payinsuc = () => {
     <>
     <Grid sx={{
     mb: 3,
-    position: 'sticky', // Makes the element sticky
-    top: 0,             // Stick to the top of the viewport
-    zIndex: 1000,       // Ensures it appears above other content if needed
-    backgroundColor: 'white', // Background color to avoid overlapping content
+    paddingTop:'20px',
+    position: 'sticky', 
+    top: 0,             
+    zIndex: 1000,       
+    backgroundColor: 'white', 
   }}>
       <Grid container alignItems="center" sx={{ mb: 2 }}>
         <Grid item xs>

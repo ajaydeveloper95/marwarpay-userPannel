@@ -29,6 +29,7 @@ function Statuschkapi() {
   // Submit function can be added here to handle API requests
 
   return (
+  
     <div className="gqrapi"  style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
       <div style={{ marginBottom: '20px' }}>
         <h4>Request API URL</h4>

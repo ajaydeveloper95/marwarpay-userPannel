@@ -26,6 +26,15 @@ const PayoutApi = () => {
 
   return (
     <>
+    <Grid sx={{
+    mb: 3,
+    position: 'sticky', 
+    top: 0,             
+    zIndex: 1000, 
+    paddingTop:'20px',
+    overflow:'hidden' ,     
+    backgroundColor: 'white', 
+  }}>
         <Grid container alignItems="center" spacing={1} mb={2}>
           <Grid item>
             <IconButton color="primary" onClick={handleBackButtonClick}>
@@ -49,7 +58,7 @@ const PayoutApi = () => {
             <Tab key={index} style={{ fontWeight: '700', fontSize: '16px' }} label={label} />
           ))}
         </Tabs>
-
+</Grid>
         {/* Render selected tab content */}
         {tabValue === 0 && <Moneytransfer />}
         {tabValue === 1 && <Callbackpayout />}

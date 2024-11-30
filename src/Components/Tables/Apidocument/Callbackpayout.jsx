@@ -158,7 +158,7 @@ const ResponseTable = () => (
       </tr>
     </thead>
     <tbody>
-      <tr>
+      {/* <tr>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>1</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status_code</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
@@ -168,14 +168,14 @@ const ResponseTable = () => (
             <li>200 = Success</li>
           </ul>
         </td>
-      </tr>
-      <tr>
+      </tr> */}
+      {/* <tr>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>2</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status_msg</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>API Success or Error Message according to status code.</td>
-      </tr>
+      </tr> */}
       <tr>
-        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>3</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>1</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
           <ul>
@@ -186,22 +186,22 @@ const ResponseTable = () => (
         </td>
       </tr>
       <tr>
-        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>4</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>2</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>txnid</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>Your Unique Transaction ID.</td>
       </tr>
       <tr>
-        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>5</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>3</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>amount</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>Money Transfer Amount.</td>
       </tr>
       <tr>
-        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>6</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>4</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>rrn</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>RRN number from bank side.</td>
       </tr>
       <tr>
-        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>7</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>5</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>optxid</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>Unique Transaction ID from Operator Side.</td>
       </tr>

@@ -179,25 +179,49 @@ console.log(authToken);`}
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
                   <ul>
                     <li>400 = Variable Related Error</li>
-                    <li>401 = Variable Data Related Error</li>
                     <li>200 = Success</li>
                   </ul>
                 </td>
               </tr>
               <tr>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>2</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status_msg</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+                  <ul>
+                    <li>Your Transaction Status Message </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>3</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+                  <ul>
+                    <li>400 = Variable Related Error</li>
+                    <li>401 = Variable Data Related Error</li>
+                    <li>200 = Success</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>4</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>qrImage</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>QR Code String</td>
               </tr>
               <tr>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>3</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>5</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>qr</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>QR Intent</td>
               </tr>
               <tr>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>3</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>6</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>trxId</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>QR Reference ID</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>7</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>message</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>Transaction Initiated message success/Failed</td>
               </tr>
             </tbody>
           </table>

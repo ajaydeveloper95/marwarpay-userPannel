@@ -94,7 +94,7 @@ const EditProfile = () => {
   return (
     <>
    
-        <Typography variant="h5" gutterBottom>Edit Profile</Typography>
+        <Typography variant="h5" gutterBottom sx={{paddingTop:'20px'}}>Edit Profile</Typography>
 
         {alertMessage && (
           <Alert severity={alertType} sx={{ mb: 2 }}>

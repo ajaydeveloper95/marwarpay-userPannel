@@ -149,9 +149,10 @@ console.log(authToken);`}
                 "data": {
                     "statusCode": 1,
                     "status": 1,
-                    "trxId": "ddgFgfhffddgjhfj1",
+                    "trxId": "thdsffjelkrt4543",
                     "opt_msg": "Success"
                 },
+                "message": "Success"
             }, null, 2)}
           </pre>
         </div>
@@ -174,7 +175,7 @@ const ResponseTable = () => (
     <tbody>
       <tr>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>1</td>
-        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status_code</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>statusCode</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
           <ul>
             <li>400 = Variable Related Error</li>
@@ -193,9 +194,9 @@ const ResponseTable = () => (
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
           <ul>
-            <li>PENDING</li>
-            <li>FAILED</li>
-            <li>SUCCESS</li>
+            <li>1 = SUCCESS</li>
+            <li>-2,-1,2 = PENDING / FAILED</li>
+           
           </ul>
         </td>
       </tr>
@@ -208,6 +209,16 @@ const ResponseTable = () => (
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>5</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>optxid</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>Unique Transaction ID from Operator Side.</td>
+      </tr>
+      <tr>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>6</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>opt_msg</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>Operator Side message</td>
+      </tr>
+      <tr>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>7</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>message</td>
+        <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>Transaction Initiated message success/Failed</td>
       </tr>
     </tbody>
   </table>

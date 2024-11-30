@@ -123,6 +123,15 @@ useEffect(() => {
 
   return (
     <>
+        <Grid sx={{
+    mb: 3,
+    position: 'sticky', 
+    top: 0,             
+    zIndex: 1000, 
+    paddingTop:'20px',
+    overflow:'hidden' ,     
+    backgroundColor: 'white', 
+  }}>
       <Grid container alignItems="center" sx={{ mb: 2 }}>
         <Grid item xs>
           <Typography variant="h4" gutterBottom>UPI Wallet Transactions</Typography>
@@ -197,7 +206,7 @@ useEffect(() => {
           </Button>
         </Grid>
       </Grid>
-
+</Grid>
       <TableContainer component={Paper} sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', p: 1 }}>
         <Table sx={{ borderCollapse: 'collapse' }}>
           <TableHead>

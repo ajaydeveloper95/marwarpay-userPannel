@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
 
 const TicketDetailModal = ({ open, onClose, ticket }) => {

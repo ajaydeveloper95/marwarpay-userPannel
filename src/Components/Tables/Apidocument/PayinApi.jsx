@@ -45,6 +45,15 @@ const PayinApi = () => {
     <>
   
         {/* Header Section */}
+        <Grid sx={{
+    mb: 3,
+    position: 'sticky', 
+    top: 0,             
+    zIndex: 1000, 
+    paddingTop:'20px',
+    overflow:'hidden' ,     
+    backgroundColor: 'white', 
+  }}>
         <Grid container alignItems="center" spacing={1} mb={2}>
           <Grid item xs={12}>
             <Grid container alignItems="center" spacing={1}>
@@ -74,7 +83,7 @@ const PayinApi = () => {
           <Tab style={{ fontWeight: '700', fontSize: '16px' }} label="Generate QR API" />
           <Tab style={{ fontWeight: '700', fontSize: '16px' }} label="Call Back URL" />
         </Tabs>
-
+</Grid>
         {tabValue === 0 && <Typography variant="h6"><Gqrapi/></Typography>}
         {tabValue === 1 && <Typography variant="h6"><Callback/></Typography>}
 

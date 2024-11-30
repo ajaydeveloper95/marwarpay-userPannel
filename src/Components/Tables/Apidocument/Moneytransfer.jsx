@@ -143,12 +143,15 @@ console.log(authToken);`}
         <div style={{ marginBottom: '20px' ,fontWeight:'bold'}}>
           <h4>Server Response</h4>
           <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>
-            {JSON.stringify({
-                status: 'SUCCESS',
-                txnid: 'ddgFgfhffddgjhfj',
-                optxid: 'WAAYU816379332',
-                amount: '2',
-                rrn: '433425296231'
+            {JSON.stringify(
+               {
+                "statusCode": 200,
+                "data": {
+                    "statusCode": 1,
+                    "status": 1,
+                    "trxId": "ddgFgfhffddgjhfj1",
+                    "opt_msg": "Success"
+                },
             }, null, 2)}
           </pre>
         </div>

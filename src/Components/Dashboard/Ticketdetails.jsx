@@ -47,7 +47,7 @@ const Ticketdetails = () => {
   ];
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1,marginTop:'15px',paddingTop:'30px' }}>
       {/* AppBar */}
       <AppBar position="static" sx={{borderRadius:'10px',background: 'linear-gradient(45deg, #00000073, #2196f3a3) !important',}}>
         <Toolbar>

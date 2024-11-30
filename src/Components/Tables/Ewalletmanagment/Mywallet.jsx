@@ -39,6 +39,7 @@ const Mywallet = () => {
   const token = localStorage.getItem(accessConstent);
   const [openModal, setOpenModal] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(null);
+
   useEffect(() => {
     axios.get(API_ENDPOINT, {
       headers: {
@@ -48,21 +49,17 @@ const Mywallet = () => {
       .then(response => {
         setEwalletData(response.data.data);
         setFilteredData(response.data.data);
-       
       })
       .catch(error => {
         console.error('There was an error fetching the eWallet data!', error);
-       
       });
   }, []);
-
 
   const handleModal = (ticket = null) => {
     setSelectedTicket(ticket);
     setOpenModal(!!ticket);
   };
 
- 
   // Filter function
   const handleFilter = () => {
     let filtered = ewalletData.filter((item) => {
@@ -72,25 +69,25 @@ const Mywallet = () => {
       trxDate.setHours(0, 0, 0, 0); // Normalize to midnight for accurate date comparison
 
       const startDate = searchStartDate ? new Date(searchStartDate) : null;
-    const endDate = searchEndDate ? new Date(searchEndDate) : null;
+      const endDate = searchEndDate ? new Date(searchEndDate) : null;
 
-    if (startDate) startDate.setHours(0, 0, 0, 0);
-    if (endDate) endDate.setHours(23, 59, 59, 999); // Inclusive of the entire end day
+      if (startDate) startDate.setHours(0, 0, 0, 0);
+      if (endDate) endDate.setHours(23, 59, 59, 999); // Inclusive of the entire end day
 
-    // Date filter logic
-    const isStartDateOnly = startDate && !endDate && trxDate.getTime() === startDate.getTime();
-    const isWithinDateRange =
-      startDate && endDate && trxDate >= startDate && trxDate <= endDate;
+      // Date filter logic
+      const isStartDateOnly = startDate && !endDate && trxDate.getTime() === startDate.getTime();
+      const isWithinDateRange = startDate && endDate && trxDate >= startDate && trxDate <= endDate;
 
       return matchesAmount && (!startDate && !endDate || isStartDateOnly || isWithinDateRange);
-  });
-  setFilteredData(filtered);
-  setPage(1); // Reset to the first page when filtering
-  setViewAll(false); 
-};
-useEffect(() => {
-  handleFilter(); // Call filter function on state changes
-}, [searchAmount, searchStartDate, searchEndDate]);
+    });
+    setFilteredData(filtered);
+    setPage(1); // Reset to the first page when filtering
+    setViewAll(false); 
+  };
+
+  useEffect(() => {
+    handleFilter(); // Call filter function on state changes
+  }, [searchAmount, searchStartDate, searchEndDate]);
 
   // Reset filters
   const handleReset = () => {
@@ -107,8 +104,6 @@ useEffect(() => {
     setPage(value);
   };
 
- 
- 
   // Calculate total balance and number of transactions
   const totalBalance = filteredData.reduce((acc, trx) => acc + trx.transactionAmount, 0).toFixed(2);
   const totalTransactions = filteredData.length;
@@ -118,90 +113,101 @@ useEffect(() => {
 
   return (
     <>
-    <Grid sx={{
-    mb: 3,
-    position: 'sticky', 
-    top: 0,             
-    zIndex: 1000, 
-    paddingTop:'20px',
-    overflow:'hidden' ,     
-    backgroundColor: 'white', 
-  }}>
-      <Grid container alignItems="center" sx={{ mb: 2 }}>
-        <Grid item xs>
-          <Typography variant="h4" gutterBottom>E-Wallet Transactions</Typography>
+      <Grid sx={{
+        mb: 3,
+        position: 'sticky',
+        top: 0,             
+        zIndex: 1000, 
+        paddingTop: '20px',
+        overflow: 'hidden',     
+        backgroundColor: 'white', 
+      }}>
+        <Grid container alignItems="center" sx={{ mb: 2 }}>
+          <Grid item xs>
+            <Typography variant="h4" gutterBottom>E-Wallet Transactions</Typography>
+          </Grid>
         </Grid>
-      </Grid>
 
-      {/* Total Balance and Number of Transactions */}
-      <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid item xs={12} sm={6}>
-          <Card variant="outlined" sx={{ bgcolor: '#f5f5f5', borderRadius: '8px' }}>
-            <CardContent>
-              <Typography variant="h6" component="div">Total Balance</Typography>
-              <Typography variant="h4" component="div" sx={{ mt: 1, color: '#4caf50' }}>₹{Number(totalBalance).toFixed(2)}</Typography>
-            </CardContent>
-          </Card>
+        {/* Total Balance and Number of Transactions */}
+        <Grid container spacing={2} sx={{ mb: 2 }}>
+          <Grid item xs={12} sm={6}>
+            <Card variant="outlined" sx={{ bgcolor: '#f5f5f5', borderRadius: '8px' }}>
+              <CardContent>
+                <Typography variant="h6" component="div">Total Balance</Typography>
+                <Typography variant="h4" component="div" sx={{ mt: 1, color: '#4caf50' }}>₹{Number(totalBalance).toFixed(2)}</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Card variant="outlined" sx={{ bgcolor: '#f5f5f5', borderRadius: '8px' }}>
+              <CardContent>
+                <Typography variant="h6" component="div">Total Transactions</Typography>
+                <Typography variant="h4" component="div" sx={{ mt: 1 }}>{totalTransactions}</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Card variant="outlined" sx={{ bgcolor: '#f5f5f5', borderRadius: '8px' }}>
-            <CardContent>
-              <Typography variant="h6" component="div">Total Transactions</Typography>
-              <Typography variant="h4" component="div" sx={{ mt: 1 }}>{totalTransactions}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
 
-      <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid item xs={12} sm={3}>
-          <TextField
-            label="Search by Amount"
-            type="number"
-            variant="outlined"
-            fullWidth
-            value={searchAmount}
-            onChange={(e) => {
-              setSearchAmount(e.target.value);
-              handleFilter(); // Call filter on change
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <TextField
-            label="Start Date"
-            type="date"
-            variant="outlined"
-            fullWidth
-            InputLabelProps={{ shrink: true }}
-            value={searchStartDate}
-            onChange={(e) => {
-              setSearchStartDate(e.target.value);
-              handleFilter(); // Call filter on change
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <TextField
-            label="End Date"
-            type="date"
-            variant="outlined"
-            fullWidth
-            InputLabelProps={{ shrink: true }}
-            value={searchEndDate}
-            onChange={(e) => {
-              setSearchEndDate(e.target.value);
-              handleFilter(); // Call filter on change
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={3} container alignItems="center">
-          <Button variant="outlined" fullWidth onClick={handleReset} sx={{ mr: 2 }}>
-            Reset
+        <Grid container spacing={2} sx={{ mb: 2 }}>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              label="Search by Amount"
+              type="number"
+              variant="outlined"
+              fullWidth
+              value={searchAmount}
+              onChange={(e) => {
+                setSearchAmount(e.target.value);
+                handleFilter(); // Call filter on change
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              label="Start Date"
+              type="date"
+              variant="outlined"
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+              value={searchStartDate}
+              onChange={(e) => {
+                setSearchStartDate(e.target.value);
+                handleFilter(); // Call filter on change
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              label="End Date"
+              type="date"
+              variant="outlined"
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+              value={searchEndDate}
+              onChange={(e) => {
+                setSearchEndDate(e.target.value);
+                handleFilter(); // Call filter on change
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3} container alignItems="center">
+  <Grid item xs={6} sm={6}>
+            <Button variant="outlined" fullWidth onClick={handleReset} sx={{ mr: 2 }}>
+              Reset
+            </Button>
+            </Grid>
+            <Grid item xs={6} sm={6}>
+            <Button variant="outlined" onClick={() => setViewAll(!viewAll)} sx={{ mr: 2 }}>
+            {viewAll ? 'Paginated' : 'View All'}
           </Button>
+          </Grid>
+          </Grid>
         </Grid>
+        
+
+      
       </Grid>
-</Grid>
+
       <TableContainer component={Paper} sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', p: 1 }}>
         <Table sx={{ borderCollapse: 'collapse' }}>
           <TableHead>
@@ -246,14 +252,18 @@ useEffect(() => {
         </Table>
       </TableContainer>
 
-      <Pagination
-        count={Math.ceil(filteredData.length / itemsPerPage)}
-        page={page}
-        onChange={handlePageChange}
-        color="primary"
-        sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}
-      />
-       <Dialog open={openModal} onClose={() => handleModal(null)} maxWidth="md" fullWidth>
+      {!viewAll && (
+        <Grid container justifyContent="center" sx={{ mt: 2 }}>
+          <Pagination
+            count={Math.ceil(filteredData.length / itemsPerPage)}
+            page={page}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </Grid>
+      )}
+
+<Dialog open={openModal} onClose={() => handleModal(null)} maxWidth="md" fullWidth>
         <DialogTitle>E-Wallet Details</DialogTitle>
         <DialogContent>
           {selectedTicket && (

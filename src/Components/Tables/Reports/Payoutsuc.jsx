@@ -27,6 +27,8 @@ const Payinsuc = () => {
   const itemsPerPage = 10; // Define items per page
   const API_ENDPOINT = `${domainBase}apiUser/v1/payout/getAllPayOutSuccess`;
   const token = localStorage.getItem(accessConstent);
+  const [viewAll, setViewAll] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,6 +89,7 @@ const Payinsuc = () => {
   }, [searchInput, searchStartDate, searchEndDate]);
 
 
+ 
 
   const handleReset = () => {
     setSearchInput(''); 
@@ -94,17 +97,27 @@ const Payinsuc = () => {
     setSearchEndDate(''); 
     setFilteredData(qrData); 
     setCurrentPage(1);
+    setViewAll(false);  
   };
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+  const toggleViewAll = () => {
+    setViewAll((prev) => !prev);
+    setCurrentPage(1);
+    
+  };
 
-  // Calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = Array.isArray(filteredData) ? filteredData.slice(indexOfFirstItem, indexOfLastItem) : []; // Ensure it's an array
-  const totalPages = Math.ceil((Array.isArray(filteredData) ? filteredData.length : 0) / itemsPerPage);
+  const currentItems = viewAll
+    ? filteredData
+    : Array.isArray(filteredData)
+    ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
 
   return (
     <>
@@ -154,11 +167,18 @@ const Payinsuc = () => {
             onChange={(e) => setSearchEndDate(e.target.value)} // Update end date and trigger filtering
           />
         </Grid>
-        <Grid item xs={12} sm={3} container alignItems="center">
-          <Button variant="outlined" fullWidth onClick={handleReset} sx={{ mr: 2 }}>
-            Reset
-          </Button>
-        </Grid>
+        <Grid item xs={12} sm={3} container spacing={1}>
+    <Grid item xs={6}>
+      <Button variant="outlined" fullWidth onClick={handleReset}>
+        Reset
+      </Button>
+    </Grid>
+    <Grid item xs={6}>
+      <Button variant="contained" fullWidth onClick={toggleViewAll}>
+        {viewAll ? 'Paginate' : 'View All'}
+      </Button>
+    </Grid>
+  </Grid>
       </Grid>
       </Grid>
 
@@ -204,15 +224,17 @@ const Payinsuc = () => {
       </TableContainer>
 
   
-      <Grid container justifyContent="center" sx={{ mt: 2 }}>
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={handlePageChange}
-          variant="outlined"
-          shape="rounded"
-        />
-      </Grid>
+      {!viewAll && (
+        <Grid container justifyContent="center" sx={{ mt: 2 }}>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+          />
+        </Grid>
+      )}
     </>
   );
 };

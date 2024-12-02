@@ -90,8 +90,8 @@ function Moneytransfer() {
             overflowX: "auto",
           }}
         >
-{`import { createHash } from "crypto";
-
+          
+{`const {createHash} = require ("crypto");
 const generateTrxAuthToken = (memberId, trxPassword) => {
   let data = {
     memberId,

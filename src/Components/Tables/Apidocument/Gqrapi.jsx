@@ -90,7 +90,8 @@ function Gqrapi() {
         </div>
 
         <div className="json-output" style={{ marginBottom: "20px" }}>
-      <h4>Generate authToken</h4>
+      <h4>Generate authToken  (Method Written in javaScript)</h4>
+     
       <div style={{ marginBottom: "20px" }}>
         <pre
           style={{

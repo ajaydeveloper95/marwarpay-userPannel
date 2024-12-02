@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Button, Grid, Pagination } from '@mui/material';
 import axios from 'axios';
 import { accessConstent, domainBase } from '../../../helpingFile';
+import { saveAs } from 'file-saver';
 
 const Payoutgen = () => {
 
@@ -109,6 +110,35 @@ const Payoutgen = () => {
     : [];
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
+  const handleExportData = () => {
+    const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false, // Set to true if you want 12-hour format
+    });
+  
+    const csvRows = [
+      ['#', 'Name','TxnID','Amount', 'Account No.', 'IFSC Code', 'Status','Date'], 
+      ...filteredData.map((item, index) => [
+        index + 1,
+        item.accountHolderName || 'NA',
+        item.trxId || 'NA',
+        item.amount || 'NA',
+        item.accountNumber || 'NA',
+        item.ifscCode || 'NA',
+        item.isSuccess || 'NA',
+        dateFormatter.format(new Date(item.createdAt)),
+      ]),
+    ];
+  
+    const csvContent = csvRows.map((row) => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'Pay_Out_Data.csv');
+  };
+
   return (
     <div>
        <Grid sx={{
@@ -124,6 +154,9 @@ const Payoutgen = () => {
         <Grid item xs>
           <Typography variant="h5" gutterBottom>Payout Generate Information</Typography>
         </Grid>
+        <Button variant="contained" onClick={handleExportData}>
+            Export
+          </Button>
       </Grid>
 
       <Grid container spacing={3} alignItems="center" sx={{ mb: 3 }}>

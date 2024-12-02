@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { accessConstent, domainBase } from '../../../helpingFile';
+import { saveAs } from 'file-saver';
 
 const Payinsuc = () => {
 
@@ -119,6 +120,35 @@ const Payinsuc = () => {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
 
+    const handleExportData = () => {
+    const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false, // Set to true if you want 12-hour format
+    });
+  
+    const csvRows = [
+      ['#','Transaction ID','Amount','Charge Amount', 'Final Amount', 'Bank RRN', 'Status','Date'], 
+      ...filteredData.map((item, index) => [
+        index + 1,
+        item.trxId || 'NA',
+        item.amount || 'NA',
+        item.chargeAmount || 'NA',
+        item.finalAmount || 'NA',
+        item.bankRRN || 'NA',
+        item.isSuccess || 'NA',
+        dateFormatter.format(new Date(item.createdAt)),
+      ]),
+    ];
+  
+    const csvContent = csvRows.map((row) => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'Payin_Out_Success_Data.csv');
+  };
+
   return (
     <>
     <Grid sx={{
@@ -133,6 +163,9 @@ const Payinsuc = () => {
         <Grid item xs>
           <Typography variant="h5" gutterBottom>PayOut Success Information</Typography>
         </Grid>
+        <Button variant="contained" onClick={handleExportData}>
+            Export
+          </Button>
       </Grid>
 
       <Grid container spacing={3} alignItems="center" sx={{ mb: 3 }} >

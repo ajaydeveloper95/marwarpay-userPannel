@@ -23,6 +23,7 @@ import {
 import axios from 'axios';
 import { accessConstent, domainBase } from '../../../helpingFile';
 import { Visibility as VisibilityIcon } from '@mui/icons-material';
+import { saveAs } from 'file-saver';
 
 const UPIToEwallet = () => {
   // const [isLoading, setIsLoading] = useState(true);
@@ -117,6 +118,34 @@ const handlePageChange = (event, value) => {
   // Paginated data
   const paginatedData = viewAll ? filteredData : filteredData.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
+  const handleExportData = () => {
+    const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false, // Set to true if you want 12-hour format
+    });
+  
+    const csvRows = [
+      ['#',  'Type','Amount','Before Amount', 'After Amount', 'Status', 'Date',], // Header row
+      ...filteredData.map((item, index) => [
+        index + 1,
+        item.transactionType || 'NA',
+        item.transactionAmount || 'NA',
+        item.beforeAmount || 'NA',
+        item.afterAmount || 'NA',
+        item.transactionStatus || 'NA',
+        dateFormatter.format(new Date(item.createdAt)),
+      ]),
+    ];
+  
+    const csvContent = csvRows.map((row) => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'UPI_TO_EWALLET.csv');
+  };
+
   return (
     <>
 <Grid sx={{
@@ -132,6 +161,9 @@ const handlePageChange = (event, value) => {
         <Grid item xs>
           <Typography variant="h4" gutterBottom>UPI to E-Wallet Transactions</Typography>
         </Grid>
+        <Button variant="contained" onClick={handleExportData}>
+            Export
+          </Button>
       </Grid>
 
       {/* Total Balance and Number of Transactions */}

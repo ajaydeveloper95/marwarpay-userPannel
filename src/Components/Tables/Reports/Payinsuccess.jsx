@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { accessConstent, domainBase } from '../../../helpingFile';
+import { saveAs } from 'file-saver';
 
 const Payinsuc = () => {
   const [qrData, setQrData] = useState([]);
@@ -108,6 +109,36 @@ const Payinsuc = () => {
     ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
     : [];
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const handleExportData = () => {
+    const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false, // Set to true if you want 12-hour format
+    });
+  
+    const csvRows = [
+      ['#', 'Name','TxnID','Amount', 'Charge Amount', 'Final Amount', 'VPA ID','RRN','Status','Date'], // Header row
+      ...filteredData.map((item, index) => [
+        index + 1,
+        item.payerName || 'NA',
+        item.trxId || 'NA',
+        item.amount || 'NA',
+        item.chargeAmount || 'NA',
+        item.finalAmount || 'NA',
+        item.vpaId || 'NA',
+        item.bankRRN || 'NA',
+        item.isSuccess || 'NA',
+        dateFormatter.format(new Date(item.createdAt)),
+      ]),
+    ];
+  
+    const csvContent = csvRows.map((row) => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'Payin_SuccessData.csv');
+  };
 
   return (
     <>
@@ -127,6 +158,9 @@ const Payinsuc = () => {
               Payin Success Information
             </Typography>
           </Grid>
+          <Button variant="contained" onClick={handleExportData}>
+            Export 
+          </Button>
         </Grid>
 
         <Grid container spacing={3} alignItems="center" sx={{ mb: 3 }}>

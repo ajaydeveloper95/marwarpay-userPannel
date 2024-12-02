@@ -23,6 +23,7 @@ import { Visibility as VisibilityIcon } from '@mui/icons-material';
 import axios from 'axios';
 import { accessConstent, domainBase } from '../../../helpingFile';
 import CreateTicket from '../../Pages/Support/Createsupportticket';
+import { saveAs } from 'file-saver';
 
 const ViewTicket = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -120,6 +121,33 @@ const ViewTicket = () => {
     return <CreateTicket />;
   }
 
+  const handleExportData = () => {
+    const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false, // Set to true if you want 12-hour format
+    });
+  
+    const csvRows = [
+      ['#','Ticket ID', 'Subject', 'Related To', 'Status','Date'], 
+      ...filteredData.map((item, index) => [
+        index + 1,
+        item.TicketID || 'NA',
+        item.subject || 'NA',
+        item.relatedTo || 'NA',
+        item.isStatus || 'NA',
+        dateFormatter.format(new Date(item.createdAt)),
+      ]),
+    ];
+  
+    const csvContent = csvRows.map((row) => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'Tickets.csv');
+  };
+
   return (
     <>
  <Grid sx={{
@@ -137,6 +165,9 @@ const ViewTicket = () => {
             Ticket Information
           </Typography>
         </Grid>
+        <Button variant="contained" onClick={handleExportData}>
+            Export 
+          </Button>
       </Grid>
       <Grid container spacing={2} sx={{ mb: 2 }}>
         <Grid item xs={12} sm={4}>

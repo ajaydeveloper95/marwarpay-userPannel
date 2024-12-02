@@ -80,7 +80,7 @@ function Moneytransfer() {
         <p className="clrred">Note:- All Parameter keys are case sensitive.</p>
 
         <div className="json-output" style={{ marginBottom: "20px", fontWeight:'bold'}}>
-      <h4>Generate authToken</h4>
+      <h4>Generate authToken  (Method Written in javaScript)</h4>
       <div style={{ marginBottom: "20px" }}>
         <pre
           style={{

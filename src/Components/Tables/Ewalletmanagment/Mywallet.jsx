@@ -32,7 +32,7 @@ const Mywallet = () => {
   const [searchAmount, setSearchAmount] = useState('');
   const [searchStartDate, setSearchStartDate] = useState(''); 
   const [searchEndDate, setSearchEndDate] = useState(''); 
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [viewAll, setViewAll] = useState(false);
   const API_ENDPOINT = `${domainBase}apiUser/v1/wallet/eWalletTrx`;
@@ -81,7 +81,7 @@ const Mywallet = () => {
       return matchesAmount && (!startDate && !endDate || isStartDateOnly || isWithinDateRange);
     });
     setFilteredData(filtered);
-    setPage(1); // Reset to the first page when filtering
+    setCurrentPage(1); // Reset to the first page when filtering
     setViewAll(false); 
   };
 
@@ -95,21 +95,33 @@ const Mywallet = () => {
     setSearchStartDate(''); // Reset start date
     setSearchEndDate(''); // Reset end date
     setFilteredData(ewalletData);
-    setPage(1);
+    setCurrentPage(1);
     setViewAll(false);
   };
 
   // Pagination handler
   const handlePageChange = (event, value) => {
-    setPage(value);
+    setCurrentPage(value);
   };
 
   // Calculate total balance and number of transactions
   const totalBalance = filteredData.reduce((acc, trx) => acc + trx.transactionAmount, 0).toFixed(2);
   const totalTransactions = filteredData.length;
 
-  // Paginated data
-  const paginatedData = viewAll ? filteredData : filteredData.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  const toggleViewAll = () => {
+    setViewAll((prev) => !prev);
+    setCurrentPage(1);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = viewAll
+    ? filteredData
+    : Array.isArray(filteredData)
+    ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
 
   return (
     <>
@@ -192,16 +204,14 @@ const Mywallet = () => {
           </Grid>
           <Grid item xs={12} sm={3} container alignItems="center">
   <Grid item xs={6} sm={6}>
-            <Button variant="outlined" fullWidth onClick={handleReset} sx={{ mr: 2 }}>
-              Reset
-            </Button>
-            </Grid>
-            <Grid item xs={6} sm={6}>
-            <Button variant="outlined" onClick={() => setViewAll(!viewAll)} sx={{ mr: 2 }}>
-            {viewAll ? 'Paginated' : 'View All'}
-          </Button>
-          </Grid>
-          </Grid>
+    <Button variant="outlined" onClick={handleReset} sx={{ mr: 2 }}>Reset</Button>
+  </Grid>
+  <Grid item xs={6} sm={6}>
+  <Button variant="contained" onClick={toggleViewAll}>
+      {viewAll ? 'Paginate' : 'View All'}
+    </Button>
+  </Grid>
+</Grid>
         </Grid>
         
 
@@ -230,9 +240,9 @@ const Mywallet = () => {
                 <TableCell colSpan={9} align="center">No data available</TableCell>
               </TableRow>
             ) : (
-              paginatedData.map((trx, index) => (
+              currentItems.map((trx, index) => (
                 <TableRow key={index}>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{(page - 1) * itemsPerPage + index + 1}</TableCell>
+                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionType === 'Cr.' ? 'green' : trx.transactionType === 'Dr.' ? 'red' : 'inherit' }}>{trx.transactionType}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.transactionAmount}</TableCell>
                   <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.beforeAmount}</TableCell>
@@ -255,10 +265,11 @@ const Mywallet = () => {
       {!viewAll && (
         <Grid container justifyContent="center" sx={{ mt: 2 }}>
           <Pagination
-            count={Math.ceil(filteredData.length / itemsPerPage)}
-            page={page}
+            count={totalPages}
+            page={currentPage}
             onChange={handlePageChange}
-            color="primary"
+            variant="outlined"
+            shape="rounded"
           />
         </Grid>
       )}

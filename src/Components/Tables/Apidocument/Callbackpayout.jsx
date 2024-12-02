@@ -140,10 +140,13 @@ function CallbackPayout() {
             }, null, 2)}
           </pre>
         </div>
-   
+        <p style={{ color: 'red', fontSize: '14px', marginTop: '10px' ,fontWeight:'normal'}}>
+              Note: You Receive Server Responce in JSON formate.
+            </p>
 
       <h4>Response Parameters</h4>
       <ResponseTable />
+     
     </Container>
   );
 }

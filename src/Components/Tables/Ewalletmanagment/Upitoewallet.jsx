@@ -108,6 +108,7 @@ const handlePageChange = (event, value) => {
     setViewAll(false);
   };
 
+ 
 
   // Calculate total balance and number of transactions
   const totalBalance = filteredData.reduce((acc, trx) => acc + trx.transactionAmount, 0).toFixed(2);
@@ -196,12 +197,19 @@ const handlePageChange = (event, value) => {
           />
         </Grid>
         <Grid item xs={12} sm={3} container alignItems="center">
-          <Button variant="outlined" fullWidth onClick={handleReset} sx={{ mr: 2 }}>
-            Reset
+  <Grid item xs={6} sm={6}>
+    <Button variant="outlined" onClick={handleReset} sx={{ mr: 2 }}>Reset</Button>
+  </Grid>
+  <Grid item xs={6} sm={6}>
+  <Button variant="outlined" onClick={() => setViewAll(!viewAll)} sx={{ mr: 2 }}>
+            {viewAll ? 'Paginated' : 'View All'}
           </Button>
-        </Grid>
+  </Grid>
+</Grid>
       </Grid>
 </Grid>
+
+
       <TableContainer component={Paper} sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', p: 1 }}>
         <Table sx={{ borderCollapse: 'collapse' }}>
           <TableHead>
@@ -245,13 +253,16 @@ const handlePageChange = (event, value) => {
 
 
        
-      <Pagination
-        count={Math.ceil(filteredData.length / itemsPerPage)}
-        page={page}
-        onChange={handlePageChange}
-        color="primary"
-        sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}
-      />
+      {!viewAll && (
+        <Grid container justifyContent="center" sx={{ mt: 2 }}>
+          <Pagination
+            count={Math.ceil(filteredData.length / itemsPerPage)}
+            page={page}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </Grid>
+      )}
      
 
       {/* Modal for transaction details */}

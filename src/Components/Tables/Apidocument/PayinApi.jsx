@@ -13,6 +13,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import Gqrapi from './Gqrapi';
 import Callback from './Callback';
+import Trxverify from './trxverify';
+
 
 const PayinApi = () => {
   const navigate = useNavigate();
@@ -82,10 +84,12 @@ const PayinApi = () => {
         >
           <Tab style={{ fontWeight: '700', fontSize: '16px' }} label="Generate QR API" />
           <Tab style={{ fontWeight: '700', fontSize: '16px' }} label="Call Back URL" />
+          <Tab style={{ fontWeight: '700', fontSize: '16px' }} label="Transaction Status" />
         </Tabs>
 </Grid>
         {tabValue === 0 && <Typography variant="h6"><Gqrapi/></Typography>}
         {tabValue === 1 && <Typography variant="h6"><Callback/></Typography>}
+        {tabValue === 2 && <Typography variant="h6"><Trxverify/></Typography>}
 
     
         {pageSize !== 'all' && (

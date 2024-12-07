@@ -47,11 +47,11 @@ function Moneytransfer() {
                 <th>Description</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody  style={{ fontWeight:'bold'}}>
               
               <tr>
-                <td style={{fontWeight:'bold'}}>1</td>
-                <td style={{fontWeight:'bold'}}>authToken</td>
+                <td style={{}}>1</td>
+                <td style={{}}>authToken</td>
                 <td>
                   <span>{formData.authToken}</span>
                 </td>
@@ -59,8 +59,8 @@ function Moneytransfer() {
               {Object.entries(formData).map(([key, value], index) => (
                 key !== 'authToken' && ( 
                   <tr key={index}>
-                    <td style={{fontWeight:'bold'}}>{key === 'userName' ? 2 : index + 1}</td> 
-                    <td style={{fontWeight:'bold'}}>{key}</td>
+                    <td style={{}}>{key === 'userName' ? 2 : index + 1}</td> 
+                    <td style={{}}>{key}</td>
                     <td>
                       <input
                         type={key === 'txnpwd' ? 'password' : 'text'}
@@ -79,7 +79,7 @@ function Moneytransfer() {
         </div>
         <p className="clrred">Note:- All Parameter keys are case sensitive.</p>
 
-        <div className="json-output" style={{ marginBottom: "20px", fontWeight:'bold'}}>
+        <div className="json-output" style={{ marginBottom: "20px"}}>
       <h4>Generate authToken  (Method Written in javaScript)</h4>
       <div style={{ marginBottom: "20px" }}>
         <pre
@@ -111,7 +111,7 @@ console.log(authToken);`}
     
     </div>
 
-    <div className="json-output" style={{ marginBottom: "20px",fontWeight:'bold' }}>
+    <div className="json-output" style={{ marginBottom: "20px" }}>
     
       <div style={{ marginBottom: "20px" }}>
         <pre
@@ -128,7 +128,7 @@ console.log(authToken);`}
     
     </div>
 
-        <div className="json-output" style={{ marginBottom: '20px',fontWeight:'bold' }}>
+        <div className="json-output" style={{ marginBottom: '20px', }}>
           <h4>Post Parameters Object</h4>
           <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>{jsonOutput}</pre>
         </div>
@@ -140,7 +140,7 @@ console.log(authToken);`}
           </div>
         )}
 
-        <div style={{ marginBottom: '20px' ,fontWeight:'bold'}}>
+        <div style={{ marginBottom: '20px' ,}}>
           <h4>Server Response</h4>
           <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>
             {JSON.stringify(
@@ -164,7 +164,7 @@ console.log(authToken);`}
 }
 
 const ResponseTable = () => (
-  <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px',fontWeight:'bold' }}>
+  <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px', }}>
     <thead>
       <tr>
         <th style={{ borderBottom: '2px solid #ccc', padding: '10px', textAlign: 'left' }}>#</th>

@@ -14,6 +14,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import Moneytransfer from './Moneytransfer';
 import Callbackpayout from './Callbackpayout';
+import TrxverifyPayout from './TrxverifyPayout';
 // import Statuschkapi from './Statuschkapi';
 
 const PayoutApi = () => {
@@ -54,7 +55,7 @@ const PayoutApi = () => {
           variant="fullWidth"
           sx={{ mb: 2 }}
         >
-          {['Money Transfer API', 'Call Back URL', ].map((label, index) => (
+          {['Money Transfer API', 'Call Back URL','Transaction Status' ].map((label, index) => (
             <Tab key={index} style={{ fontWeight: '700', fontSize: '16px' }} label={label} />
           ))}
         </Tabs>
@@ -62,7 +63,7 @@ const PayoutApi = () => {
         {/* Render selected tab content */}
         {tabValue === 0 && <Moneytransfer />}
         {tabValue === 1 && <Callbackpayout />}
-        {/* {tabValue === 2 && <Statuschkapi />} */}
+        {tabValue === 2 && <TrxverifyPayout />}
  
     </>
   );

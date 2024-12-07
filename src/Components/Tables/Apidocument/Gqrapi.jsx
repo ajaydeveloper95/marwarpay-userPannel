@@ -172,7 +172,7 @@ console.log(authToken);`}
                 <th style={{ borderBottom: '2px solid #ccc', padding: '10px', textAlign: 'left' }}>Description</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody  style={{fontWeight:'normal'}}>
               <tr>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>1</td>
                 <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>statusCode</td>

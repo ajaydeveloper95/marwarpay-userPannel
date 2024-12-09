@@ -1,12 +1,5 @@
 
-// import { Typography, TextField, Button, Grid, Alert } from '@mui/material';
-
-
-
 function TrxverifyPayout() {
-
-  
-
 
   return (
  

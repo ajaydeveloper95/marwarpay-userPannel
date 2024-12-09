@@ -1,13 +1,7 @@
 
-// import { Typography, TextField, Button, Grid, Alert } from '@mui/material';
 
 
-
-function Trxverify() {
-
-  
-
-
+function Txnverify() {
   return (
  
       
@@ -141,5 +135,5 @@ function Trxverify() {
     </div>
   );
 }
-export default Trxverify;
+export default Txnverify;
 

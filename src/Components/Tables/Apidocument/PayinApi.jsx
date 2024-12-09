@@ -13,7 +13,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import Gqrapi from './Gqrapi';
 import Callback from './Callback';
-import Trxverify from './trxverify';
+import Txnverify from './Txnverify';
+
+
 
 
 const PayinApi = () => {
@@ -89,7 +91,7 @@ const PayinApi = () => {
 </Grid>
         {tabValue === 0 && <Typography variant="h6"><Gqrapi/></Typography>}
         {tabValue === 1 && <Typography variant="h6"><Callback/></Typography>}
-        {tabValue === 2 && <Typography variant="h6"><Trxverify/></Typography>}
+        {tabValue === 2 && <Typography variant="h6"><Txnverify/></Typography>}
 
     
         {pageSize !== 'all' && (

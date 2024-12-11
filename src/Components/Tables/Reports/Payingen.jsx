@@ -145,7 +145,8 @@ const Payingen = () => {
           paddingTop: '20px',
           overflow: 'hidden',
           backgroundColor: 'white',
-        }}
+          color:'#000'
+        }} 
       >
         <Grid container alignItems="center" sx={{ mb: 2 }}>
           <Grid item xs>

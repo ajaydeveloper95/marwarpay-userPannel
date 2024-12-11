@@ -130,7 +130,7 @@ function Sidebar() {
     {
       key: 'sub5',
       icon: <WalletOutlined />,
-      label: 'E-Wallet Management',
+      label: 'Payout-Wallet Management',
       children: [
         { key: '7', label: <Link to="/my-wallet">My Wallet</Link> },
         { key: '8', label: <Link to="/upitoewallet">UPI To E-Wallet</Link> },
@@ -139,7 +139,7 @@ function Sidebar() {
     {
       key: 'sub6',
       icon: <WalletOutlined />,
-      label: 'UPI-Wallet Management',
+      label: 'Collection-Wallet Management',
       children: [
         { key: '9', label: <Link to="/upi-wallet">My Wallet</Link> },
       ],

@@ -1,18 +1,19 @@
 import { useState } from 'react';
-import axios from 'axios';
-import {Box, Typography, TextField, Button, Snackbar, Alert, Select, MenuItem, Grid } from '@mui/material';
-import { accessConstent, domainBase } from '../../../helpingFile';
+
+import {Box, Typography, TextField, Button, Snackbar, Alert, Select, MenuItem, Grid,useMediaQuery } from '@mui/material';
 import ViewTicket from '../../Tables/Support/Viewticket';
+import { apiPost } from '../../../api/apiMethods';
 
 
 const CreateTicket = () => {
   
- 
+  const isSmallScreen = useMediaQuery('(max-width:800px)');
+
   const [formData, setFormData] = useState({}); // Initialize as an empty object
   const [error, setError] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const API_ENDPOINT = `${domainBase}apiUser/v1/support/addSupportTicket`;
-  const token = localStorage.getItem(accessConstent);
+  const API_ENDPOINT = `apiUser/v1/support/addSupportTicket`;
+
   const [showviewTicket, setShowViewTicket] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,11 +23,7 @@ const CreateTicket = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(API_ENDPOINT, formData, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await apiPost(API_ENDPOINT, formData);
       console.log('Ticket created successfully:', response.data);
       setOpenSnackbar(true);
       setTimeout(() => {
@@ -50,13 +47,13 @@ const CreateTicket = () => {
     <>
     <Grid sx={{
     mb: 3,
-    position: 'sticky', 
-    top: 0,             
+    position: isSmallScreen ? 'relative' : 'sticky', // Remove sticky for small screens
+    top: isSmallScreen ? 'auto' : 0,            
     zIndex: 1000, 
     paddingTop:'20px',
     overflow:'hidden' ,     
     backgroundColor: 'white', 
-  }}>
+  }} className='setdesigntofix'>
      <Grid container alignItems="center" sx={{ mb: 2 , fontWeight:'bold'}}>
         <Grid item xs>
           <Typography variant="h5" gutterBottom>Create Support Ticket</Typography>

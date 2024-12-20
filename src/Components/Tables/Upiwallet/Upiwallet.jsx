@@ -18,17 +18,18 @@ import {
   DialogActions,
   Dialog,
   DialogContent,
-  DialogTitle
+  DialogTitle,useMediaQuery
 } from '@mui/material';
-import axios from 'axios';
-import { accessConstent, domainBase } from '../../../helpingFile';
+
 import { Visibility as VisibilityIcon } from '@mui/icons-material';
 import { saveAs } from 'file-saver';
+import { apiGet } from '../../../api/apiMethods';
 
 const UPIWallet = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [ewalletData, setEwalletData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const isSmallScreen = useMediaQuery('(max-width:800px)');
 
   // Filter and Pagination state
   const [searchAmount, setSearchAmount] = useState('');
@@ -38,17 +39,13 @@ const UPIWallet = () => {
   
   const itemsPerPage = 10;
   const [viewAll, setViewAll] = useState(false);
-  const API_ENDPOINT = `${domainBase}apiUser/v1/wallet/upiWalletTrx`;
-  const token = localStorage.getItem(accessConstent);
+  const API_ENDPOINT = `apiUser/v1/wallet/upiWalletTrx`;
+
   const [openModal, setOpenModal] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(null);
 
   useEffect(() => {
-    axios.get(API_ENDPOINT, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    apiGet(API_ENDPOINT)
       .then(response => {
         setEwalletData(response.data.data);
         setFilteredData(response.data.data);
@@ -166,13 +163,14 @@ useEffect(() => {
     <>
         <Grid sx={{
     mb: 3,
-    position: 'sticky', 
-    top: 0,             
+    position: isSmallScreen ? 'relative' : 'sticky', // Remove sticky for small screens
+    top: isSmallScreen ? 'auto' : 0,
+    // top: 0,             
     zIndex: 1000, 
     paddingTop:'20px',
     overflow:'hidden' ,     
     backgroundColor: 'white', 
-  }}>
+  }} className='setdesigntofix'>
       <Grid container alignItems="center" sx={{ mb: 2 }}>
         <Grid item xs>
           <Typography variant="h4" gutterBottom>UPI Wallet Transactions</Typography>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Button, Grid, Pagination } from '@mui/material';
-import axios from 'axios';
-import { accessConstent, domainBase } from '../../../helpingFile';
+import { Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Button, Grid, Pagination, useMediaQuery } from '@mui/material';
+
 import { saveAs } from 'file-saver';
+import { apiGet } from '../../../api/apiMethods';
 
 const Payoutgen = () => {
 
@@ -14,17 +14,14 @@ const Payoutgen = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [viewAll, setViewAll] = useState(false);
   const itemsPerPage = 10;
-  const API_ENDPOINT = `${domainBase}apiUser/v1/payout/getAllPayOutGenerated`;
-  const token = localStorage.getItem(accessConstent);
+  const API_ENDPOINT = `apiUser/v1/payout/getAllPayOutGenerated`;
+  const isSmallScreen = useMediaQuery('(max-width:800px)');
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(API_ENDPOINT, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const response = await apiGet(API_ENDPOINT);
         // Ensure response.data.data is an array, or fall back to an empty array
         const data = Array.isArray(response.data.data) ? response.data.data : [];
         setPayoutData(data);
@@ -144,12 +141,12 @@ const Payoutgen = () => {
        <Grid sx={{
     mb: 3,
     paddingTop:'20px',
-    position: 'sticky', 
-    top: 0,             
+    position: isSmallScreen ? 'relative' : 'sticky', // Remove sticky for small screens
+        top: isSmallScreen ? 'auto' : 0,            
     zIndex: 1000,  
     overflow:'hidden' ,      
     backgroundColor: 'white', 
-  }}>
+  }} className='setdesigntofix'>
       <Grid container alignItems="center" sx={{ mb: 2 }}>
         <Grid item xs>
           <Typography variant="h5" gutterBottom>Payout Generate Information</Typography>

@@ -1,8 +1,9 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography ,useMediaQuery} from '@mui/material';
 import { useState, useEffect } from 'react';
 
 function Balance() {
- 
+  const isSmallScreen = useMediaQuery('(max-width:800px)');
+
   const [formData, setFormData] = useState({
     userName: '',
     authToken: '',
@@ -36,13 +37,13 @@ function Balance() {
     <div style={{ padding: '20px' }}>
           <Grid sx={{
     mb: 3,
-    position: 'sticky', 
-    top: 0,             
+    position: isSmallScreen ? 'relative' : 'sticky', // Remove sticky for small screens
+    top: isSmallScreen ? 'auto' : 0,             
     zIndex: 1000, 
     paddingTop:'20px',
     overflow:'hidden' ,     
     backgroundColor: 'white', 
-  }}>
+  }} className='setdesigntofix'>
       <Grid item>
                 <Typography variant="h5" component="h1" gutterBottom sx={{fontWeight:'bold'}}>
                   Balance Cheack

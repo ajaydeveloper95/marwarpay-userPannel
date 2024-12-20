@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Box, Grid, Paper, Typography, AppBar, Toolbar } from '@mui/material';
-
-import { accessConstent, domainBase } from '../../helpingFile';
 import ChartComponent from './Chart';
 import CountUp from 'react-countup';
+import { apiGet } from '../../api/apiMethods';
 
 const Payinout = () => {
   const [totalPayin, setTotalPayin] = useState(0);
@@ -12,7 +10,7 @@ const Payinout = () => {
   const [totalPayinCharges, setTotalPayinCharges] = useState(0);
   const [totalPayoutCharges, setTotalPayoutCharges] = useState(0);
 
-  const token = localStorage.getItem(accessConstent);
+
 
   const defaultChartData = {
     labels: ['Amount', 'Charges'],
@@ -32,11 +30,7 @@ const Payinout = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const payinResponse = await axios.get(`${domainBase}apiUser/v1/payin/getAllPayInSuccess`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const payinResponse = await apiGet(`apiUser/v1/payin/getAllPayInSuccess`);
 
         const totalPayinAmount = payinResponse.data.data.reduce((total, item) => total + item.amount, 0);
         const totalPayinCharges = payinResponse.data.data.reduce((total, item) => total + item.chargeAmount, 0);
@@ -57,11 +51,7 @@ const Payinout = () => {
         };
         setPayinChartData(payinData);
 
-        const payoutResponse = await axios.get(`${domainBase}apiUser/v1/payout/getAllPayOutSuccess`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const payoutResponse = await apiGet(`apiUser/v1/payout/getAllPayOutSuccess`);
         
 
         const totalPayoutAmount = Array.isArray(payoutResponse?.data?.data)

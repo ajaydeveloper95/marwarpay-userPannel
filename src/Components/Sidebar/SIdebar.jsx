@@ -13,13 +13,14 @@ import {
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import { Avatar, Button, Layout, Menu, Dropdown, message, theme } from 'antd';
 import { useNavigate } from 'react-router';
-import { accessConstent, domainBase } from '../../helpingFile';
-import axios from 'axios';
+import { accessConstent } from '../../helpingFile';
+
 import { Link } from 'react-router-dom';
 import AppRoutes from '../../routes/AppRoutes';
 import '../style.css'; // Import the CSS file
 import { DashboardOutlined } from '@mui/icons-material';
 import logo from "../.././assets/images/logo.png";
+import { apiGet } from '../../api/apiMethods';
 
 const { Header, Sider, Content } = Layout;
 
@@ -36,11 +37,7 @@ function Sidebar() {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.get(`${domainBase}apiUser/v1/userRoute/logout`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await apiGet(`apiUser/v1/userRoute/logout`);
 
       if (response.status === 200) {
         localStorage.removeItem(accessConstent);
@@ -68,11 +65,7 @@ function Sidebar() {
     }
 
     // Fetch user data
-    axios.get(`${domainBase}apiUser/v1/userRoute/userInfo`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    apiGet(`apiUser/v1/userRoute/userInfo`)
       .then(response => {
         setUserData(response.data.data);
       })
@@ -177,7 +170,7 @@ function Sidebar() {
 
   return (
     <>
-      <Layout style={{ height: '100vh', background: 'transparent' }}>
+      <Layout style={{ height: '100vh', background: 'transparent', overflowX:'hidden', position:'sticky',overflowY:'hidden !important' }}>
        
 <Sider
   trigger={null}
@@ -214,6 +207,7 @@ function Sidebar() {
               justifyContent: 'space-between',
               alignItems: 'center',
               color: 'var(--text-color)',
+             
             }}
           >
             <Button

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Typography, TextField, Button, Grid, Alert } from '@mui/material';
-import axios from 'axios';
-import { accessConstent, domainBase } from '../../../helpingFile';
+
+import { apiPost } from '../../../api/apiMethods';
 
 
 const ChangePassworduser = () => {
@@ -14,7 +14,7 @@ const ChangePassworduser = () => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [alertType, setAlertType] = useState('success');
 
-  const token = localStorage.getItem(accessConstent);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,18 +31,13 @@ const ChangePassworduser = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${domainBase}apiUser/v1/userRoute/updatePassword`,
+      const response = await apiPost(
+        `apiUser/v1/userRoute/updatePassword`,
         {
           currentPassword: formData.currentPassword,
           password: formData.newPassword,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
+        
       );
 
       if (response.status === 200) {

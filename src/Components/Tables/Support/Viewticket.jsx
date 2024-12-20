@@ -17,13 +17,14 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  MenuItem
+  MenuItem,
+  useMediaQuery
 } from '@mui/material';
 import { Visibility as VisibilityIcon } from '@mui/icons-material';
-import axios from 'axios';
-import { accessConstent, domainBase } from '../../../helpingFile';
+
 import CreateTicket from '../../Pages/Support/Createsupportticket';
 import { saveAs } from 'file-saver';
+import { apiGet } from '../../../api/apiMethods';
 
 const ViewTicket = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,17 +38,13 @@ const ViewTicket = () => {
   const [page, setPage] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
   const itemsPerPage = 10;
-  const token = localStorage.getItem(accessConstent);
-  const API_ENDPOINT = `${domainBase}apiUser/v1/support/getSupportTicket`;
+  const API_ENDPOINT = `apiUser/v1/support/getSupportTicket`;
+  const isSmallScreen = useMediaQuery('(max-width:800px)');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(API_ENDPOINT, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const response = await apiGet(API_ENDPOINT);
         setTicketData(response.data.data);
         setFilteredData(response.data.data);
         setIsLoading(false);
@@ -152,13 +149,13 @@ const ViewTicket = () => {
     <>
  <Grid sx={{
     mb: 3,
-    position: 'sticky', 
-    top: 0,             
+    position: isSmallScreen ? 'relative' : 'sticky', // Remove sticky for small screens
+        top: isSmallScreen ? 'auto' : 0,            
     zIndex: 1000, 
     paddingTop:'20px',
     overflow:'hidden' ,     
     backgroundColor: 'white', 
-  }}>
+  }} className='setdesigntofix'>
       <Grid container alignItems="center" sx={{ mb: 2 }}>
         <Grid item xs>
           <Typography variant="h5" gutterBottom>

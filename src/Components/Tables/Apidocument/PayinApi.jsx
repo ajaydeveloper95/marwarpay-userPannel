@@ -7,7 +7,8 @@ import {
   Grid,
   Button,
   Tabs,
-  Tab
+  Tab,
+  useMediaQuery
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -21,7 +22,8 @@ import TrxstatusPayin from './TrxstatusPayin';
 
 const PayinApi = () => {
   const navigate = useNavigate();
- 
+  const isSmallScreen = useMediaQuery('(max-width:800px)');
+
   const [pageSize] = useState('all');
   const [currentPage, setCurrentPage] = useState(0);
   const [tabValue, setTabValue] = useState(0); 
@@ -52,13 +54,13 @@ const PayinApi = () => {
         {/* Header Section */}
         <Grid sx={{
     mb: 3,
-    position: 'sticky', 
-    top: 0,             
+    position: isSmallScreen ? 'relative' : 'sticky', // Remove sticky for small screens
+        top: isSmallScreen ? 'auto' : 0,            
     zIndex: 1000, 
     paddingTop:'20px',
     overflow:'hidden' ,     
     backgroundColor: 'white', 
-  }}>
+  }} className='setdesigntofix'>
         <Grid container alignItems="center" spacing={1} mb={2}>
           <Grid item xs={12}>
             <Grid container alignItems="center" spacing={1}>

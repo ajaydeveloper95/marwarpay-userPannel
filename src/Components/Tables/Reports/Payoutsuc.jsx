@@ -11,11 +11,11 @@ import {
   TextField,
   Grid,
   Button,
-  Pagination
+  Pagination,
+  useMediaQuery
 } from '@mui/material';
-import axios from 'axios';
-import { accessConstent, domainBase } from '../../../helpingFile';
 import { saveAs } from 'file-saver';
+import { apiGet } from '../../../api/apiMethods';
 
 const Payinsuc = () => {
 
@@ -26,19 +26,16 @@ const Payinsuc = () => {
   const [searchEndDate, setSearchEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Define items per page
-  const API_ENDPOINT = `${domainBase}apiUser/v1/payout/getAllPayOutSuccess`;
-  const token = localStorage.getItem(accessConstent);
+  const API_ENDPOINT = `apiUser/v1/payout/getAllPayOutSuccess`;
+  const isSmallScreen = useMediaQuery('(max-width:800px)');
+
   const [viewAll, setViewAll] = useState(false);
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(API_ENDPOINT, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const response = await apiGet(API_ENDPOINT);
         if (Array.isArray(response.data.data)) {
           setQrData(response.data.data);
           setFilteredData(response.data.data);
@@ -154,11 +151,11 @@ const Payinsuc = () => {
     <Grid sx={{
     mb: 3,
     paddingTop:'20px',
-    position: 'sticky', 
-    top: 0,             
+    position: isSmallScreen ? 'relative' : 'sticky', // Remove sticky for small screens
+    top: isSmallScreen ? 'auto' : 0,             
     zIndex: 1000,       
     backgroundColor: 'white', 
-  }}>
+  }} className='setdesigntofix'>
       <Grid container alignItems="center" sx={{ mb: 2 }}>
         <Grid item xs>
           <Typography variant="h5" gutterBottom>PayOut Success Information</Typography>

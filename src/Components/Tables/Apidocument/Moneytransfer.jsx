@@ -78,6 +78,7 @@ function Moneytransfer() {
           </table>
         </div>
         <p className="clrred">Note:- All Parameter keys are case sensitive.</p>
+        <p className="clrred">Note:- trxId length should be 12 to 22 .</p>
 
         <div className="json-output" style={{ marginBottom: "20px"}}>
       <h4>Generate authToken  (Method Written in javaScript)</h4>

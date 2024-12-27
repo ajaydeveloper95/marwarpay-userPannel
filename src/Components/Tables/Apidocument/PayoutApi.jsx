@@ -8,7 +8,8 @@ import {
   Grid,
 
   Tabs,
-  Tab
+  Tab,
+  useMediaQuery
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -19,7 +20,8 @@ import TrxverifyPayout from './TrxverifyPayout';
 
 const PayoutApi = () => {
   const navigate = useNavigate();
- 
+  const isSmallScreen = useMediaQuery('(max-width:800px)');
+
   const [tabValue, setTabValue] = useState(0);
 
   const handleBackButtonClick = () => navigate(-1);
@@ -29,13 +31,13 @@ const PayoutApi = () => {
     <>
     <Grid sx={{
     mb: 3,
-    position: 'sticky', 
-    top: 0,             
+    position: isSmallScreen ? 'relative' : 'sticky', // Remove sticky for small screens
+    top: isSmallScreen ? 'auto' : 0,            
     zIndex: 1000, 
     paddingTop:'20px',
     overflow:'hidden' ,     
     backgroundColor: 'white', 
-  }}>
+  }} className='setdesigntofix'>
         <Grid container alignItems="center" spacing={1} mb={2}>
           <Grid item>
             <IconButton color="primary" onClick={handleBackButtonClick}>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Typography, TextField, Button, Grid, Avatar, Alert } from '@mui/material';
-import axios from 'axios';
-import { accessConstent, domainBase } from '../../../helpingFile';
+
 import Profile from './Profile';
+import { apiGet, apiPost } from '../../../api/apiMethods';
 
 
 const EditProfile = () => {
@@ -12,15 +12,11 @@ const EditProfile = () => {
  
   const [alertMessage, setAlertMessage] = useState(null);
   const [alertType, setAlertType] = useState('success');
-  const API_ENDPOINT = `${domainBase}apiUser/v1/userRoute/userInfo`;
-  const token = localStorage.getItem(accessConstent);
+  const API_ENDPOINT = `apiUser/v1/userRoute/userInfo`;
+
 
   useEffect(() => {
-    axios.get(API_ENDPOINT, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    apiGet(API_ENDPOINT)
       .then(response => {
         setUserData(response.data.data);
         setFormData({
@@ -47,15 +43,10 @@ const EditProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('accessToken');
+    
 
     try {
-      const response = await axios.post(`${domainBase}apiUser/v1/userRoute/updateProfile`, formData, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await apiPost(`apiUser/v1/userRoute/updateProfile`, formData);
 
       if (response.status === 200) {
         setAlertMessage('Profile updated successfully');

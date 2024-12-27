@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Typography, TextField, Button, Grid, Alert,  } from '@mui/material';
-import axios from 'axios';
-import { accessConstent, domainBase } from '../../../helpingFile';
+import { apiPost } from '../../../api/apiMethods';
 
 const ChangeTransactionPassword = () => {
   // Initialize formData as an empty object
@@ -13,7 +12,6 @@ const ChangeTransactionPassword = () => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [alertType, setAlertType] = useState('success');
 
-  const token = localStorage.getItem(accessConstent);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,18 +28,13 @@ const ChangeTransactionPassword = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${domainBase}apiUser/v1/userRoute/updateTrxPassword`,
+      const response = await apiPost(
+        `apiUser/v1/userRoute/updateTrxPassword`,
         {
           currentPassword: formData.currentPassword,
           trxPassword: formData.trxPassword,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
+        
       );
 
       if (response.status === 200) {

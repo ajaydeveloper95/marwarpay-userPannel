@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Box, Grid, Paper, Typography, AppBar, Toolbar } from '@mui/material';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import axios from 'axios';
-import { accessConstent, domainBase } from '../../helpingFile';
+
+
 import CountUp from 'react-countup';
 import ticket from "../../assets/images/ticket.png";
+import { apiGet } from '../../api/apiMethods';
 
 
 const COLORS = ['#8884d8', '#82ca9d', '#FF8042'];
@@ -14,17 +15,13 @@ const Ticketdetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const token = localStorage.getItem(accessConstent);
-  const API_ENDPOINT = `${domainBase}apiUser/v1/support/getSupportTicket`;
+
+  const API_ENDPOINT = `apiUser/v1/support/getSupportTicket`;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(API_ENDPOINT, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const response = await apiGet(API_ENDPOINT);
         setTicketData(response.data.data);
       } catch (err) {
         setError(err);

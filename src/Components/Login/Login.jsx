@@ -17,14 +17,15 @@ import {
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
-import { domainBase } from "../../helpingFile";
+
 import assetimg from "../../assets/images/Login.gif";
 import logo from "../../assets/images/logologin.png";
 import bg from "../../assets/images/bgimgmarwar.jpg";
+import { apiPost } from "../../api/apiMethods";
 
-const API_ENDPOINT = `${domainBase}apiUser/v1/userRoute/login`;
+const API_ENDPOINT = `apiUser/v1/userRoute/login`;
 
 const Login = () => {
   const [userName, setUsername] = useState("");
@@ -38,7 +39,7 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(API_ENDPOINT, {
+      const response = await apiPost(API_ENDPOINT, {
         userName,
         password,
       });

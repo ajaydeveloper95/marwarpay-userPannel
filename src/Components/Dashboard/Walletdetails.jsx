@@ -1,26 +1,23 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import { Box, Grid, Paper, Typography, AppBar, Toolbar } from '@mui/material';
 import CountUp from 'react-countup'; // Assuming you're using CountUp for animation
-import { accessConstent, domainBase } from '../../helpingFile';
+
 import wallet from "../../assets/images/wallet.png";
 import ewallet from "../../assets/images/ewallet.png";
+import { apiGet } from '../../api/apiMethods';
 
 const WalletDetails = () => {
   const [EwalletBalance, setEwalletBalance] = useState(0);
   const [upiWalletBalance, setUpiWalletBalance] = useState(0);
 
-  const token = localStorage.getItem(accessConstent);
-  const API_ENDPOINT_UPI = `${domainBase}/apiUser/v1/userRoute/userInfo`;
+
+  const API_ENDPOINT_UPI = `apiUser/v1/userRoute/userInfo`;
 
   // Fetch UPI Wallet Transactions
   const fetchUpiWalletData = async () => {
     try {
-      const response = await axios.get(API_ENDPOINT_UPI, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await apiGet(API_ENDPOINT_UPI);
 
       const { EwalletBalance, upiWalletBalance } = response.data.data;
       setEwalletBalance(EwalletBalance);

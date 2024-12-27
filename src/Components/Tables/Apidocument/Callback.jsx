@@ -1,7 +1,6 @@
 import  { useState, useEffect } from 'react';
 import { Typography, TextField, Button, Grid, Alert } from '@mui/material';
-import axios from 'axios';
-import { domainBase } from '../../../helpingFile';
+import { apiGet, apiPost } from '../../../api/apiMethods';
 
 function Callback() {
   // State to manage callback URLs
@@ -9,17 +8,13 @@ function Callback() {
   const [alertMessage, setAlertMessage] = useState(null);
   const [alertType, setAlertType] = useState('success');
   const [isLoading, setIsLoading] = useState(true);
-  const token = localStorage.getItem('accessToken');
-  const API_GET = `${domainBase}apiUser/v1/callBackUrl/getCallBackUrl`;
-  const API_UPDATE = `${domainBase}apiUser/v1/callBackUrl/updateCallBackUrl`;
-  const API_POST = `${domainBase}apiUser/v1/callBackUrl/addCallBackUrl`;
+
+  const API_GET = `apiUser/v1/callBackUrl/getCallBackUrl`;
+  const API_UPDATE = `apiUser/v1/callBackUrl/updateCallBackUrl`;
+  const API_POST = `apiUser/v1/callBackUrl/addCallBackUrl`;
 
   useEffect(() => {
-    axios.get(API_GET, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    })
+    apiGet(API_GET)
       .then((response) => {
         const { payInCallBackUrl, payOutCallBackUrl } = response.data.data;
         setFormData({ payInCallBackUrl, payOutCallBackUrl });
@@ -45,27 +40,17 @@ function Callback() {
 
         // If no callback URLs exist, call the POST API without "memberId"
         if (!formData.payOutCallBackUrl || !formData.payInCallBackUrl) {
-            response = await axios.post(
+            response = await apiPost(
                 API_POST,
                 {
                     payInCallBackUrl: formData.payInCallBackUrl || 'null',
                     payOutCallBackUrl: formData.payOutCallBackUrl || 'null',
                 },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                }
+                
             );
         } else {
             // Otherwise, update existing URLs
-            response = await axios.post(API_UPDATE, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-            });
+            response = await apiPost(API_UPDATE, formData);
         }
 
         if (response.status === 200) {

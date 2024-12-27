@@ -11,13 +11,16 @@ import {
   TextField,
   Grid,
   Button,
-  Pagination
+  Pagination,
+  useMediaQuery
 } from '@mui/material';
-import axios from 'axios';
-import { accessConstent, domainBase } from '../../../helpingFile';
+
 import { saveAs } from 'file-saver';
+import { apiGet } from '../../../api/apiMethods';
 
 const Payingen = () => {
+  const isSmallScreen = useMediaQuery('(max-width:800px)');
+
   const [qrData, setQrData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchInput, setSearchInput] = useState('');
@@ -26,17 +29,13 @@ const Payingen = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [viewAll, setViewAll] = useState(false);
   const itemsPerPage = 10;
-  const API_ENDPOINT = `${domainBase}apiUser/v1/payin/getAllQrGenerated`;
-  const token = localStorage.getItem(accessConstent);
+  const API_ENDPOINT = `apiUser/v1/payin/getAllQrGenerated`;
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(API_ENDPOINT, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await apiGet(API_ENDPOINT);
 
         const data = response.data.data || [];
         setQrData(Array.isArray(data) ? data : []);
@@ -139,13 +138,14 @@ const Payingen = () => {
       <Grid
         sx={{
           mb: 3,
-          position: 'sticky',
-          top: 0,
+          position: isSmallScreen ? 'relative' : 'sticky', // Remove sticky for small screens
+          top: isSmallScreen ? 'auto' : 0,
           zIndex: 1000,
           paddingTop: '20px',
           overflow: 'hidden',
           backgroundColor: 'white',
-        }}
+          color:'#000'
+        }}  className='setdesigntofix'
       >
         <Grid container alignItems="center" sx={{ mb: 2 }}>
           <Grid item xs>

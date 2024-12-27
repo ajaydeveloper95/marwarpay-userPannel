@@ -1,22 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Paper, Typography, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Avatar } from '@mui/material';
-import axios from 'axios';
-import { accessConstent, domainBase } from '../../../helpingFile';
 import EditProfile from './EditProfile'; 
+import { apiGet } from '../../../api/apiMethods';
 
 const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false); 
-  const API_ENDPOINT = `${domainBase}apiUser/v1/userRoute/userInfo`;
-  const token = localStorage.getItem(accessConstent);
+  const API_ENDPOINT = `apiUser/v1/userRoute/userInfo`;
+ 
 
   useEffect(() => {
-    axios.get(API_ENDPOINT, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    apiGet(API_ENDPOINT)
       .then(response => {
         setUserData(response.data.data);
         setIsLoading(false);

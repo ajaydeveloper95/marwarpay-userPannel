@@ -1,6 +1,7 @@
 // /src/api/axiosInstance.js
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { HandleAxiosError } from "./axioserror";
+
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -35,7 +36,7 @@ axiosInstance.interceptors.response.use(
   (err) => {
     // Optionally handle errors
     // return Promise.reject(err);
-    HandleAxiosError(err); // Call the error handler function
+    HandleAxiosError(err)// Call the error handler function
     return Promise.reject(err);
   }
 );
@@ -45,33 +46,5 @@ axiosInstance.interceptors.response.use(
 export { axiosInstance };
 
 
-export const HandleAxiosError = (err) => {
-  const navigate= useNavigate();
 
-  if (!err) {
-    return;
-  }
-
-  // Handling token errors (e.g., invalid or expired token)
-  if (err.response?.status === 401) {
-    // Remove invalid or expired token
-    if (
-      localStorage.getItem("accessToken") !== "undefined" &&
-      localStorage.getItem("accessToken") !== null
-    ) {
-      localStorage.removeItem("accessToken");
-    }
-
-    // Optionally remove the refreshToken as well, if needed
-    localStorage.removeItem("refreshToken");
-
-    // Redirect to login page
-    navigate("/login");
-  }
-
-  // You can also add handling for other error statuses, e.g., 500 for server errors
-  if (err.response?.status === 500) {
-    console.error("Server error occurred");
-  }
-};
 

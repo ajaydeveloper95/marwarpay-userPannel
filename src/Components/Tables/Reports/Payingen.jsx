@@ -260,6 +260,7 @@ const Payingen = () => {
                   >
                     {qr.name || 'NA'}
                   </TableCell>
+                  
                   <TableCell
                     sx={{
                       border: '1px solid #ddd',

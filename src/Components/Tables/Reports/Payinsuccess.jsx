@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Paper,
   Typography,
@@ -25,29 +25,34 @@ const Payinsuc = () => {
   const [searchStartDate, setSearchStartDate] = useState('');
   const [searchEndDate, setSearchEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [viewAll, setViewAll] = useState(false); // Add state for "View All" functionality
-  const itemsPerPage = 10;
+  const [viewAll, setViewAll] = useState(false);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalDocs, setTotalDocs] = useState(Number);
+  const [totalPages, setTotalPages] = useState(Number);
   const API_ENDPOINT = `apiUser/v1/payin/getAllPayInSuccess`;
   const isSmallScreen = useMediaQuery('(max-width:800px)');
+  const isFirstRender = useRef(true);
 
+  const fetchData = async () => {
+    try {
+      if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
+      const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endData=${searchEndDate}`);
+      if (Array.isArray(response.data.data)) {
+        setQrData(response.data.data);
+        setFilteredData(response.data.data);
+        setTotalDocs(response.data.totalDocs);
+      } else {
+        console.error('Data is not an array:', response.data.data);
+      }
+    } catch (error) {
+      console.error('There was an error fetching the QR data!', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await apiGet(API_ENDPOINT);
-        if (Array.isArray(response.data.data)) {
-          setQrData(response.data.data);
-          setFilteredData(response.data.data);
-        } else {
-          console.error('Data is not an array:', response.data.data);
-        }
-      } catch (error) {
-        console.error('There was an error fetching the QR data!', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+    const totalPages = Math.ceil(totalDocs / itemsPerPage)
+    setTotalPages(totalPages);
+  }, [itemsPerPage, totalDocs])
 
   const handleFilter = () => {
     let filtered = qrData.filter((item) => {
@@ -78,8 +83,27 @@ const Payinsuc = () => {
   };
 
   useEffect(() => {
-    handleFilter();
-  }, [searchInput, searchStartDate, searchEndDate]);
+    fetchData();
+  }, [currentPage, itemsPerPage, searchStartDate, searchEndDate]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  useEffect(() => {
+    const totalPages = Math.ceil(totalDocs / itemsPerPage)
+    setTotalPages(totalPages);
+  }, [itemsPerPage, totalDocs])
+
 
   const handleReset = () => {
     setSearchInput('');
@@ -99,14 +123,13 @@ const Payinsuc = () => {
     setCurrentPage(1);
   };
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = viewAll
-    ? filteredData
-    : Array.isArray(filteredData)
-    ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
-    : [];
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = viewAll
+  //   ? filteredData
+  //   : Array.isArray(filteredData)
+  //     ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
+  //     : [];
   const handleExportData = () => {
     const dateFormatter = new Intl.DateTimeFormat('en-GB', {
       day: '2-digit',
@@ -116,9 +139,9 @@ const Payinsuc = () => {
       minute: '2-digit',
       hour12: false, // Set to true if you want 12-hour format
     });
-  
+
     const csvRows = [
-      ['#', 'Name','TxnID','Amount', 'Charge Amount', 'Final Amount', 'VPA ID','RRN','Status','Date'], // Header row
+      ['#', 'Name', 'TxnID', 'Amount', 'Charge Amount', 'Final Amount', 'VPA ID', 'RRN', 'Status', 'Date'], // Header row
       ...filteredData.map((item, index) => [
         index + 1,
         item.payerName || 'NA',
@@ -132,7 +155,7 @@ const Payinsuc = () => {
         dateFormatter.format(new Date(item.createdAt)),
       ]),
     ];
-  
+
     const csvContent = csvRows.map((row) => row.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, 'Payin_SuccessData.csv');
@@ -156,7 +179,7 @@ const Payinsuc = () => {
             </Typography>
           </Grid>
           <Button variant="contained" onClick={handleExportData}>
-            Export 
+            Export
           </Button>
         </Grid>
 
@@ -198,11 +221,11 @@ const Payinsuc = () => {
                 Reset
               </Button>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <Button variant="contained" fullWidth onClick={toggleViewAll}>
                 {viewAll ? 'Paginate' : 'View All'}
               </Button>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Grid>
@@ -224,12 +247,12 @@ const Payinsuc = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentItems.length === 0 ? (
+            {filteredData.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={12} align="center">No data available.</TableCell>
               </TableRow>
             ) : (
-              currentItems.map((qr, index) => (
+              filteredData.map((qr, index) => (
                 <TableRow key={qr._id}>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{qr.payerName || 'NA'}</TableCell>

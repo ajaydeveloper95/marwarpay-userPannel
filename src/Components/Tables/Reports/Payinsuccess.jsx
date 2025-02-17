@@ -15,7 +15,7 @@ import {
   useMediaQuery
 } from '@mui/material';
 
-import { saveAs } from 'file-saver';
+
 import { apiGet } from '../../../api/apiMethods';
 
 const Payinsuc = () => {
@@ -34,10 +34,20 @@ const Payinsuc = () => {
   const isFirstRender = useRef(true);
 
 
-  const fetchData = async () => {
+  const fetchData = async (exportCSV = "false") => {
     try {
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
-      const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endData=${searchEndDate}`);
+      const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endData=${searchEndDate}&export=${exportCSV}`);
+      if(exportCSV == 'true'){
+        const blob = new Blob([response.data], {type: 'text/csv'});
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `payment${searchStartDate}-${searchEndDate}.csv`
+
+        link.click();
+        link.remove();
+        return;
+      }
       if (Array.isArray(response.data.data)) {
         setQrData(response.data.data);
         setFilteredData(response.data.data);
@@ -54,34 +64,6 @@ const Payinsuc = () => {
     const totalPages = Math.ceil(totalDocs / itemsPerPage)
     setTotalPages(totalPages);
   }, [itemsPerPage, totalDocs])
-
-  const handleFilter = () => {
-    let filtered = qrData.filter((item) => {
-      const matchesName = item.name?.toLowerCase().includes(searchInput.toLowerCase());
-      const matchesTxnID = item.trxId?.toLowerCase().includes(searchInput.toLowerCase());
-
-      const trxDate = new Date(item.createdAt);
-      trxDate.setHours(0, 0, 0, 0);
-
-      const startDate = searchStartDate ? new Date(searchStartDate) : null;
-      const endDate = searchEndDate ? new Date(searchEndDate) : null;
-
-      if (startDate) startDate.setHours(0, 0, 0, 0);
-      if (endDate) endDate.setHours(23, 59, 59, 999);
-
-      const isStartDateOnly = startDate && !endDate && trxDate.getTime() === startDate.getTime();
-      const isWithinDateRange =
-        startDate && endDate && trxDate >= startDate && trxDate <= endDate;
-
-      return (
-        (matchesName || matchesTxnID) &&
-        (!startDate && !endDate || isStartDateOnly || isWithinDateRange)
-      );
-    });
-
-    setFilteredData(filtered);
-    setCurrentPage(1);
-  };
 
   useEffect(() => {
     fetchData();
@@ -119,48 +101,6 @@ const Payinsuc = () => {
     setCurrentPage(value);
   };
 
-  const toggleViewAll = () => {
-    setViewAll((prev) => !prev);
-    setCurrentPage(1);
-  };
-
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = viewAll
-  //   ? filteredData
-  //   : Array.isArray(filteredData)
-  //     ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
-  //     : [];
-  const handleExportData = () => {
-    const dateFormatter = new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false, // Set to true if you want 12-hour format
-    });
-
-    const csvRows = [
-      ['#', 'Name', 'TxnID', 'Amount', 'Charge Amount', 'Final Amount', 'VPA ID', 'RRN', 'Status', 'Date'], // Header row
-      ...filteredData.map((item, index) => [
-        index + 1,
-        item.payerName || 'NA',
-        item.trxId || 'NA',
-        item.amount || 'NA',
-        item.chargeAmount || 'NA',
-        item.finalAmount || 'NA',
-        item.vpaId || 'NA',
-        item.bankRRN || 'NA',
-        item.isSuccess || 'NA',
-        dateFormatter.format(new Date(item.createdAt)),
-      ]),
-    ];
-
-    const csvContent = csvRows.map((row) => row.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, 'Payin_SuccessData.csv');
-  };
 
   return (
     <>
@@ -179,7 +119,7 @@ const Payinsuc = () => {
               Payin Success Information
             </Typography>
           </Grid>
-          <Button variant="contained" onClick={handleExportData}>
+          <Button variant="contained" onClick={() => fetchData("true")}>
             Export
           </Button>
         </Grid>

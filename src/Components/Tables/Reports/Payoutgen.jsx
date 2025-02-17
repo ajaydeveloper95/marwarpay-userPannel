@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Button, Grid, Pagination, useMediaQuery } from '@mui/material';
 
-import { saveAs } from 'file-saver';
+
 import { apiGet } from '../../../api/apiMethods';
 
 const Payoutgen = () => {
@@ -20,10 +20,21 @@ const Payoutgen = () => {
   const API_ENDPOINT = `apiUser/v1/payout/getAllPayOutGenerated`;
   const isSmallScreen = useMediaQuery('(max-width:800px)');
 
-  const fetchData = async () => {
+  const fetchData = async (exportCSV = "false") => {
     try {
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
-      const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endData=${searchEndDate}`);
+      const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endData=${searchEndDate}&export=${exportCSV}`);
+
+      if(exportCSV == 'true'){
+        const blob = new Blob([response.data], {type: 'text/csv'});
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `payment${searchStartDate}-${searchEndDate}.csv`
+
+        link.click();
+        link.remove();
+        return;
+      }
       // Ensure response.data.data is an array, or fall back to an empty array
       const data = Array.isArray(response.data.data) ? response.data.data : [];
       setPayoutData(data);
@@ -57,45 +68,6 @@ const Payoutgen = () => {
     setTotalPages(totalPages);
   }, [itemsPerPage, totalDocs])
 
-  const handleFilter = () => {
-    if (!Array.isArray(payoutData)) {
-      console.warn("payoutData is not an array:", payoutData); // Add warning for debugging
-      setFilteredData([]); // Reset filtered data to empty if payoutData is not an array
-      return;
-    }
-
-    let filtered = payoutData.filter(item => {
-      const matchesTxnID = item.trxId.toLowerCase().includes(searchInput.toLowerCase());
-
-      const trxDate = new Date(item.createdAt);
-      trxDate.setHours(0, 0, 0, 0); // Normalize to midnight for accurate date comparison
-
-      const startDate = searchStartDate ? new Date(searchStartDate) : null;
-      const endDate = searchEndDate ? new Date(searchEndDate) : null;
-
-      if (startDate) startDate.setHours(0, 0, 0, 0);
-      if (endDate) endDate.setHours(23, 59, 59, 999); // Inclusive of the entire end day
-
-      const isStartDateOnly = startDate && !endDate && trxDate.getTime() === startDate.getTime();
-      const isWithinDateRange = startDate && endDate && trxDate >= startDate && trxDate <= endDate;
-
-      // If no dates are selected, filter only by TxnID
-      if (!startDate && !endDate) {
-        return matchesTxnID;
-      }
-
-      // Otherwise, filter by TxnID and date conditions
-      return matchesTxnID && (isStartDateOnly || isWithinDateRange);
-    });
-
-    setFilteredData(filtered);
-    setCurrentPage(1); // Reset to the first page when filtering
-  };
-
-  // useEffect(() => {
-  //   handleFilter(); // Call filter function on state changes
-  // }, [searchInput, searchStartDate, searchEndDate, payoutData]);
-
 
 
 
@@ -114,49 +86,6 @@ const Payoutgen = () => {
   };
 
 
-  const toggleViewAll = () => {
-    setViewAll((prev) => !prev);
-    setCurrentPage(1);
-
-  };
-
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = viewAll
-  //   ? filteredData
-  //   : Array.isArray(filteredData)
-  //     ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
-  //     : [];
-  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-  const handleExportData = () => {
-    const dateFormatter = new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false, // Set to true if you want 12-hour format
-    });
-
-    const csvRows = [
-      ['#', 'Name', 'TxnID', 'Amount', 'Account No.', 'IFSC Code', 'Status', 'Date'],
-      ...filteredData.map((item, index) => [
-        index + 1,
-        item.accountHolderName || 'NA',
-        item.trxId || 'NA',
-        item.amount || 'NA',
-        item.accountNumber || 'NA',
-        item.ifscCode || 'NA',
-        item.isSuccess || 'NA',
-        dateFormatter.format(new Date(item.createdAt)),
-      ]),
-    ];
-
-    const csvContent = csvRows.map((row) => row.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, 'Pay_Out_Data.csv');
-  };
 
   return (
     <div>
@@ -173,7 +102,7 @@ const Payoutgen = () => {
           <Grid item xs>
             <Typography variant="h5" gutterBottom>Payout Generate Information</Typography>
           </Grid>
-          <Button variant="contained" onClick={handleExportData}>
+          <Button variant="contained" onClick={() => fetchData("true")}>
             Export
           </Button>
         </Grid>

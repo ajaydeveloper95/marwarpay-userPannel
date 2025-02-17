@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Paper,
   Typography,
@@ -20,6 +20,7 @@ import { apiGet } from '../../../api/apiMethods';
 
 const Payingen = () => {
   const isSmallScreen = useMediaQuery('(max-width:800px)');
+  const isFirstRender = useRef(true);
 
   const [qrData, setQrData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -28,25 +29,47 @@ const Payingen = () => {
   const [searchEndDate, setSearchEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [viewAll, setViewAll] = useState(false);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalDocs, setTotalDocs] = useState(Number);
+  const [totalPages, setTotalPages] = useState(Number);
   const API_ENDPOINT = `apiUser/v1/payin/getAllQrGenerated`;
-  
+
+  const fetchData = async () => {
+    try {
+      if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
+      setFilteredData([])
+      const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endData=${searchEndDate}`);
+
+      const data = response.data.data || [];
+      setQrData(Array.isArray(data) ? data : []);
+      setFilteredData(Array.isArray(data) ? data : []);
+      setTotalDocs(response.data.totalDocs);
+    } catch (error) {
+      console.error('There was an error fetching the QR data!', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await apiGet(API_ENDPOINT);
-
-        const data = response.data.data || [];
-        setQrData(Array.isArray(data) ? data : []);
-        setFilteredData(Array.isArray(data) ? data : []);
-      } catch (error) {
-        console.error('There was an error fetching the QR data!', error);
-      }
-    };
-
     fetchData();
-  }, []);
+  }, [currentPage, itemsPerPage, searchStartDate, searchEndDate]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  useEffect(() => {
+    const totalPages = Math.ceil(totalDocs / itemsPerPage)
+    setTotalPages(totalPages);
+  }, [itemsPerPage, totalDocs])
 
   const handleFilter = () => {
     let filtered = qrData.filter((item) => {
@@ -74,7 +97,7 @@ const Payingen = () => {
   };
 
   useEffect(() => {
-    handleFilter();
+    // handleFilter();
   }, [searchInput, searchStartDate, searchEndDate]);
 
   const handleReset = () => {
@@ -104,7 +127,7 @@ const Payingen = () => {
       minute: '2-digit',
       hour12: false, // Set to true if you want 12-hour format
     });
-  
+
     const csvRows = [
       ['#', 'Name', 'TxnID', 'Amount', 'Status', 'Date'], // Header row
       ...filteredData.map((item, index) => [
@@ -116,22 +139,22 @@ const Payingen = () => {
         dateFormatter.format(new Date(item.createdAt)),
       ]),
     ];
-  
+
     const csvContent = csvRows.map((row) => row.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, 'Payin_Data.csv');
   };
-  
-  
+
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = viewAll
-    ? filteredData
-    : Array.isArray(filteredData)
-    ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
-    : [];
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  // const currentItems = viewAll
+  //   ? filteredData
+  //   : Array.isArray(filteredData)
+  //     ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
+  //     : [];
+  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
     <>
@@ -144,8 +167,8 @@ const Payingen = () => {
           paddingTop: '20px',
           overflow: 'hidden',
           backgroundColor: 'white',
-          color:'#000'
-        }}  className='setdesigntofix'
+          color: '#000'
+        }} className='setdesigntofix'
       >
         <Grid container alignItems="center" sx={{ mb: 2 }}>
           <Grid item xs>
@@ -196,11 +219,11 @@ const Payingen = () => {
                 Reset
               </Button>
             </Grid>
-            <Grid item xs={6} sm={6}>
+            {/* <Grid item xs={6} sm={6}>
               <Button variant="contained" onClick={toggleViewAll}>
                 {viewAll ? 'Paginate' : 'View All'}
               </Button>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Grid>
@@ -233,14 +256,14 @@ const Payingen = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentItems.length === 0 ? (
+            {filteredData.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={12} align="center">
                   No data available.
                 </TableCell>
               </TableRow>
             ) : (
-              currentItems.map((qr, index) => (
+              filteredData.map((qr, index) => (
                 <TableRow key={qr._id}>
                   <TableCell
                     sx={{

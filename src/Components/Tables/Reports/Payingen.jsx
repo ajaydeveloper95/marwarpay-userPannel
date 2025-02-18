@@ -37,7 +37,6 @@ const Payingen = () => {
   const fetchData = async (exportCSV = false) => {
     try {
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
-      setFilteredData([])
       const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endData=${searchEndDate}&export=${exportCSV}`);
 
       if(exportCSV == 'true'){

@@ -24,27 +24,36 @@ const Payoutgen = () => {
     try {
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
       const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endDate=${searchEndDate}&export=${exportCSV}`);
-
-      if(exportCSV == 'true'){
-        const blob = new Blob([response.data], {type: 'text/csv'});
+  
+      if (exportCSV === 'true') {
+        const blob = new Blob([response.data], { type: 'text/csv' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `payment-generate${searchStartDate}-${searchEndDate}.csv`
-
+        link.download = `payment-generate${searchStartDate}-${searchEndDate}.csv`;
         link.click();
         link.remove();
         return;
       }
+  
       // Ensure response.data.data is an array, or fall back to an empty array
       const data = Array.isArray(response.data.data) ? response.data.data : [];
-      setPayoutData(data);
-      setFilteredData(data);
-      setTotalDocs(response.data.totalDocs);
+      
+      if (data.length === 0) {
+        setPayoutData([]);
+        setFilteredData([]);
+      } else {
+        setPayoutData(data);
+        setFilteredData(data);
+      }
+  
+      setTotalDocs(response.data.totalDocs || 0);
     } catch (error) {
       console.error('There was an error fetching the payout data!', error);
-
+      setPayoutData([]); // Ensure UI updates to "No data available"
+      setFilteredData([]);
     }
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -154,9 +163,12 @@ const Payoutgen = () => {
         </Grid>
       </Grid>
       <div>
-        <TableContainer component={Paper} sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', p: 1 }}>
-          <Table sx={{ borderCollapse: 'collapse' }}>
-            <TableHead>
+      <TableContainer
+        component={Paper}
+        sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', p: 1 }}
+      >
+        <Table sx={{ borderCollapse: 'collapse' }}>
+          <TableHead>
               <TableRow>
                 <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>#</strong></TableCell>
                 <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Name</strong></TableCell>
@@ -169,11 +181,12 @@ const Payoutgen = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredData.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={10} align="center">No data available.</TableCell>
-                </TableRow>
-              ) : (
+            {filteredData.length === 0 ? (
+  <TableRow>
+    <TableCell colSpan={10} align="center">No data available.</TableCell>
+  </TableRow>
+) : (
+
                 filteredData.map((payout, index) => (
                   <TableRow key={payout._id}>
                     <TableCell>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>

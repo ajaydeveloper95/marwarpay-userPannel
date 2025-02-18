@@ -29,37 +29,54 @@ const Payingen = () => {
   const [searchEndDate, setSearchEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [viewAll, setViewAll] = useState(false);
+  const [noData, setNoData] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalDocs, setTotalDocs] = useState(Number);
   const [totalPages, setTotalPages] = useState(Number);
   const API_ENDPOINT = `apiUser/v1/payin/getAllQrGenerated`;
 
-  const fetchData = async (exportCSV = false) => {
+
+  const fetchData = async (exportCSV = "false") => {
     try {
+      // Prevent API call if only one date is entered
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
-      const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endData=${searchEndDate}&export=${exportCSV}`);
 
-      if(exportCSV == 'true'){
-        const blob = new Blob([response.data], {type: 'text/csv'});
-        const link = document.createElement('a');
+      const queryParams = new URLSearchParams({
+        page: currentPage,
+        limit: itemsPerPage,
+        keyword: searchInput,
+        startDate: searchStartDate || "",
+        endDate: searchEndDate || "",
+        export: exportCSV,
+      });
+
+      const response = await apiGet(`${API_ENDPOINT}?${queryParams}`);
+
+      if (exportCSV === "true") {
+        const blob = new Blob([response.data], { type: "text/csv" });
+        const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = `payin-generate${searchStartDate}-${searchEndDate}.csv`
-
+        link.download = `payin-Generate${searchStartDate}-${searchEndDate}.csv`;
         link.click();
         link.remove();
         return;
       }
-      // else{
-      //   setQrData(Array.isArray(data) ? data : []);
-      // }
-      const data = response.data.data || [];
-      setFilteredData(Array.isArray(data) ? data : []);
-      setTotalDocs(response.data.totalDocs);
+
+      if (Array.isArray(response.data.data) && response.data.data.length > 0) {
+        setQrData(response.data.data);
+        setTotalDocs(response.data.totalDocs);
+        setTotalPages(Math.ceil(response.data.totalDocs / itemsPerPage));
+        setNoData(false); // Data is available
+      } else {
+        setQrData([]);
+        setTotalDocs(0);
+        setTotalPages(1);
+        setNoData(true); // No data found
+      }
     } catch (error) {
-      console.error('There was an error fetching the QR data!', error);
+      console.error("There was an error fetching the QR data!", error);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, [currentPage, itemsPerPage, searchStartDate, searchEndDate]);
@@ -202,14 +219,14 @@ const Payingen = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredData.length === 0 ? (
+          {noData ? (
               <TableRow>
-                <TableCell colSpan={12} align="center">
+                <TableCell colSpan={10} align="center">
                   No data available.
                 </TableCell>
               </TableRow>
             ) : (
-              filteredData.map((qr, index) => (
+              qrData.map((qr, index) => (
                 <TableRow key={qr._id}>
                   <TableCell
                     sx={{

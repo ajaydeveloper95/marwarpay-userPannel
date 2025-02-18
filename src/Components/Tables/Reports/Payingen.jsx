@@ -23,6 +23,7 @@ const Payingen = () => {
 
   const [qrData, setQrData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  console.log(filteredData)
   const [searchInput, setSearchInput] = useState('');
   const [searchStartDate, setSearchStartDate] = useState('');
   const [searchEndDate, setSearchEndDate] = useState('');
@@ -47,9 +48,11 @@ const Payingen = () => {
 
         link.click();
         link.remove();
-      }else{
-        setQrData(Array.isArray(data) ? data : []);
+        return;
       }
+      // else{
+      //   setQrData(Array.isArray(data) ? data : []);
+      // }
       const data = response.data.data || [];
       setFilteredData(Array.isArray(data) ? data : []);
       setTotalDocs(response.data.totalDocs);
@@ -89,7 +92,7 @@ const Payingen = () => {
     setSearchInput('');
     setSearchStartDate('');
     setSearchEndDate('');
-    setFilteredData(qrData);
+    // setFilteredData(qrData);
     setCurrentPage(1);
     setViewAll(false);
   };

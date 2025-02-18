@@ -23,7 +23,7 @@ const Payingen = () => {
 
   const [qrData, setQrData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  console.log(filteredData)
+  // console.log(filteredData)
   const [searchInput, setSearchInput] = useState('');
   const [searchStartDate, setSearchStartDate] = useState('');
   const [searchEndDate, setSearchEndDate] = useState('');

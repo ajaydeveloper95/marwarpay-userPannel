@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Paper,
   Typography,
@@ -27,31 +27,58 @@ import { saveAs } from 'file-saver';
 import { apiGet } from '../../../api/apiMethods';
 
 const Mywallet = () => {
+  const isFirstRender = useRef(true);
+
   const [ewalletData, setEwalletData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const isSmallScreen = useMediaQuery('(max-width:800px)');
 
   // Filter and Pagination state
-  const [searchAmount, setSearchAmount] = useState('');
-  const [searchStartDate, setSearchStartDate] = useState(''); 
-  const [searchEndDate, setSearchEndDate] = useState(''); 
+  const [searchInput, setSearchInput] = useState('');
+  const [searchStartDate, setSearchStartDate] = useState('');
+  const [searchEndDate, setSearchEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalDocs, setTotalDocs] = useState(Number);
+  const [totalPages, setTotalPages] = useState(Number);
   const [viewAll, setViewAll] = useState(false);
   const API_ENDPOINT = `apiUser/v1/wallet/eWalletTrx`;
   const [openModal, setOpenModal] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(null);
 
-  useEffect(() => {
+  const fetchData = async () => {
     apiGet(API_ENDPOINT)
       .then(response => {
         setEwalletData(response.data.data);
         setFilteredData(response.data.data);
+        setTotalDocs(response.data.totalDocs);
       })
       .catch(error => {
         console.error('There was an error fetching the eWallet data!', error);
       });
-  }, []);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [currentPage, itemsPerPage, searchStartDate, searchEndDate]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  useEffect(() => {
+    const totalPages = Math.ceil(totalDocs / itemsPerPage)
+    setTotalPages(totalPages);
+  }, [itemsPerPage, totalDocs])
 
   const handleModal = (ticket = null) => {
     setSelectedTicket(ticket);
@@ -61,7 +88,7 @@ const Mywallet = () => {
   // Filter function
   const handleFilter = () => {
     let filtered = ewalletData.filter((item) => {
-      const matchesAmount = searchAmount ? item.transactionAmount === parseFloat(searchAmount) : true;
+      const matchesAmount = searchInput ? item.transactionAmount === parseFloat(searchInput) : true;
 
       const trxDate = new Date(item.createdAt);
       trxDate.setHours(0, 0, 0, 0); // Normalize to midnight for accurate date comparison
@@ -80,16 +107,16 @@ const Mywallet = () => {
     });
     setFilteredData(filtered);
     setCurrentPage(1); // Reset to the first page when filtering
-    setViewAll(false); 
+    setViewAll(false);
   };
 
-  useEffect(() => {
-    handleFilter(); // Call filter function on state changes
-  }, [searchAmount, searchStartDate, searchEndDate]);
+  // useEffect(() => {
+  //   handleFilter(); // Call filter function on state changes
+  // }, [searchInput, searchStartDate, searchEndDate]);
 
   // Reset filters
   const handleReset = () => {
-    setSearchAmount('');
+    setSearchInput('');
     setSearchStartDate(''); // Reset start date
     setSearchEndDate(''); // Reset end date
     setFilteredData(ewalletData);
@@ -111,14 +138,14 @@ const Mywallet = () => {
     setCurrentPage(1);
   };
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = viewAll
-    ? filteredData
-    : Array.isArray(filteredData)
-    ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
-    : [];
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = viewAll
+  //   ? filteredData
+  //   : Array.isArray(filteredData)
+  //   ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
+  //   : [];
+  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const handleExportData = () => {
     const dateFormatter = new Intl.DateTimeFormat('en-GB', {
@@ -129,9 +156,9 @@ const Mywallet = () => {
       minute: '2-digit',
       hour12: false, // Set to true if you want 12-hour format
     });
-  
+
     const csvRows = [
-      ['#', 'Type','Amount','Before Amount', 'After Amount', 'Status', 'Date'], 
+      ['#', 'Type', 'Amount', 'Before Amount', 'After Amount', 'Status', 'Date'],
       ...filteredData.map((item, index) => [
         index + 1,
         item.transactionType || 'NA',
@@ -154,18 +181,18 @@ const Mywallet = () => {
       <Grid sx={{
         mb: 3,
         position: isSmallScreen ? 'relative' : 'sticky', // Remove sticky for small screens
-        top: isSmallScreen ? 'auto' : 0,           
-        zIndex: 1000, 
+        top: isSmallScreen ? 'auto' : 0,
+        zIndex: 1000,
         paddingTop: '20px',
-        overflow: 'hidden',     
-        backgroundColor: 'white', 
+        overflow: 'hidden',
+        backgroundColor: 'white',
       }} className='setdesigntofix'>
         <Grid container alignItems="center" sx={{ mb: 2 }}>
           <Grid item xs>
             <Typography variant="h4" gutterBottom>E-Wallet Transactions</Typography>
           </Grid>
           <Button variant="contained" onClick={handleExportData}>
-            Export 
+            Export
           </Button>
         </Grid>
 
@@ -196,10 +223,9 @@ const Mywallet = () => {
               type="number"
               variant="outlined"
               fullWidth
-              value={searchAmount}
+              value={searchInput}
               onChange={(e) => {
-                setSearchAmount(e.target.value);
-                handleFilter(); // Call filter on change
+                setSearchInput(e.target.value);
               }}
             />
           </Grid>
@@ -213,7 +239,6 @@ const Mywallet = () => {
               value={searchStartDate}
               onChange={(e) => {
                 setSearchStartDate(e.target.value);
-                handleFilter(); // Call filter on change
               }}
             />
           </Grid>
@@ -227,38 +252,37 @@ const Mywallet = () => {
               value={searchEndDate}
               onChange={(e) => {
                 setSearchEndDate(e.target.value);
-                handleFilter(); // Call filter on change
               }}
             />
           </Grid>
           <Grid item xs={12} sm={3} container alignItems="center">
-  <Grid item xs={6} sm={6}>
-    <Button variant="outlined" onClick={handleReset} sx={{ mr: 2 }}>Reset</Button>
-  </Grid>
-  <Grid item xs={6} sm={6}>
-  <Button variant="contained" onClick={toggleViewAll}>
-      {viewAll ? 'Paginate' : 'View All'}
-    </Button>
-  </Grid>
-</Grid>
+            <Grid item xs={6} sm={6}>
+              <Button variant="outlined" onClick={handleReset} sx={{ mr: 2 }}>Reset</Button>
+            </Grid>
+            <Grid item xs={6} sm={6}>
+              <Button variant="contained" onClick={toggleViewAll}>
+                {viewAll ? 'Paginate' : 'View All'}
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
-        
 
-      
+
+
       </Grid>
 
-      <TableContainer component={Paper} sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', p: 1 }}>
+      <TableContainer component={Paper} sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', p: 1 }}>
         <Table sx={{ borderCollapse: 'collapse' }}>
           <TableHead>
             <TableRow>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>#</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Type</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Amount</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Before Amount</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>After Amount</strong></TableCell>
-              
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Status</strong></TableCell>
-              <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>Date</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>#</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Type</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Amount</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Before Amount</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>After Amount</strong></TableCell>
+
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Status</strong></TableCell>
+              <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Date</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Action</strong></TableCell>
 
             </TableRow>
@@ -269,16 +293,16 @@ const Mywallet = () => {
                 <TableCell colSpan={9} align="center">No data available</TableCell>
               </TableRow>
             ) : (
-              currentItems.map((trx, index) => (
+              filteredData.map((trx, index) => (
                 <TableRow key={index}>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionType === 'Cr.' ? 'green' : trx.transactionType === 'Dr.' ? 'red' : 'inherit' }}>{trx.transactionType}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.transactionAmount}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.beforeAmount}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{trx.afterAmount}</TableCell>
-                
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionStatus === 'Success' ? 'green' : 'red'}}>{trx.transactionStatus}</TableCell>
-                  <TableCell align="center" sx={{border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>{new Date(trx.createdAt).toLocaleString()}</TableCell>
+                  <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>
+                  <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionType === 'Cr.' ? 'green' : trx.transactionType === 'Dr.' ? 'red' : 'inherit' }}>{trx.transactionType}</TableCell>
+                  <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{trx.transactionAmount}</TableCell>
+                  <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{trx.beforeAmount}</TableCell>
+                  <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{trx.afterAmount}</TableCell>
+
+                  <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: trx.transactionStatus === 'Success' ? 'green' : 'red' }}>{trx.transactionStatus}</TableCell>
+                  <TableCell align="center" sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{new Date(trx.createdAt).toLocaleString()}</TableCell>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
                     <IconButton onClick={() => handleModal(trx)}>
                       <VisibilityIcon />
@@ -303,7 +327,7 @@ const Mywallet = () => {
         </Grid>
       )}
 
-<Dialog open={openModal} onClose={() => handleModal(null)} maxWidth="md" fullWidth>
+      <Dialog open={openModal} onClose={() => handleModal(null)} maxWidth="md" fullWidth>
         <DialogTitle>E-Wallet Details</DialogTitle>
         <DialogContent>
           {selectedTicket && (
@@ -316,7 +340,7 @@ const Mywallet = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                 
+
                   <TableRow>
                     <TableCell><strong>Transaction Type</strong></TableCell>
                     <TableCell>{selectedTicket.transactionType}</TableCell>
@@ -339,7 +363,7 @@ const Mywallet = () => {
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Transaction Status</strong></TableCell>
-                    <TableCell sx={{color: selectedTicket.transactionStatus === 'Success' ? 'green' : 'red'}}>{selectedTicket.transactionStatus}</TableCell>
+                    <TableCell sx={{ color: selectedTicket.transactionStatus === 'Success' ? 'green' : 'red' }}>{selectedTicket.transactionStatus}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Initiate At</strong></TableCell>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Paper,
   Typography,
@@ -34,15 +34,19 @@ const UPIToEwallet = () => {
   const [searchStartDate, setSearchStartDate] = useState('');
   const [searchEndDate, setSearchEndDate] = useState('');
   const [page, setPage] = useState(1);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalDocs, setTotalDocs] = useState(Number);
+  const [totalPages, setTotalPages] = useState(Number);
   const [viewAll, setViewAll] = useState(false);
   const API_ENDPOINT = `apiUser/v1/wallet/upiToEwalletTrx`;
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(null);
 
-  useEffect(() => {
-    apiGet(API_ENDPOINT)
+  const fetchData = async () => {
+    if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
+
+    apiGet(`${API_ENDPOINT}?page=${page}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endData=${searchEndDate}`)
       .then(response => {
         setEwalletData(response.data.data);
         setFilteredData(response.data.data);
@@ -50,7 +54,29 @@ const UPIToEwallet = () => {
       .catch(error => {
         console.error('There was an error fetching the eWallet data!', error);
       });
-  }, []);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [page, itemsPerPage, searchStartDate, searchEndDate]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  useEffect(() => {
+    const totalPages = Math.ceil(totalDocs / itemsPerPage)
+    setTotalPages(totalPages);
+  }, [itemsPerPage, totalDocs])
 
   const handleModal = (ticket = null) => {
     setSelectedTicket(ticket);
@@ -59,7 +85,7 @@ const UPIToEwallet = () => {
 
   const handleFilter = () => {
     let filtered = ewalletData.filter((item) => {
-      const matchesAmount = searchAmount ? item.transactionAmount === parseFloat(searchAmount) : true;
+      const matchesAmount = searchInput ? item.transactionAmount === parseFloat(searchInput) : true;
 
       const trxDate = new Date(item.createdAt);
       trxDate.setHours(0, 0, 0, 0);

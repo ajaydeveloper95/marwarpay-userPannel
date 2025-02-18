@@ -42,7 +42,7 @@ const Payinsuc = () => {
         const blob = new Blob([response.data], {type: 'text/csv'});
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `payment${searchStartDate}-${searchEndDate}.csv`
+        link.download = `payout-success${searchStartDate}-${searchEndDate}.csv`
 
         link.click();
         link.remove();

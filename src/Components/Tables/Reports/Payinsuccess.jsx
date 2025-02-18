@@ -33,7 +33,6 @@ const Payinsuc = () => {
   const isSmallScreen = useMediaQuery('(max-width:800px)');
   const isFirstRender = useRef(true);
 
-
   const fetchData = async (exportCSV = "false") => {
     try {
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
@@ -42,7 +41,7 @@ const Payinsuc = () => {
         const blob = new Blob([response.data], {type: 'text/csv'});
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `payment${searchStartDate}-${searchEndDate}.csv`
+        link.download = `payin-success${searchStartDate}-${searchEndDate}.csv`
 
         link.click();
         link.remove();

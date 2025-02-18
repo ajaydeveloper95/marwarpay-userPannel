@@ -23,7 +23,7 @@ const Payoutgen = () => {
   const fetchData = async (exportCSV = "false") => {
     try {
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
-      const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endData=${searchEndDate}&export=${exportCSV}`);
+      const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchInput}&startDate=${searchStartDate}&endDate=${searchEndDate}&export=${exportCSV}`);
 
       if(exportCSV == 'true'){
         const blob = new Blob([response.data], {type: 'text/csv'});

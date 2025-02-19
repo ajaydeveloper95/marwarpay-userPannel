@@ -20,9 +20,9 @@ import { apiGet } from '../../../api/apiMethods';
 const Payingen = () => {
   const isSmallScreen = useMediaQuery('(max-width:800px)');
   const isFirstRender = useRef(true);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [qrData, setQrData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  // const [filteredData, setFilteredData] = useState([]);
   // console.log(filteredData)
   const [searchInput, setSearchInput] = useState('');
   const [searchStartDate, setSearchStartDate] = useState('');
@@ -67,11 +67,13 @@ const Payingen = () => {
         setTotalDocs(response.data.totalDocs);
         setTotalPages(Math.ceil(response.data.totalDocs / itemsPerPage));
         setNoData(false); // Data is available
+        setIsLoading(false);
       } else {
         setQrData([]);
         setTotalDocs(0);
         setTotalPages(1);
         setNoData(true); // No data found
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("There was an error fetching the QR data!", error);
@@ -219,75 +221,44 @@ const Payingen = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-          {noData ? (
-              <TableRow>
-                <TableCell colSpan={10} align="center">
-                  No data available.
-                </TableCell>
-              </TableRow>
-            ) : (
-              qrData.map((qr, index) => (
-                <TableRow key={qr._id}>
-                  <TableCell
-                    sx={{
-                      border: '1px solid #ddd',
-                      whiteSpace: 'nowrap',
-                      padding: '8px',
-                    }}
-                  >
-                    {index + 1 + (currentPage - 1) * itemsPerPage}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      border: '1px solid #ddd',
-                      whiteSpace: 'nowrap',
-                      padding: '8px',
-                    }}
-                  >
-                    {qr.name || 'NA'}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      border: '1px solid #ddd',
-                      whiteSpace: 'nowrap',
-                      padding: '8px',
-                    }}
-                  >
-                    {qr.trxId || 'NA'}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      border: '1px solid #ddd',
-                      whiteSpace: 'nowrap',
-                      padding: '8px',
-                      align: 'center',
-                    }}
-                  >
-                    {qr.amount}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      border: '1px solid #ddd',
-                      whiteSpace: 'nowrap',
-                      padding: '8px',
-                      color: qr.callBackStatus === 'Success' ? 'green' : 'red',
-                    }}
-                  >
-                    {qr.callBackStatus || 'NA'}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      border: '1px solid #ddd',
-                      whiteSpace: 'nowrap',
-                      padding: '8px',
-                    }}
-                  >
-                    {new Date(qr.createdAt).toLocaleString()}
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
+  {isLoading ? (
+    <TableRow>
+      <TableCell colSpan={6} align="center">
+        Loading...
+      </TableCell>
+    </TableRow>
+  ) : noData ? (
+    <TableRow>
+      <TableCell colSpan={6} align="center">
+        No data available.
+      </TableCell>
+    </TableRow>
+  ) : (
+    qrData.map((qr, index) => (
+      <TableRow key={qr._id}>
+        <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
+          {index + 1 + (currentPage - 1) * itemsPerPage}
+        </TableCell>
+        <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
+          {qr.name || 'NA'}
+        </TableCell>
+        <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
+          {qr.trxId || 'NA'}
+        </TableCell>
+        <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', align: 'center' }}>
+          {qr.amount}
+        </TableCell>
+        <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px', color: qr.callBackStatus === 'Success' ? 'green' : 'red' }}>
+          {qr.callBackStatus || 'NA'}
+        </TableCell>
+        <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
+          {new Date(qr.createdAt).toLocaleString()}
+        </TableCell>
+      </TableRow>
+    ))
+  )}
+</TableBody>
+
         </Table>
       </TableContainer>
       {!viewAll && (

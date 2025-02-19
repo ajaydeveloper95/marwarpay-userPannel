@@ -19,7 +19,7 @@ const Payoutgen = () => {
   const [totalPages, setTotalPages] = useState(Number);
   const API_ENDPOINT = `apiUser/v1/payout/getAllPayOutGenerated`;
   const isSmallScreen = useMediaQuery('(max-width:800px)');
-
+  const [isLoading, setIsLoading] = useState(true);
   const fetchData = async (exportCSV = "false") => {
     try {
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
@@ -41,9 +41,11 @@ const Payoutgen = () => {
       if (data.length === 0) {
         setPayoutData([]);
         setFilteredData([]);
+        setIsLoading(false);
       } else {
         setPayoutData(data);
         setFilteredData(data);
+        setIsLoading(false);
       }
   
       setTotalDocs(response.data.totalDocs || 0);
@@ -51,6 +53,7 @@ const Payoutgen = () => {
       console.error('There was an error fetching the payout data!', error);
       setPayoutData([]); // Ensure UI updates to "No data available"
       setFilteredData([]);
+      setIsLoading(false);
     }
   };
   
@@ -181,13 +184,21 @@ const Payoutgen = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-            {filteredData.length === 0 ? (
-  <TableRow>
-    <TableCell colSpan={10} align="center">No data available.</TableCell>
-  </TableRow>
-) : (
 
-                filteredData.map((payout, index) => (
+            {isLoading ? (
+    <TableRow>
+      <TableCell colSpan={6} align="center">
+        Loading...
+      </TableCell>
+    </TableRow>
+  ) : filteredData.length === 0 ? (
+    <TableRow>
+      <TableCell colSpan={6} align="center">
+        No data available.
+      </TableCell>
+    </TableRow>
+  ) : (
+                    filteredData.map((payout, index) => (
                   <TableRow key={payout._id}>
                     <TableCell>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>
                     <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{payout.accountHolderName || 'NA'}</TableCell>

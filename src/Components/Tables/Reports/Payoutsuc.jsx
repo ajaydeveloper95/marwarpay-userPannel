@@ -31,7 +31,7 @@ const PayoutSuccess = () => {
   const [totalPages, setTotalPages] = useState(0);
   const API_ENDPOINT = `apiUser/v1/payout/getAllPayOutSuccess`;
   const isSmallScreen = useMediaQuery('(max-width:800px)');
-
+  const [isLoading, setIsLoading] = useState(true);
   const fetchData = async (exportCSV = "false") => {
     try {
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
@@ -56,10 +56,12 @@ const PayoutSuccess = () => {
       setFilteredData(data);
       setTotalDocs(response.data.totalDocs || 0);
       setTotalPages(Math.ceil((response.data.totalDocs || 0) / itemsPerPage));
+      setIsLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
       setQrData([]);
       setFilteredData([]);
+      setIsLoading(false);
     }
   };
 
@@ -128,9 +130,19 @@ const PayoutSuccess = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredData.length === 0 ? (
-              <TableRow><TableCell colSpan={8} align="center">No data available.</TableCell></TableRow>
-            ) : (
+          {isLoading ? (
+    <TableRow>
+      <TableCell colSpan={6} align="center">
+        Loading...
+      </TableCell>
+    </TableRow>
+  ) : filteredData.length === 0 ? (
+    <TableRow>
+      <TableCell colSpan={6} align="center">
+        No data available.
+      </TableCell>
+    </TableRow>
+  ) : (
               filteredData.map((qr, index) => (
                 <TableRow key={qr._id}>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>

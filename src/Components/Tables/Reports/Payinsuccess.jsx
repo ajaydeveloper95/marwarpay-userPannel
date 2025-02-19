@@ -31,7 +31,7 @@ const Payinsuc = () => {
   const isSmallScreen = useMediaQuery("(max-width:800px)");
   const isFirstRender = useRef(true);
   const API_ENDPOINT = "apiUser/v1/payin/getAllPayInSuccess";
-
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async (exportCSV = "false") => {
     try {
@@ -64,11 +64,13 @@ const Payinsuc = () => {
         setTotalDocs(response.data.totalDocs);
         setTotalPages(Math.ceil(response.data.totalDocs / itemsPerPage));
         setNoData(false); // Data is available
+        setIsLoading(false);
       } else {
         setQrData([]);
         setTotalDocs(0);
         setTotalPages(1);
         setNoData(true); // No data found
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("There was an error fetching the QR data!", error);
@@ -195,13 +197,19 @@ const Payinsuc = () => {
           </TableHead>
     
            <TableBody>
-            {noData ? (
-              <TableRow>
-                <TableCell colSpan={10} align="center">
-                  No data available.
-                </TableCell>
-              </TableRow>
-            ) : (
+           {isLoading ? (
+    <TableRow>
+      <TableCell colSpan={6} align="center">
+        Loading...
+      </TableCell>
+    </TableRow>
+  ) : noData ? (
+    <TableRow>
+      <TableCell colSpan={6} align="center">
+        No data available.
+      </TableCell>
+    </TableRow>
+  ) : (
               qrData.map((qr, index) => (
                 <TableRow key={qr._id}>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>{index + 1 + (currentPage - 1) * itemsPerPage}</TableCell>

@@ -102,7 +102,7 @@ const Payingen = () => {
       }
     } catch (error) {
       console.error("There was an error fetching the QR data!", error);
-      setSnackbarMessage("failed! Date range is too long to download CSV. Maximum allowed is 30 days.");
+      setSnackbarMessage("Export failed! Date range is too long to download CSV. Maximum allowed is 30 days.");
       setOpenSnackbar(true);
     }
   };

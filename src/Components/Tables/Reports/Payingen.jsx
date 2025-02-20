@@ -12,7 +12,9 @@ import {
   Grid,
   Button,
   Pagination,
-  useMediaQuery
+  useMediaQuery,
+  Snackbar,
+  Alert
 } from '@mui/material';
 
 import { apiGet } from '../../../api/apiMethods';
@@ -34,11 +36,34 @@ const Payingen = () => {
   const [totalDocs, setTotalDocs] = useState(Number);
   const [totalPages, setTotalPages] = useState(Number);
   const API_ENDPOINT = `apiUser/v1/payin/getAllQrGenerated`;
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
+  function isWithinOneMonth(date1, date2) {
+    const ONE_MONTH = 30 * 24 * 60 * 60 * 1000; // Approximate one month in milliseconds
+    const diff = Math.abs(new Date(date1) - new Date(date2));
+    return diff <= ONE_MONTH;
+}
 
+// Example usage:
+// console.log(isWithinOneMonth("2024-01-01", "2024-02-01")); // true
+// console.log(isWithinOneMonth("2024-01-01", "2024-03-05")); // false
+
+  
   const fetchData = async (exportCSV = "false") => {
     try {
       // Prevent API call if only one date is entered
+      if (exportCSV === "true" && (!searchStartDate || !searchEndDate)) {
+
+        alert("choose a date")
+        return;
+      }
+
+      // if (exportCSV === "true" && !isWithinOneMonth(searchStartDate, searchEndDate)) {
+      //   alert("more than a month")
+      //   return;
+      // }
+      
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
 
       const queryParams = new URLSearchParams({
@@ -77,6 +102,8 @@ const Payingen = () => {
       }
     } catch (error) {
       console.error("There was an error fetching the QR data!", error);
+      setSnackbarMessage("failed! Date range is too long to download CSV. Maximum allowed is 30 days.");
+      setOpenSnackbar(true);
     }
   };
   useEffect(() => {
@@ -119,7 +146,7 @@ const Payingen = () => {
     setCurrentPage(value);
   };
 
-
+  const handleCloseSnackbar = () => setOpenSnackbar(false);
 
   return (
     <>
@@ -272,6 +299,11 @@ const Payingen = () => {
           />
         </Grid>
       )}
+       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+          <Alert onClose={handleCloseSnackbar} severity={snackbarMessage.includes("failed") ? "error" : "success"} sx={{ width: '100%' }}>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
     </>
   );
 };

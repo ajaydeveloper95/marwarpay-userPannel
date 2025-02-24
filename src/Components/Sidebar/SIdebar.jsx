@@ -39,7 +39,7 @@ function Sidebar() {
   } = theme.useToken();
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
-  const token = localStorage.getItem(accessConstent);
+  // const token = localStorage.getItem(accessConstent);
 
   useEffect(() => {
     // Apply dark mode class to body

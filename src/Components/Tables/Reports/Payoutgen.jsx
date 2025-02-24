@@ -217,18 +217,9 @@ const Payoutgen = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
-        {!viewAll && (
-          <Grid container justifyContent="center" sx={{ mt: 2 }}>
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={handlePageChange}
-              variant="outlined"
-              shape="rounded"
-            />
-          </Grid>
-        )}
+        <Grid container justifyContent="center" sx={{ mt: 2 }}>
+        <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} variant="outlined" shape="rounded" />
+      </Grid>
       </div>
 
     </div>

@@ -32,7 +32,7 @@ const Payingen = () => {
   const [currentPage, setCurrentPage] = useState(1);
   // const [viewAll, setViewAll] = useState(false);
   const [noData, setNoData] = useState(false);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const itemsPerPage = 10;
   const [totalDocs, setTotalDocs] = useState(Number);
   const [totalPages, setTotalPages] = useState(Number);
   const API_ENDPOINT = `apiUser/v1/payin/getAllQrGenerated`;

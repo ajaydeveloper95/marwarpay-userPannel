@@ -286,7 +286,7 @@ const totalTransactions = ewalletData.length;
                  
                   <TableRow>
                     <TableCell><strong>Transaction Type</strong></TableCell>
-                    <TableCell>{selectedTicket.transactionType}</TableCell>
+                    <TableCell sx={{color: selectedTicket.transactionType === 'Cr.' ? 'green' : selectedTicket.transactionType === 'Dr.' ? 'red' : 'inherit'}}>{selectedTicket.transactionType}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Transaction Amount</strong></TableCell>

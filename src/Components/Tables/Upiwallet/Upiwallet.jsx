@@ -271,7 +271,7 @@ const totalTransactions = ewalletData.length;
       </Grid>
 
 <Dialog open={openModal} onClose={() => handleModal(null)} maxWidth="md" fullWidth>
-        <DialogTitle>E-Wallet Details</DialogTitle>
+        <DialogTitle>UPI Wallet Details</DialogTitle>
         <DialogContent>
           {selectedTicket && (
             <TableContainer component={Paper}>

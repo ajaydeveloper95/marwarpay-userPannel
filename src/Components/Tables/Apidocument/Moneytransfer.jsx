@@ -195,8 +195,11 @@ const ResponseTable = () => (
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>status</td>
         <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
           <ul>
-            <li>1 = SUCCESS</li>
-            <li>-2,-1,2 = PENDING / FAILED</li>
+          <li>1 = SUCCESS</li>
+          <li>2 = PENDING</li>
+          <li>0 = FAILED</li>
+          <li> else</li>
+            {/* <li>-2,-1,2 = PENDING / FAILED</li> */}
            
           </ul>
         </td>

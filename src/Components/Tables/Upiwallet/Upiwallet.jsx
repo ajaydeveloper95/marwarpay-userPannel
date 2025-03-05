@@ -59,7 +59,7 @@ const UPIWallet = () => {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
   
       // Restrict export to 15 days only
-      if (exportCSV === "true" && diffDays > 10) {
+      if (exportCSV === "true" && diffDays >= 10) {
         alert("You can only export data for a maximum of 10 days.");
         return;
       }

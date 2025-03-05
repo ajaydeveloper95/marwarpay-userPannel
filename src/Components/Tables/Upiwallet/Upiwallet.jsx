@@ -47,8 +47,24 @@ const UPIWallet = () => {
   const [isLoading, setIsLoading] = useState(true);
   const fetchData = async (exportCSV = "false") => {
     try {
-      if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
 
+      if (exportCSV === "true" && (!searchStartDate || !searchEndDate)) {
+
+        alert("choose a date")
+        return;
+      }
+      const start = new Date(searchStartDate);
+      const end = new Date(searchEndDate);
+      const diffTime = Math.abs(end - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+  
+      // Restrict export to 15 days only
+      if (exportCSV === "true" && diffDays > 10) {
+        alert("You can only export data for a maximum of 10 days.");
+        return;
+      }
+      if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
+      
       const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchAmount}&startDate=${searchStartDate}&endDate=${searchEndDate}&export=${exportCSV}`);
 
 

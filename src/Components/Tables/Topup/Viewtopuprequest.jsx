@@ -25,7 +25,7 @@ import { saveAs } from 'file-saver';
 import { apiGet } from '../../../api/apiMethods';
 import { useNavigate } from 'react-router';
 
-const ViewTicket = () => {
+const Viewtopuprequest = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [ticketData, setTicketData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -35,11 +35,12 @@ const ViewTicket = () => {
   const [searchStatus, setSearchStatus] = useState('');
   const [searchTicketID, setSearchTicketID] = useState('');
   const [page, setPage] = useState(1);
-
+ 
   const itemsPerPage = 10;
-  const API_ENDPOINT = `apiUser/v1/support/getSupportTicket`;
+  const API_ENDPOINT = `apiUser/v1/fundAdd/getFundRequest`;
   const isSmallScreen = useMediaQuery('(max-width:800px)');
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -114,8 +115,8 @@ const ViewTicket = () => {
   const paginatedData = filteredData.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
  
-  const handleCreateTicket = () => {
-    navigate('/create-ticket');
+  const handleCreateTopupRequest = () => {
+    navigate('/create-topuprequest');
   };
 
   const handleExportData = () => {
@@ -215,11 +216,10 @@ const ViewTicket = () => {
             Reset
           </Button>
         </Grid>
-
         <Grid item xs={12} sm={4}>
-          <Button variant="contained" color="primary" onClick={handleCreateTicket} fullWidth>
-            Create Ticket
-          </Button>
+          <Button variant="contained" color="primary" onClick={handleCreateTopupRequest} fullWidth>
+  Create Topup Request
+</Button>
         </Grid>
       </Grid>
       </Grid>
@@ -228,10 +228,17 @@ const ViewTicket = () => {
           <TableHead>
             <TableRow>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}><strong>#</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Ticket ID</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Subject</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Related To</strong></TableCell>
-              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Status</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>TrxId</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Type</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Amount</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>PayeeName</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>AccountNo</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>IFSC</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>BankName</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Payment Mode</strong></TableCell>
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Bank RRN</strong></TableCell>
+             
+              <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Payment Date</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Date</strong></TableCell>
               <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}><strong>Action</strong></TableCell>
             </TableRow>
@@ -249,30 +256,38 @@ const ViewTicket = () => {
                   <TableCell sx={{  border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
                     {(page - 1) * itemsPerPage + index + 1}
                   </TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
-                    {ticket.TicketID}
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
+                    {ticket.trxId}
+                  </TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px',  color: ticket.transactionType === 'Dr'? 'red' :'green'}} >
+                    {ticket.transactionType}
                   </TableCell>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
-                    {ticket.subject}
+                    {ticket.transactionAmount}
                   </TableCell>
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
-                    {ticket.relatedTo}
+                    {ticket.payeeName}
                   </TableCell>
-                  <TableCell
-                    sx={{
-                       border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px',
-                      color: ticket.isStatus === 'Rejected'
-                        ? 'orange'
-                        : ticket.isStatus === 'Pending'
-                        ? 'red'
-                        : ticket.isStatus === 'Resolved'
-                        ? 'green'
-                        : 'black',
-                      fontWeight: 500,
-                    }}
-                  >
-                    {ticket.isStatus}
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
+                    {ticket.payeeAccountNumber}
                   </TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
+                    {ticket.payeeIFSC}
+                  </TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
+                    {ticket.payeeBankName}
+                  </TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
+                    {ticket.paymentMode}
+                  </TableCell>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
+                    {ticket.bankRRN}
+                  </TableCell>
+                
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
+                    {ticket.paymentDateTime}
+                  </TableCell>
+                  
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' }}>
                     {new Date(ticket.createdAt).toLocaleString()}
                   </TableCell>
@@ -311,24 +326,56 @@ const ViewTicket = () => {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell><strong>Ticket ID</strong></TableCell>
-                    <TableCell>{selectedTicket.TicketID}</TableCell>
+                    <TableCell><strong>TOP Up ID</strong></TableCell>
+                    <TableCell>{selectedTicket._id}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell><strong>Subject</strong></TableCell>
-                    <TableCell>{selectedTicket.subject}</TableCell>
+                    <TableCell><strong>Type</strong></TableCell>
+                    <TableCell sx={{color: selectedTicket.transactionType === 'Dr'? 'red' :'green'}}>{selectedTicket.transactionType}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell><strong>Related To</strong></TableCell>
-                    <TableCell>{selectedTicket.relatedTo}</TableCell>
+                    <TableCell><strong>Amount</strong></TableCell>
+                    <TableCell>{selectedTicket.transactionAmount}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell><strong>Message</strong></TableCell>
-                    <TableCell>{selectedTicket.message}</TableCell>
+                    <TableCell><strong>Payee Name</strong></TableCell>
+                    <TableCell>{selectedTicket.payeeName}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Payee Account Number</strong></TableCell>
+                    <TableCell>{selectedTicket.payeeAccountNumber}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Payee IFSC</strong></TableCell>
+                    <TableCell>{selectedTicket.payeeIFSC}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Payee BankName</strong></TableCell>
+                    <TableCell>{selectedTicket.payeeBankName}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Payment Mode</strong></TableCell>
+                    <TableCell>{selectedTicket.paymentMode}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Bank RRN</strong></TableCell>
+                    <TableCell>{selectedTicket.bankRRN}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>TrxId</strong></TableCell>
+                    <TableCell>{selectedTicket.trxId}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Payment Date Time</strong></TableCell>
+                    <TableCell>{selectedTicket.paymentDateTime}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell><strong>Description</strong></TableCell>
+                    <TableCell>{selectedTicket.description}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Status</strong></TableCell>
-                    <TableCell>{selectedTicket.isStatus}</TableCell>
+                    <TableCell sx={{color: selectedTicket.transactionType === 'Pending'? 'red' :'green'}}>{selectedTicket.isSuccess}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Created At</strong></TableCell>
@@ -348,4 +395,4 @@ const ViewTicket = () => {
   );
 };
 
-export default ViewTicket;
+export default Viewtopuprequest;

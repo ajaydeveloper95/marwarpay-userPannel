@@ -19,6 +19,8 @@ import EditProfile from '../Components/Pages/Setting/EditProfile';
 import Payinsuc from '../Components/Tables/Reports/Payinsuccess';
 import useAxiosInterceptors from '../axiosConfig';
 import Balance from '../Components/Tables/Apidocument/Balance';
+import Viewtopuprequest from '../Components/Tables/Topup/Viewtopuprequest';
+import CreatetopupRequest from '../Components/Pages/Topup/CreatetopupRequest';
 
 
 const AppRoutes = () => {
@@ -34,6 +36,8 @@ const AppRoutes = () => {
      
       <Route path="/upitoewallet" element={<UPIToEwallet />} />
       <Route path="/upi-wallet" element={<UPIWallet />} />
+      <Route path="/view-topuprequest" element={<Viewtopuprequest />} />
+      <Route path="/create-topuprequest" element={<CreatetopupRequest />} />
       <Route path="/view-tickets" element={<ViewTicket />} />
       <Route path="/create-ticket" element={<CreateTicket />} />
       <Route path="/api-documents/payin" element={<PayinApi />} />

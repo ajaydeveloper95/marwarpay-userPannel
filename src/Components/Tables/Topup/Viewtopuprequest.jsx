@@ -130,20 +130,31 @@ const Viewtopuprequest = () => {
     });
   
     const csvRows = [
-      ['#','Ticket ID', 'Subject', 'Related To', 'Status','Date'], 
+      ['#','Topup ID', 'MemberId', 'Type', 'Amount','Name','Account No','IFSC','BankName','Payment Mode','Bank RRN','TrxID','Payment Date','Description','Status','Date'], 
       ...filteredData.map((item, index) => [
         index + 1,
-        item.TicketID || 'NA',
-        item.subject || 'NA',
-        item.relatedTo || 'NA',
-        item.isStatus || 'NA',
+        item._id || 'NA',
+        item.memberId || 'NA',
+        item.transactionType || 'NA',
+        item.transactionAmount || 'NA',
+        item.payeeName || 'NA',
+        item.payeeAccountNumber || 'NA',
+        item.payeeIFSC || 'NA',
+        item.payeeBankName || 'NA',
+        item.paymentMode || 'NA',
+        item.bankRRN || 'NA',
+        item.trxId || 'NA',
+        item.paymentDateTime || 'NA',
+        item.description || 'NA',
+        item.isSuccess || 'NA',
+        item.isSuccess || 'NA',
         dateFormatter.format(new Date(item.createdAt)),
       ]),
     ];
   
     const csvContent = csvRows.map((row) => row.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, 'Tickets.csv');
+    saveAs(blob, 'Topup Request.csv');
   };
 
   return (

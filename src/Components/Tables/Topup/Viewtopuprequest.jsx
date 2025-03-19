@@ -340,9 +340,9 @@ const Viewtopuprequest = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell><strong>TOP Up ID</strong></TableCell>
-                    <TableCell>{selectedTicket._id}</TableCell>
+                <TableRow>
+                    <TableCell><strong>TrxId</strong></TableCell>
+                    <TableCell>{selectedTicket.trxId}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Type</strong></TableCell>
@@ -376,10 +376,7 @@ const Viewtopuprequest = () => {
                     <TableCell><strong>Bank RRN</strong></TableCell>
                     <TableCell>{selectedTicket.bankRRN}</TableCell>
                   </TableRow>
-                  <TableRow>
-                    <TableCell><strong>TrxId</strong></TableCell>
-                    <TableCell>{selectedTicket.trxId}</TableCell>
-                  </TableRow>
+                
                   <TableRow>
                     <TableCell><strong>Payment Date Time</strong></TableCell>
                     <TableCell>{selectedTicket.paymentDateTime}</TableCell>

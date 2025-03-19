@@ -61,7 +61,7 @@ const CreatetopupRequest = () => {
               <TextField fullWidth label="Payee Name" name="payeeName" value={formData.payeeName || ''} onChange={handleChange} margin="dense" required />
             </Grid>
             <Grid item xs={12} md={4}>
-              <TextField fullWidth label="Payee Account Number" name="payeeAccountNumber" value={formData.payeeAccountNumber || ''} onChange={handleChange} margin="dense" required />
+              <TextField fullWidth label="Payee Account Number" name="payeeAccountNumber"  type="number" value={formData.payeeAccountNumber || ''} onChange={handleChange} margin="dense" required />
             </Grid>
             <Grid item xs={12} md={4}>
               <TextField fullWidth label="Payee IFSC" name="payeeIFSC" value={formData.payeeIFSC || ''} onChange={handleChange} margin="dense" required />

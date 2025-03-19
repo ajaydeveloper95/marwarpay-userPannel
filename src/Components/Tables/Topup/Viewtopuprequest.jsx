@@ -130,11 +130,10 @@ const Viewtopuprequest = () => {
     });
   
     const csvRows = [
-      ['#','Topup ID', 'MemberId', 'Type', 'Amount','Name','Account No','IFSC','BankName','Payment Mode','Bank RRN','TrxID','Payment Date','Description','Status','Date','Time'], 
+      ['#','TrxID','Type', 'Amount','Name','Account No','IFSC','BankName','Payment Mode','Bank RRN','Payment Date','Description','Status','Date','Time'], 
       ...filteredData.map((item, index) => [
         index + 1,
-        item._id || 'NA',
-        item.memberId || 'NA',
+        item.trxId || 'NA',
         item.transactionType || 'NA',
         item.transactionAmount || 'NA',
         item.payeeName || 'NA',
@@ -143,7 +142,6 @@ const Viewtopuprequest = () => {
         item.payeeBankName || 'NA',
         item.paymentMode || 'NA',
         item.bankRRN || 'NA',
-        item.trxId || 'NA',
         item.paymentDateTime || 'NA',
         item.description || 'NA',
         item.isSuccess || 'NA',

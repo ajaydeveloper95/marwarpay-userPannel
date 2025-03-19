@@ -208,6 +208,7 @@ const Viewtopuprequest = () => {
             <MenuItem value="">All</MenuItem>
             <MenuItem value="Success">Success</MenuItem>
             <MenuItem value="Pending">Pending</MenuItem>
+            <MenuItem value="Failed">Failed</MenuItem>
             <MenuItem value="Resolved">Resolved</MenuItem>
             <MenuItem value="Rejected">Rejected</MenuItem>
           </TextField>

@@ -46,7 +46,7 @@ const CreatetopupRequest = () => {
       }}>
         <Grid container alignItems="center" sx={{ mb: 2, fontWeight: 'bold' }}>
           <Grid item xs>
-            <Typography variant="h5" gutterBottom>Create Fund Request</Typography>
+            <Typography variant="h5" gutterBottom>Create TOP-UP Request</Typography>
           </Grid>
         </Grid>
       </Grid>

@@ -73,12 +73,12 @@ const Viewtopuprequest = () => {
     }
 
     if (searchStatus) {
-      filtered = filtered.filter(ticket => ticket.isStatus === searchStatus);
+      filtered = filtered.filter(ticket => ticket.isSuccess === searchStatus);
     }
 
     if (searchTicketID) {
       filtered = filtered.filter(ticket =>
-        ticket.TicketID.toLowerCase().includes(searchTicketID.toLowerCase())
+        ticket.trxId.toLowerCase().includes(searchTicketID.toLowerCase())
       );
     }
 
@@ -170,7 +170,7 @@ const Viewtopuprequest = () => {
       <Grid container alignItems="center" sx={{ mb: 2 }}>
         <Grid item xs>
           <Typography variant="h5" gutterBottom>
-            Ticket Information
+            Top-Up Request Information
           </Typography>
         </Grid>
         <Button variant="contained" onClick={handleExportData}>
@@ -180,7 +180,7 @@ const Viewtopuprequest = () => {
       <Grid container spacing={2} sx={{ mb: 2 }}>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Search by Ticket ID"
+            label="Search by TrxID"
             variant="outlined"
             fullWidth
             value={searchTicketID}
@@ -208,6 +208,7 @@ const Viewtopuprequest = () => {
             onChange={(e) => setSearchStatus(e.target.value)}
           >
             <MenuItem value="">All</MenuItem>
+            <MenuItem value="Success">Success</MenuItem>
             <MenuItem value="Pending">Pending</MenuItem>
             <MenuItem value="Resolved">Resolved</MenuItem>
             <MenuItem value="Rejected">Rejected</MenuItem>

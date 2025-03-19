@@ -295,7 +295,7 @@ const Viewtopuprequest = () => {
                   <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px'}}>
                     {ticket.bankRRN}
                   </TableCell>
-                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' , color: ticket.isSuccess === 'Pending'? 'red' :'green'}}>
+                  <TableCell sx={{ border: '1px solid #ddd', whiteSpace: 'nowrap', padding: '8px' , color: ticket.isSuccess === 'Success'? 'green' :'red'}}>
                     {ticket.isSuccess}
                   </TableCell>
                 
@@ -390,7 +390,7 @@ const Viewtopuprequest = () => {
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Status</strong></TableCell>
-                    <TableCell sx={{color: selectedTicket.transactionType === 'Pending'? 'red' :'green'}}>{selectedTicket.isSuccess}</TableCell>
+                    <TableCell sx={{color: selectedTicket.isSuccess === 'Success'? 'green' :'red'}}>{selectedTicket.isSuccess}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Created At</strong></TableCell>

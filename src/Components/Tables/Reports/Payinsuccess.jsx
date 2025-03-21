@@ -33,38 +33,110 @@ const Payinsuc = () => {
   const API_ENDPOINT = "apiUser/v1/payin/getAllPayInSuccess";
   const [isLoading, setIsLoading] = useState(true);
 
+  // const fetchData = async (exportCSV = "false") => {
+  //   try {
+  //     // Prevent API call if only one date is entered
+   
+  //     if (exportCSV === "true" && (!searchStartDate || !searchEndDate)) {
+
+  //       alert("choose a date")
+  //       return;
+  //     }
+  //     const start = new Date(searchStartDate);
+  //     const end = new Date(searchEndDate);
+  //     const diffTime = Math.abs(end - start);
+  //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+  
+  //     // Restrict export to 15 days only
+  //     if (exportCSV === "true" && diffDays >= 10) {
+  //       alert("You can only export data for a maximum of 10 days.");
+  //       return;
+  //     }
+  //     if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
+
+  //     const queryParams = new URLSearchParams({
+  //       page: currentPage,
+  //       limit: itemsPerPage,
+  //       keyword: searchInput,
+  //       startDate: searchStartDate || "",
+  //       endDate: searchEndDate || "",
+  //       export: exportCSV,
+  //     });
+
+  //     const response = await apiGet(`${API_ENDPOINT}?${queryParams}`);
+
+  //     if (exportCSV === "true") {
+  //       const blob = new Blob([response.data], { type: "text/csv" });
+  //       const link = document.createElement("a");
+  //       link.href = URL.createObjectURL(blob);
+  //       link.download = `payin-success${searchStartDate}-${searchEndDate}.csv`;
+  //       link.click();
+  //       link.remove();
+  //       return;
+  //     }
+
+  //     if (Array.isArray(response.data.data) && response.data.data.length > 0) {
+  //       setQrData(response.data.data);
+  //       setTotalDocs(response.data.totalDocs);
+  //       setTotalPages(Math.ceil(response.data.totalDocs / itemsPerPage));
+  //       setNoData(false); // Data is available
+  //       setIsLoading(false);
+  //     } else {
+  //       setQrData([]);
+  //       setTotalDocs(0);
+  //       setTotalPages(1);
+  //       setNoData(true); // No data found
+  //       setIsLoading(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("There was an error fetching the QR data!", error);
+  //   }
+  // };
+
   const fetchData = async (exportCSV = "false") => {
     try {
       // Prevent API call if only one date is entered
-   
       if (exportCSV === "true" && (!searchStartDate || !searchEndDate)) {
-
-        alert("choose a date")
+        alert("Please choose both a start and end date.");
         return;
       }
-      const start = new Date(searchStartDate);
-      const end = new Date(searchEndDate);
+  
+      // If dates are provided, ensure they are 12:00 AM and 11:59 PM
+      let start = null;
+      let end = null;
+      
+      if (searchStartDate && searchEndDate) {
+        start = new Date(searchStartDate);
+        start.setHours(0, 0, 0, 0);  // Set start time to 12 AM
+  
+        end = new Date(searchEndDate);
+        end.setHours(23, 59, 59, 999);  // Set end time to 11:59 PM
+      }
+  
+      // Calculate date range in days (for validation)
       const diffTime = Math.abs(end - start);
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
-  
-      // Restrict export to 15 days only
+      
+      // Restrict export to 10 days maximum
       if (exportCSV === "true" && diffDays >= 10) {
         alert("You can only export data for a maximum of 10 days.");
         return;
       }
+  
+      // Prevent API call if one date is entered but the other is missing
       if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
-
+  
       const queryParams = new URLSearchParams({
         page: currentPage,
         limit: itemsPerPage,
         keyword: searchInput,
-        startDate: searchStartDate || "",
-        endDate: searchEndDate || "",
+        startDate: start ? start.toISOString() : "", // Send start date in ISO format
+        endDate: end ? end.toISOString() : "", // Send end date in ISO format
         export: exportCSV,
       });
-
+  
       const response = await apiGet(`${API_ENDPOINT}?${queryParams}`);
-
+  
       if (exportCSV === "true") {
         const blob = new Blob([response.data], { type: "text/csv" });
         const link = document.createElement("a");
@@ -74,7 +146,7 @@ const Payinsuc = () => {
         link.remove();
         return;
       }
-
+  
       if (Array.isArray(response.data.data) && response.data.data.length > 0) {
         setQrData(response.data.data);
         setTotalDocs(response.data.totalDocs);
@@ -92,8 +164,7 @@ const Payinsuc = () => {
       console.error("There was an error fetching the QR data!", error);
     }
   };
-
-
+  
  
   useEffect(() => {
     fetchData();

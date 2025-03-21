@@ -50,8 +50,18 @@ const Payingen = () => {
         alert("choose a date")
         return;
       }
-      const start = new Date(searchStartDate);
-      const end = new Date(searchEndDate);
+      // const start = new Date(searchStartDate);
+      // const end = new Date(searchEndDate);
+      let start = null;
+      let end = null;
+      
+      if (searchStartDate && searchEndDate) {
+        start = new Date(searchStartDate);
+        start.setHours(0, 0, 0, 0);  // Set start time to 12 AM
+  
+        end = new Date(searchEndDate);
+        end.setHours(23, 59, 59, 999);  // Set end time to 11:59 PM
+      }
       const diffTime = Math.abs(end - start);
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
   
@@ -68,8 +78,8 @@ const Payingen = () => {
         page: currentPage,
         limit: itemsPerPage,
         keyword: searchInput,
-        startDate: searchStartDate || "",
-        endDate: searchEndDate || "",
+        startDate: start ? start.toISOString() : "", 
+        endDate: end ? end.toISOString() : "",
         export: exportCSV,
       });
 

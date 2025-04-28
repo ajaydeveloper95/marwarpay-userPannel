@@ -34,7 +34,7 @@ const Profile = () => {
 
   const {
     fullName, userName, email, mobileNumber, memberId, memberType,
-    addresh, minWalletBalance, upiWalletBalance, EwalletBalance, createdAt, isActive
+    addresh, minWalletBalance, upiWalletBalance, EwalletBalance, HoldingAmount,createdAt, isActive
   } = userData;
 
   const userInitial = fullName ? fullName.charAt(0).toUpperCase() : '';
@@ -112,6 +112,10 @@ const Profile = () => {
                 <TableRow>
                   <TableCell>E-wallet Balance</TableCell>
                   <TableCell>{EwalletBalance}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Holding Amount</TableCell>
+                  <TableCell>{HoldingAmount}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Account Active</TableCell>

@@ -3,7 +3,7 @@ import { Container, Typography, TextField, Button, Grid, Alert } from '@mui/mate
 import { apiGet, apiPost } from '../../../api/apiMethods';
 
 function CallbackPayout() {
-  const [formData, setFormData] = useState({ payInCallBackUrl: 'null', payOutCallBackUrl: '' });
+  const [formData, setFormData] = useState({ payInCallBackUrl: null, payOutCallBackUrl: '' });
   const [alertMessage, setAlertMessage] = useState(null);
   const [alertType, setAlertType] = useState('success');
   const [isLoading, setIsLoading] = useState(true);

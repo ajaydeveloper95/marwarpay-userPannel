@@ -21,7 +21,8 @@ function CallbackPayout() {
       })
       .catch((error) => {
         console.error('Error fetching callback URLs:', error);
-        setAlertMessage('Failed to load callback URLs');
+         const message = error?.response?.data?.data || 'Failed to load callback URLs';
+      setAlertMessage(message);
         setAlertType('error');
         setIsLoading(false);
       });

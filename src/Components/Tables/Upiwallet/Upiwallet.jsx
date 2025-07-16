@@ -45,62 +45,7 @@ const UPIWallet = () => {
   const [selectedTicket, setSelectedTicket] = useState(null);
   // const [noData, setNoData] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  // const fetchData = async (exportCSV = "false") => {
-  //   try {
 
-  //     if (exportCSV === "true" && (!searchStartDate || !searchEndDate)) {
-
-  //       alert("choose a date")
-  //       return;
-  //     }
-  //     const start = new Date(searchStartDate);
-  //     const end = new Date(searchEndDate);
-  //     const diffTime = Math.abs(end - start);
-  //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
-  
-  //     // Restrict export to 15 days only
-  //     if (exportCSV === "true" && diffDays >= 10) {
-  //       alert("You can only export data for a maximum of 10 days.");
-  //       return;
-  //     }
-  //     if ((searchStartDate && !searchEndDate) || (!searchStartDate && searchEndDate)) return;
-      
-  //     const response = await apiGet(`${API_ENDPOINT}?page=${currentPage}&limit=${itemsPerPage}&keyword=${searchAmount}&startDate=${searchStartDate}&endDate=${searchEndDate}&export=${exportCSV}`);
-
-
-
-  //     if (exportCSV === 'true') {
-  //       const blob = new Blob([response.data], { type: 'text/csv' });
-  //       const link = document.createElement('a');
-  //       link.href = URL.createObjectURL(blob);
-  //       link.download = `upi-wallet${searchStartDate}-${searchEndDate}.csv`;
-  //       link.click();
-  //       link.remove();
-  //       return;
-  //     }
-  
-  //     // Ensure response.data.data is an array, or fall back to an empty array
-  //     const data = Array.isArray(response.data.data) ? response.data.data : [];
-      
-  //     if (data.length === 0) {
-  //       setEwalletData([]);
-  //       setFilteredData([]);
-  //       setIsLoading(false);
-  //     } else {
-  //       setEwalletData(data);
-  //       setFilteredData(data);
-  //       setIsLoading(false);
-  //     }
-  
-  //     setTotalDocs(response.data.totalDocs || 0);
-  //   } catch (error) {
-  //     console.error('There was an error fetching the payout data!', error);
-  //     setEwalletData([]); // Ensure UI updates to "No data available"
-  //     setFilteredData([]);
-  //     setIsLoading(false);
-  //   }
-  // };
-  
 
 
   const fetchData = async (exportCSV = "false") => {
